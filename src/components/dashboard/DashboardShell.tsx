@@ -9,7 +9,7 @@ interface DashboardShellProps {
 
 export default function DashboardShell({ user, children, active }: DashboardShellProps) {
   return (
-    <div className="min-h-screen flex">
+    <div className="h-screen overflow-hidden flex">
       {/* CSS-only sidebar toggle — peer for backdrop + sidebar */}
       <input type="checkbox" id="sidebar-toggle" className="peer hidden" />
 
@@ -127,7 +127,7 @@ export default function DashboardShell({ user, children, active }: DashboardShel
       </aside>
 
       {/* Page content */}
-      <main className="flex-1 min-w-0 flex flex-col">
+      <main className="flex-1 min-w-0 flex flex-col overflow-y-auto">
         {/* Mobile topbar — hidden on md+ */}
         <div className="md:hidden h-14 shrink-0 flex items-center gap-3 px-4 border-b border-zinc-200 bg-white">
           <label
