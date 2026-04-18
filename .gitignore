@@ -1,0 +1,29 @@
+# deps
+node_modules/
+
+# local env
+.env
+.env.local
+
+# SQLite databases
+*.db
+*.db-shm
+*.db-wal
+
+# build output
+public/styles.css
+public/js/editor.js
+
+# Bun
+.bun/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Fly.io
+fly-debug.log

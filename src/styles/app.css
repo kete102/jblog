@@ -1,0 +1,124 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* ── Warm cream (replaces pure white) ─────────────────────────────────────── */
+  --color-white: oklch(0.985 0.006 80);
+
+  /* ── Warm taupe / nude stone (replaces cold zinc) ─────────────────────────── */
+  --color-zinc-50:  oklch(0.977 0.007 55);
+  --color-zinc-100: oklch(0.952 0.014 55);
+  --color-zinc-200: oklch(0.914 0.022 55);
+  --color-zinc-300: oklch(0.856 0.034 55);
+  --color-zinc-400: oklch(0.762 0.052 55);
+  --color-zinc-500: oklch(0.654 0.062 55);
+  --color-zinc-600: oklch(0.540 0.058 55);
+  --color-zinc-700: oklch(0.426 0.048 55);
+  --color-zinc-800: oklch(0.310 0.034 55);
+  --color-zinc-900: oklch(0.210 0.022 55);
+  --color-zinc-950: oklch(0.132 0.014 55);
+
+  /* ── Terracotta / warm clay (replaces cool indigo) ────────────────────────── */
+  --color-indigo-50:  oklch(0.975 0.012 32);
+  --color-indigo-100: oklch(0.946 0.034 32);
+  --color-indigo-200: oklch(0.896 0.068 32);
+  --color-indigo-300: oklch(0.826 0.110 32);
+  --color-indigo-400: oklch(0.740 0.154 32);
+  --color-indigo-500: oklch(0.646 0.188 32);
+  --color-indigo-600: oklch(0.542 0.198 32);
+  --color-indigo-700: oklch(0.444 0.178 32);
+  --color-indigo-800: oklch(0.344 0.144 32);
+  --color-indigo-900: oklch(0.248 0.098 32);
+  --color-indigo-950: oklch(0.158 0.062 32);
+
+  /* ── Primary (mirrors terracotta — used for focus rings & editor toolbar) ─── */
+  --color-primary-50:  oklch(0.975 0.012 32);
+  --color-primary-100: oklch(0.946 0.034 32);
+  --color-primary-200: oklch(0.896 0.068 32);
+  --color-primary-300: oklch(0.826 0.110 32);
+  --color-primary-400: oklch(0.740 0.154 32);
+  --color-primary-500: oklch(0.646 0.188 32);
+  --color-primary-600: oklch(0.542 0.198 32);
+  --color-primary-700: oklch(0.444 0.178 32);
+  --color-primary-800: oklch(0.344 0.144 32);
+  --color-primary-900: oklch(0.248 0.098 32);
+  --color-primary-950: oklch(0.158 0.062 32);
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus ring — terracotta */
+*:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+
+/* Custom scrollbar — warm */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: oklch(0.72 0.020 55);
+  border-radius: 3px;
+}
+
+/* Tiptap editor styles */
+.tiptap-editor {
+  min-height: 400px;
+  outline: none;
+}
+
+.tiptap-editor p.is-editor-empty:first-child::before {
+  color: oklch(0.65 0.040 55);
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Code block — warm dark */
+.tiptap-editor pre {
+  background: oklch(0.14 0.014 32);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.tiptap-editor pre code {
+  background: none;
+  color: oklch(0.90 0.012 55);
+  font-size: 0.875rem;
+  font-family: var(--font-mono);
+}
+
+/* Editor toolbar button states */
+.toolbar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.375rem;
+  color: oklch(0.48 0.040 55);
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.toolbar-btn:hover {
+  background-color: oklch(0.952 0.010 55);
+  color: oklch(0.22 0.018 55);
+}
+
+.toolbar-btn.is-active {
+  background-color: oklch(0.946 0.034 32);
+  color: var(--color-primary-700);
+}
