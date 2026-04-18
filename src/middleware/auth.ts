@@ -27,6 +27,7 @@ export async function requireAuthor(c: Context, next: Next) {
   const user = c.get('user')
   if (!user) return c.redirect('/auth/google')
   if (user.role === 'pending') return c.redirect('/pending')
+  if (user.role === 'rejected') return c.redirect('/dashboard/profile')
   await next()
 }
 

@@ -50,21 +50,19 @@ export default function Navbar({ user }: NavbarProps) {
                     <p className="text-xs text-zinc-500 truncate">{user.email}</p>
                   </div>
                   {(user.role === 'author' || user.role === 'admin') && (
-                    <>
-                      <a
-                        href="/dashboard"
-                        className="block px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50"
-                      >
-                        Dashboard
-                      </a>
-                      <a
-                        href="/dashboard/profile"
-                        className="block px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50"
-                      >
-                        Profile
-                      </a>
-                    </>
+                    <a
+                      href="/dashboard"
+                      className="block px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50"
+                    >
+                      Dashboard
+                    </a>
                   )}
+                  <a
+                    href="/dashboard/profile"
+                    className="block px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50"
+                  >
+                    Profile
+                  </a>
                   {user.role === 'admin' && (
                     <a
                       href="/dashboard/admin"

@@ -1,0 +1,1 @@
+ALTER TABLE `users` ADD `rejected_reason` text;

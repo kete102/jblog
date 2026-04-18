@@ -12,9 +12,10 @@ export const users = sqliteTable('users', {
   socialLinks: text('social_links', { mode: 'json' })
     .$type<{ twitter?: string; github?: string; website?: string }>()
     .default({}),
-  role: text('role', { enum: ['pending', 'author', 'admin'] })
+  role: text('role', { enum: ['pending', 'author', 'admin', 'rejected'] })
     .notNull()
     .default('pending'),
+  rejectedReason: text('rejected_reason'),
   publishedPostCount: integer('published_post_count').notNull().default(0),
   createdAt: integer('created_at', { mode: 'timestamp' })
     .notNull()
@@ -26,7 +27,7 @@ export const users = sqliteTable('users', {
 
 export type User = typeof users.$inferSelect
 export type NewUser = typeof users.$inferInsert
-export type UserRole = 'pending' | 'author' | 'admin'
+export type UserRole = 'pending' | 'author' | 'admin' | 'rejected'
 
 // ─── Posts ───────────────────────────────────────────────────────────────────
 

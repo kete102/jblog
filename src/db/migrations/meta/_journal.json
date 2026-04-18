@@ -15,6 +15,13 @@
       "when": 1776523954592,
       "tag": "0001_green_sumo",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1776530339995,
+      "tag": "0002_right_cable",
+      "breakpoints": true
     }
   ]
 }

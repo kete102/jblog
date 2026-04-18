@@ -1,13 +1,13 @@
 import { Hono } from 'hono'
 import React from 'react'
-import { requireAuthor } from '@/middleware/auth'
+import { requireAuth } from '@/middleware/auth'
 import { updateUserProfile, deleteUser } from '@/services/users'
 import { deleteSession } from '@/lib/session'
 import DashboardShell from '@/components/dashboard/DashboardShell'
 
 const router = new Hono()
 
-router.use('*', requireAuthor)
+router.use('*', requireAuth)
 
 // ─── GET /dashboard/profile ───────────────────────────────────────────────────
 
@@ -19,6 +19,35 @@ router.get('/', (c) => {
     <DashboardShell user={user} active="profile">
       <div className="p-8 max-w-xl">
         <h1 className="text-xl font-semibold text-zinc-900 mb-6">Profile</h1>
+
+        {/* Author request status banner */}
+        {user.role === 'pending' && (
+          <div className="mb-6 px-4 py-4 rounded-lg bg-amber-50 border border-amber-200">
+            <p className="text-sm font-medium text-amber-800 mb-0.5">Author request pending</p>
+            <p className="text-sm text-amber-700">
+              Your request to become an author is under review. You'll get access to the dashboard once approved.
+            </p>
+          </div>
+        )}
+
+        {user.role === 'rejected' && (
+          <div className="mb-6 px-4 py-4 rounded-lg bg-red-50 border border-red-200">
+            <p className="text-sm font-medium text-red-800 mb-1">Author request not approved</p>
+            {user.rejectedReason ? (
+              <p className="text-sm text-red-700 mb-3">{user.rejectedReason}</p>
+            ) : (
+              <p className="text-sm text-red-700 mb-3">
+                Your request to become an author was not approved at this time.
+              </p>
+            )}
+            <p className="text-sm text-red-600">
+              Questions? Reach out at{' '}
+              <a href="mailto:kete102@gmail.com" className="underline underline-offset-2 hover:text-red-800">
+                kete102@gmail.com
+              </a>
+            </p>
+          </div>
+        )}
 
         {saved && (
           <div className="mb-6 px-4 py-3 rounded-lg bg-green-50 text-green-700 text-sm border border-green-200">
