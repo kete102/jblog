@@ -1,7 +1,7 @@
 import { Hono } from 'hono'
 import React from 'react'
 import { requireAuth } from '@/middleware/auth'
-import { updateUserProfile, deleteUser } from '@/services/users'
+import { updateUserProfile, deleteUser, requestAgain } from '@/services/users'
 import { deleteSession } from '@/lib/session'
 import DashboardShell from '@/components/dashboard/DashboardShell'
 
@@ -40,12 +40,20 @@ router.get('/', (c) => {
                 Your request to become an author was not approved at this time.
               </p>
             )}
-            <p className="text-sm text-red-600">
+            <p className="text-sm text-red-600 mb-4">
               Questions? Reach out at{' '}
               <a href="mailto:kete102@gmail.com" className="underline underline-offset-2 hover:text-red-800">
                 kete102@gmail.com
               </a>
             </p>
+            <form method="POST" action="/dashboard/profile/request-again">
+              <button
+                type="submit"
+                className="px-4 py-2 rounded-lg bg-red-600 text-white text-sm font-medium hover:bg-red-700 transition-colors"
+              >
+                Submit a new request
+              </button>
+            </form>
           </div>
         )}
 
@@ -188,6 +196,16 @@ router.post('/', async (c) => {
   })
 
   return c.redirect('/dashboard/profile?saved=1')
+})
+
+// ─── POST /dashboard/profile/request-again ───────────────────────────────────
+
+router.post('/request-again', async (c) => {
+  const user = c.get('user')!
+  if (user.role !== 'rejected') return c.redirect('/dashboard/profile')
+
+  await requestAgain(user.id)
+  return c.redirect('/pending')
 })
 
 // ─── GET /dashboard/profile/delete ───────────────────────────────────────────

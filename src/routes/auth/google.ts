@@ -139,6 +139,10 @@ authRouter.get('/google/callback', async (c) => {
     return c.redirect('/pending')
   }
 
+  if (user.role === 'rejected') {
+    return c.redirect('/dashboard/profile')
+  }
+
   return c.redirect('/dashboard')
 })
 

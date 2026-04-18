@@ -6,8 +6,6 @@ import DashboardShell from '@/components/dashboard/DashboardShell'
 
 const router = new Hono()
 
-router.use('*', requireAuthor)
-
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 function formatDate(date: Date | null | undefined): string {
@@ -17,7 +15,7 @@ function formatDate(date: Date | null | undefined): string {
 
 // ─── GET /dashboard ───────────────────────────────────────────────────────────
 
-router.get('/', async (c) => {
+router.get('/', requireAuthor, async (c) => {
   const user = c.get('user')!
   const posts = await getAuthorPosts(user.id)
 

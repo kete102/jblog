@@ -9,6 +9,14 @@ export async function getUserById(id: string): Promise<User | null> {
   return result[0] ?? null
 }
 
+/** Reset a rejected user back to pending so they can re-apply */
+export async function requestAgain(id: string): Promise<void> {
+  await db
+    .update(users)
+    .set({ role: 'pending', rejectedReason: null, updatedAt: new Date() })
+    .where(eq(users.id, id))
+}
+
 /** Get all users awaiting approval */
 export async function getPendingUsers(): Promise<User[]> {
   return db.select().from(users).where(eq(users.role, 'pending')).orderBy(users.createdAt)
