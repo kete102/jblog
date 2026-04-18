@@ -4,7 +4,7 @@ primary_region = "ams"
 [build]
 
 [deploy]
-  release_command = "bunx drizzle-kit migrate"
+  release_command = "bun run src/db/migrate.ts"
 
 [env]
   PORT = "3000"
