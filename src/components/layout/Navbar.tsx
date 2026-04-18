@@ -30,7 +30,7 @@ export default function Navbar({ user }: NavbarProps) {
                 </a>
               )}
               <div className="relative group">
-                <button className="flex items-center gap-2 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
+                <button className="flex items-center gap-2 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 cursor-pointer">
                   {user.avatarUrl ? (
                     <img
                       src={user.avatarUrl}

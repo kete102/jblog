@@ -3,6 +3,7 @@ import React from 'react'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import PostCard from '@/components/blog/PostCard'
+import AuthorBadge from '@/components/blog/AuthorBadge'
 import { getAuthorById, getPostsByAuthor } from '@/services/posts'
 
 const authorRouter = new Hono()
@@ -80,8 +81,9 @@ authorRouter.get('/:id', async (c) => {
 
               {/* Info */}
               <div className="text-center sm:text-left">
-                <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 mb-1">
+                <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 mb-1 flex items-center gap-2">
                   {author.name}
+                  <AuthorBadge className="w-5 h-5" />
                 </h1>
 
                 {author.bio && (

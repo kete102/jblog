@@ -3,6 +3,7 @@ import React from 'react'
 import { getCookie, setCookie } from 'hono/cookie'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
+import AuthorBadge from '@/components/blog/AuthorBadge'
 import { getPostBySlug } from '@/services/posts'
 import { incrementViews, toggleLike, hasLiked, getCommentThreads, addComment, updateComment, deleteComment } from '@/services/engagement'
 import type { CommentWithUser, CommentThread } from '@/services/engagement'
@@ -490,8 +491,11 @@ postRouter.get('/:slug', async (c) => {
                 </div>
               )}
               <div>
-                <p className="text-sm font-semibold text-zinc-800 group-hover:text-indigo-600 transition-colors leading-none mb-0.5">
+                <p className="text-sm font-semibold text-zinc-800 group-hover:text-indigo-600 transition-colors leading-none mb-0.5 flex items-center gap-1">
                   {post.author.name}
+                  {(post.author.role === 'author' || post.author.role === 'admin') && (
+                    <AuthorBadge />
+                  )}
                 </p>
                 <p className="text-xs text-zinc-400">
                   <time dateTime={post.publishedAt?.toISOString()}>
@@ -563,37 +567,6 @@ postRouter.get('/:slug', async (c) => {
             dangerouslySetInnerHTML={{ __html: contentHtml }}
           />
 
-          {/* ── Like button (full, bottom) ── */}
-          <div className="mt-12 flex items-center justify-center">
-            <button
-              type="button"
-              data-like-btn
-              data-like-variant="full"
-              data-slug={post.slug}
-              data-liked={liked ? 'true' : 'false'}
-              data-likes={String(post.likes)}
-              className={`group flex items-center gap-2.5 px-6 py-3 rounded-full border-2 transition-all font-medium text-sm cursor-pointer ${
-                liked
-                  ? 'border-pink-300 bg-pink-50 text-pink-600'
-                  : 'border-zinc-200 bg-white text-zinc-500 hover:border-pink-300 hover:text-pink-500 hover:bg-pink-50'
-              }`}
-            >
-              <svg
-                data-like-heart
-                className={`w-5 h-5 transition-transform group-hover:scale-110 ${liked ? 'fill-pink-500 stroke-pink-500' : 'fill-none stroke-current'}`}
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-              </svg>
-              <span>
-                <span data-like-label>{liked ? 'Liked' : 'Like this post'}</span>
-                {' · '}
-                <span data-like-count>{formatNumber(post.likes)}</span>
-              </span>
-            </button>
-          </div>
-
           {/* ── Author card ── */}
           <div className="mt-12 pt-8 border-t border-zinc-100">
             <a href={`/author/${post.author.id}`} className="flex items-start gap-4 group">
@@ -613,8 +586,11 @@ postRouter.get('/:slug', async (c) => {
               )}
               <div>
                 <p className="text-xs font-semibold text-zinc-400 uppercase tracking-widest mb-1">Written by</p>
-                <p className="font-bold text-zinc-900 group-hover:text-indigo-600 transition-colors">
+                <p className="font-bold text-zinc-900 group-hover:text-indigo-600 transition-colors flex items-center gap-1.5">
                   {post.author.name}
+                  {(post.author.role === 'author' || post.author.role === 'admin') && (
+                    <AuthorBadge className="w-4 h-4" />
+                  )}
                 </p>
                 {post.author.bio && (
                   <p className="text-sm text-zinc-500 mt-1 leading-relaxed line-clamp-2">
