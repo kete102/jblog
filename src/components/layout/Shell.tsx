@@ -63,6 +63,9 @@ export default function Shell({ children, seo, clientBundle }: ShellProps) {
 
         {/* Favicon */}
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+        {/* RSS */}
+        <link rel="alternate" type="application/rss+xml" title="jblog RSS feed" href="/feed.xml" />
       </head>
       <body className="min-h-screen bg-white text-zinc-900 antialiased">
         {children}

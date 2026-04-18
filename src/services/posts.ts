@@ -127,6 +127,51 @@ export async function getAllTags(): Promise<Tag[]> {
   return db.select().from(tags).orderBy(tags.name)
 }
 
+/** Fetch a single tag by its slug */
+export async function getTagBySlug(slug: string): Promise<Tag | null> {
+  const rows = await db.select().from(tags).where(eq(tags.slug, slug)).limit(1)
+  return rows[0] ?? null
+}
+
+/** Fetch all published posts that have a given tag slug */
+export async function getPostsByTag(tagSlug: string): Promise<PostWithMeta[]> {
+  const rows = await db
+    .select({ post: posts, author: users })
+    .from(posts)
+    .innerJoin(users, eq(posts.authorId, users.id))
+    .innerJoin(postTags, eq(posts.id, postTags.postId))
+    .innerJoin(tags, eq(postTags.tagId, tags.id))
+    .where(and(eq(posts.status, 'published'), eq(tags.slug, tagSlug)))
+    .orderBy(desc(posts.publishedAt))
+
+  const flat = rows.map((r) => ({ ...r.post, author: r.author }))
+  return attachTagsAndAuthors(flat)
+}
+
+/** Count all published posts */
+export async function getPublishedPostsCount(): Promise<number> {
+  const rows = await db
+    .select({ value: sql<number>`count(*)` })
+    .from(posts)
+    .where(eq(posts.status, 'published'))
+  return rows[0]?.value ?? 0
+}
+
+/** Fetch a page of published posts (1-indexed) */
+export async function getPublishedPostsPaged(page: number, pageSize: number): Promise<PostWithMeta[]> {
+  const rows = await db
+    .select({ post: posts, author: users })
+    .from(posts)
+    .innerJoin(users, eq(posts.authorId, users.id))
+    .where(eq(posts.status, 'published'))
+    .orderBy(desc(posts.publishedAt))
+    .limit(pageSize)
+    .offset((page - 1) * pageSize)
+
+  const flat = rows.map((r) => ({ ...r.post, author: r.author }))
+  return attachTagsAndAuthors(flat)
+}
+
 // ─── Slug ────────────────────────────────────────────────────────────────────
 
 /** Returns true if the slug is not taken by any other post */

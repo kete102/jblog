@@ -460,12 +460,13 @@ postRouter.get('/:slug', async (c) => {
           {post.tags.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-5">
               {post.tags.map((tag) => (
-                <span
+                <a
                   key={tag.id}
-                  className="text-xs font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-0.5 rounded-full"
+                  href={`/tag/${tag.slug}`}
+                  className="text-xs font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2.5 py-0.5 rounded-full hover:bg-indigo-100 transition-colors"
                 >
                   {tag.name}
-                </span>
+                </a>
               ))}
             </div>
           )}

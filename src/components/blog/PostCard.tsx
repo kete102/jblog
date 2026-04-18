@@ -73,12 +73,13 @@ export default function PostCard({ post, featured = false, style, className = ''
           {post.tags.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-3">
               {post.tags.slice(0, 3).map((tag) => (
-                <span
+                <a
                   key={tag.id}
-                  className="text-xs font-medium text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-full"
+                  href={`/tag/${tag.slug}`}
+                  className="relative z-[2] text-xs font-medium text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-full hover:bg-indigo-100 transition-colors"
                 >
                   {tag.name}
-                </span>
+                </a>
               ))}
             </div>
           )}
@@ -166,12 +167,13 @@ export default function PostCard({ post, featured = false, style, className = ''
         {post.tags.length > 0 && (
           <div className="flex flex-wrap gap-1.5 mb-2">
             {post.tags.slice(0, 2).map((tag) => (
-              <span
+              <a
                 key={tag.id}
-                className="text-xs font-medium text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full"
+                href={`/tag/${tag.slug}`}
+                className="relative z-[2] text-xs font-medium text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full hover:bg-indigo-100 transition-colors"
               >
                 {tag.name}
-              </span>
+              </a>
             ))}
           </div>
         )}
