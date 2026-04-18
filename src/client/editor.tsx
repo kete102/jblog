@@ -15,6 +15,7 @@ import Highlight from '@tiptap/extension-highlight'
 import TextAlign from '@tiptap/extension-text-align'
 import CharacterCount from '@tiptap/extension-character-count'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import { AnimatePresence, motion } from 'framer-motion'
 import { createLowlight } from 'lowlight'
 import bash from 'highlight.js/lib/languages/bash'
 import css from 'highlight.js/lib/languages/css'
@@ -414,15 +415,42 @@ function EditorApp({ data }: { data: EditorData }) {
         </a>
 
         <div className="flex items-center gap-3">
-          {saveState === 'saved' && (
-            <span className="text-xs text-green-600 font-medium">Saved</span>
-          )}
-          {saveState === 'error' && errorMsg && (
-            <span className="text-xs text-red-500">{errorMsg}</span>
-          )}
-          {saving && (
-            <span className="text-xs text-zinc-400">Saving…</span>
-          )}
+          <AnimatePresence mode="wait">
+            {saving ? (
+              <motion.span
+                key="saving"
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 5 }}
+                transition={{ duration: 0.15 }}
+                className="text-xs text-zinc-400"
+              >
+                Saving…
+              </motion.span>
+            ) : saveState === 'saved' ? (
+              <motion.span
+                key="saved"
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 5 }}
+                transition={{ duration: 0.15 }}
+                className="text-xs text-green-600 font-medium"
+              >
+                Saved
+              </motion.span>
+            ) : saveState === 'error' && errorMsg ? (
+              <motion.span
+                key="error"
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 5 }}
+                transition={{ duration: 0.15 }}
+                className="text-xs text-red-500"
+              >
+                {errorMsg}
+              </motion.span>
+            ) : null}
+          </AnimatePresence>
           <button
             type="button"
             onClick={save}

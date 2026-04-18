@@ -46,11 +46,38 @@
   --color-primary-800: oklch(0.344 0.144 32);
   --color-primary-900: oklch(0.248 0.098 32);
   --color-primary-950: oklch(0.158 0.062 32);
+
+  /* ── Page animations ─────────────────────────────────────────────────────── */
+  --animate-fade-in-up: fade-in-up 0.5s ease-out both;
+  --animate-fade-in:    fade-in 0.4s ease-out both;
 }
 
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
+}
+
+/* ── Keyframes ──────────────────────────────────────────────────────────────── */
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes heart-pop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.4); }
+  70%  { transform: scale(0.88); }
+  100% { transform: scale(1); }
+}
+
+.heart-pop {
+  animation: heart-pop 0.35s ease-out;
 }
 
 /* Focus ring — terracotta */

@@ -20,15 +20,14 @@ homeRouter.get("/", async (c) => {
         {/* ── Hero ── */}
         <section className="border-b border-zinc-100 bg-linear-to-b from-indigo-50/60 to-white">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 py-16 sm:py-24 text-center">
-            <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-3 py-1 rounded-full mb-6">
+            <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-3 py-1 rounded-full mb-6 animate-fade-in">
               ✦ Independent writing platform
             </span>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-zinc-900 tracking-tight leading-[1.1] mb-5">
-              Stories worth
-              <br />
-              <span className="text-indigo-600">reading.</span>
+              <span className="block animate-fade-in-up" style={{ animationDelay: '0.1s' }}>Stories worth</span>
+              <span className="text-indigo-600 animate-fade-in-up" style={{ animationDelay: '0.22s' }}>reading.</span>
             </h1>
-            <p className="text-zinc-500 text-lg max-w-xl mx-auto leading-relaxed">
+            <p className="text-zinc-500 text-lg max-w-xl mx-auto leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.32s' }}>
               Thoughtful writing on technology, design, and everything in
               between. No ads. No noise. Just good reads.
             </p>
@@ -46,7 +45,7 @@ homeRouter.get("/", async (c) => {
             <>
               {/* ── Featured post ── */}
               {featured && (
-                <section className="mb-14">
+                <section className="mb-14 animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
                   <div className="flex items-center gap-3 mb-6">
                     <span className="text-xs font-bold uppercase tracking-widest text-indigo-500">
                       Featured
@@ -60,15 +59,20 @@ homeRouter.get("/", async (c) => {
               {/* ── Latest posts grid ── */}
               {rest.length > 0 && (
                 <section>
-                  <div className="flex items-center gap-3 mb-6">
+                  <div className="flex items-center gap-3 mb-6 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
                     <span className="text-xs font-bold uppercase tracking-widest text-zinc-400">
                       Latest
                     </span>
                     <div className="flex-1 h-px bg-zinc-100" />
                   </div>
                   <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                    {rest.map((post) => (
-                      <PostCard key={post.id} post={post} />
+                    {rest.map((post, i) => (
+                      <PostCard
+                        key={post.id}
+                        post={post}
+                        className="animate-fade-in-up"
+                        style={{ animationDelay: `${0.25 + i * 0.07}s` }}
+                      />
                     ))}
                   </div>
                 </section>
@@ -77,7 +81,7 @@ homeRouter.get("/", async (c) => {
           )}
 
           {/* ── Author CTA ── */}
-          <section className="mt-16 sm:mt-20">
+          <section className="mt-16 sm:mt-20 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
             <div className="relative overflow-hidden rounded-2xl bg-linear-to-br from-indigo-700 to-zinc-900 px-8 py-12 sm:py-16 text-white">
               {/* Decorative warm blobs */}
               <div className="pointer-events-none absolute -top-10 -right-10 h-52 w-52 rounded-full bg-indigo-600/30" />

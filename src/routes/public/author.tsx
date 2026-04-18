@@ -64,7 +64,7 @@ authorRouter.get('/:id', async (c) => {
         {/* ── Profile header ── */}
         <section className="border-b border-zinc-100 bg-linear-to-b from-zinc-50 to-white">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
-            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 animate-fade-in-up">
               {/* Avatar */}
               {author.avatarUrl ? (
                 <img
@@ -173,7 +173,7 @@ authorRouter.get('/:id', async (c) => {
             </div>
           ) : (
             <>
-              <div className="flex items-center gap-3 mb-8">
+              <div className="flex items-center gap-3 mb-8 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
                 <span className="text-xs font-bold uppercase tracking-widest text-zinc-400">
                   All posts
                 </span>
@@ -181,8 +181,13 @@ authorRouter.get('/:id', async (c) => {
                 <span className="text-xs text-zinc-400">{authorPosts.length}</span>
               </div>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                {authorPosts.map((post) => (
-                  <PostCard key={post.id} post={post} />
+                {authorPosts.map((post, i) => (
+                  <PostCard
+                    key={post.id}
+                    post={post}
+                    className="animate-fade-in-up"
+                    style={{ animationDelay: `${0.15 + i * 0.07}s` }}
+                  />
                 ))}
               </div>
             </>

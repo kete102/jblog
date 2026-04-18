@@ -9,6 +9,8 @@ export interface PostWithAuthorAndTags extends Post {
 interface PostCardProps {
   post: PostWithAuthorAndTags
   featured?: boolean
+  style?: React.CSSProperties
+  className?: string
 }
 
 function formatDate(date: Date | null) {
@@ -45,10 +47,10 @@ function EngagementBadges({ views, likes }: { views: number; likes: number }) {
   )
 }
 
-export default function PostCard({ post, featured = false }: PostCardProps) {
+export default function PostCard({ post, featured = false, style, className = '' }: PostCardProps) {
   if (featured) {
     return (
-      <article className="group relative grid md:grid-cols-2 gap-6 rounded-2xl overflow-hidden border border-zinc-100 hover:border-zinc-200 transition-all hover:shadow-lg">
+      <article style={style} className={`group relative grid md:grid-cols-2 gap-6 rounded-2xl overflow-hidden border border-zinc-100 hover:border-zinc-200 transition-all hover:shadow-lg ${className}`}>
         {/* Cover — above the fold, load eagerly */}
         {post.coverImageUrl ? (
           <div className="relative overflow-hidden bg-zinc-100 aspect-video md:aspect-auto">
@@ -136,7 +138,7 @@ export default function PostCard({ post, featured = false }: PostCardProps) {
   }
 
   return (
-    <article className="group flex flex-col rounded-xl overflow-hidden border border-zinc-100 hover:border-zinc-200 transition-all hover:shadow-md">
+    <article style={style} className={`group flex flex-col rounded-xl overflow-hidden border border-zinc-100 hover:border-zinc-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${className}`}>
       {/* Cover */}
       {post.coverImageUrl ? (
         <div className="relative overflow-hidden bg-zinc-100 aspect-video">

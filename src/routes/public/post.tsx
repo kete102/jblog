@@ -87,6 +87,13 @@ const likeScript = /* js */`(function () {
       var prevLikes = STATE.likes;
       STATE.liked = !STATE.liked;
       STATE.likes = STATE.liked ? STATE.likes + 1 : STATE.likes - 1;
+      if (STATE.liked) {
+        document.querySelectorAll('[data-like-heart]').forEach(function (el) {
+          el.classList.remove('heart-pop');
+          void el.offsetWidth;
+          el.classList.add('heart-pop');
+        });
+      }
       updateAll();
       fetch('/post/' + STATE.slug + '/like', {
         method: 'POST',
@@ -190,7 +197,7 @@ postRouter.get('/:slug', async (c) => {
       <Navbar user={user} />
 
       <main className="flex-1">
-        <article className="max-w-2xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+        <article className="max-w-2xl mx-auto px-4 sm:px-6 py-12 sm:py-16 animate-fade-in-up">
 
           {/* Tags */}
           {post.tags.length > 0 && (
