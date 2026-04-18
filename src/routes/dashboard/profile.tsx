@@ -17,7 +17,7 @@ router.get('/', (c) => {
 
   return c.render(
     <DashboardShell user={user} active="profile">
-      <div className="p-8 max-w-xl">
+      <div className="p-4 sm:p-8 max-w-xl">
         <h1 className="text-xl font-semibold text-zinc-900 mb-6">Profile</h1>
 
         {/* Author request status banner */}
@@ -215,7 +215,7 @@ router.get('/delete', (c) => {
 
   return c.render(
     <DashboardShell user={user} active="profile">
-      <div className="p-8 max-w-md">
+      <div className="p-4 sm:p-8 max-w-md">
         <h1 className="text-xl font-semibold text-zinc-900 mb-2">Delete account</h1>
         <p className="text-sm text-zinc-500 mb-8">
           This will permanently delete your account, all your posts, and all associated data.

@@ -434,10 +434,10 @@ function EditorApp({ data }: { data: EditorData }) {
         </div>
       </header>
 
-      {/* Two-column content */}
-      <div className="flex-1 flex overflow-hidden">
+      {/* Two-column on md+, stacked on mobile */}
+      <div className="flex-1 flex flex-col md:flex-row overflow-y-auto md:overflow-hidden min-h-0">
         {/* Left: title + editor */}
-        <div className="flex-1 flex flex-col overflow-hidden border-r border-zinc-200">
+        <div className="flex-1 flex flex-col md:overflow-hidden border-b border-zinc-200 md:border-b-0 md:border-r min-h-[60vh] md:min-h-0">
           {/* Title */}
           <div className="px-8 pt-8 pb-4 shrink-0">
             <input
@@ -459,7 +459,7 @@ function EditorApp({ data }: { data: EditorData }) {
         </div>
 
         {/* Right: metadata panel */}
-        <div className="w-72 shrink-0 overflow-y-auto bg-zinc-50">
+        <div className="w-full md:w-72 md:shrink-0 md:overflow-y-auto bg-zinc-50">
           <div className="p-5 space-y-5">
             {/* Status */}
             <div>

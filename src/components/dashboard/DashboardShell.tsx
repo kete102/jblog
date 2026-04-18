@@ -10,16 +10,36 @@ interface DashboardShellProps {
 export default function DashboardShell({ user, children, active }: DashboardShellProps) {
   return (
     <div className="min-h-screen flex">
+      {/* CSS-only sidebar toggle — peer for backdrop + sidebar */}
+      <input type="checkbox" id="sidebar-toggle" className="peer hidden" />
+
+      {/* Backdrop — mobile only, visible when checkbox is checked */}
+      <label
+        htmlFor="sidebar-toggle"
+        className="fixed inset-0 bg-black/40 z-20 opacity-0 pointer-events-none peer-checked:opacity-100 peer-checked:pointer-events-auto transition-opacity md:hidden"
+        aria-hidden="true"
+      />
+
       {/* Sidebar */}
-      <aside className="w-56 shrink-0 border-r border-zinc-200 bg-zinc-50 flex flex-col">
-        {/* Logo */}
-        <div className="h-14 flex items-center px-5 border-b border-zinc-200">
+      <aside className="fixed inset-y-0 left-0 z-30 w-56 shrink-0 border-r border-zinc-200 bg-zinc-50 flex flex-col -translate-x-full peer-checked:translate-x-0 transition-transform duration-200 ease-in-out md:relative md:translate-x-0 md:z-auto">
+        {/* Logo row */}
+        <div className="h-14 flex items-center px-5 border-b border-zinc-200 shrink-0">
           <a href="/" className="flex items-center gap-2 group">
             <span className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold text-sm group-hover:bg-indigo-700 transition-colors">
               j
             </span>
             <span className="font-semibold text-zinc-900 tracking-tight">jblog</span>
           </a>
+          {/* Close button — mobile only */}
+          <label
+            htmlFor="sidebar-toggle"
+            className="ml-auto p-1 rounded-lg hover:bg-zinc-100 cursor-pointer md:hidden"
+            aria-label="Close sidebar"
+          >
+            <svg className="w-5 h-5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </label>
         </div>
 
         {/* Nav */}
@@ -70,7 +90,7 @@ export default function DashboardShell({ user, children, active }: DashboardShel
         </nav>
 
         {/* User info + sign out */}
-        <div className="p-3 border-t border-zinc-200">
+        <div className="p-3 border-t border-zinc-200 shrink-0">
           <div className="flex items-center gap-2.5 px-2 py-1.5 mb-1">
             {user.avatarUrl ? (
               <img
@@ -103,7 +123,26 @@ export default function DashboardShell({ user, children, active }: DashboardShel
       </aside>
 
       {/* Page content */}
-      <main className="flex-1 min-w-0">
+      <main className="flex-1 min-w-0 flex flex-col">
+        {/* Mobile topbar — hidden on md+ */}
+        <div className="md:hidden h-14 shrink-0 flex items-center gap-3 px-4 border-b border-zinc-200 bg-white">
+          <label
+            htmlFor="sidebar-toggle"
+            className="-ml-1 p-1.5 rounded-lg hover:bg-zinc-100 cursor-pointer"
+            aria-label="Open menu"
+          >
+            <svg className="w-5 h-5 text-zinc-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </label>
+          <a href="/" className="flex items-center gap-2 group">
+            <span className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold text-sm group-hover:bg-indigo-700 transition-colors">
+              j
+            </span>
+            <span className="font-semibold text-zinc-900 tracking-tight">jblog</span>
+          </a>
+        </div>
+
         {children}
       </main>
     </div>
