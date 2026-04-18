@@ -10,6 +10,10 @@ import homeRouter from '@/routes/public/home'
 import postRouter from '@/routes/public/post'
 import authorRouter from '@/routes/public/author'
 import sitemapRouter from '@/routes/public/sitemap'
+import dashboardRouter from '@/routes/dashboard'
+import dashboardPostRouter from '@/routes/dashboard/post'
+import dashboardProfileRouter from '@/routes/dashboard/profile'
+import dashboardAdminRouter from '@/routes/dashboard/admin'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 
@@ -18,8 +22,8 @@ const app = new Hono()
 // ─── Static assets ────────────────────────────────────────────────────────────
 
 app.use('/styles.css', serveStatic({ path: './public/styles.css' }))
-app.use('/js/*', serveStatic({ root: './' }))
-app.use('/images/*', serveStatic({ root: './' }))
+app.use('/js/*', serveStatic({ root: './public' }))
+app.use('/images/*', serveStatic({ root: './public' }))
 app.use('/favicon.svg', serveStatic({ path: './public/favicon.svg' }))
 
 // ─── React SSR renderer ───────────────────────────────────────────────────────
@@ -50,6 +54,13 @@ app.route('/', homeRouter)
 app.route('/post', postRouter)
 app.route('/author', authorRouter)
 app.route('/', sitemapRouter)
+
+// ─── Dashboard routes ────────────────────────────────────────────────────────
+
+app.route('/dashboard', dashboardRouter)
+app.route('/dashboard/post', dashboardPostRouter)
+app.route('/dashboard/profile', dashboardProfileRouter)
+app.route('/dashboard/admin', dashboardAdminRouter)
 
 // ─── Pending approval page (signed-in + pending role only) ───────────────────
 

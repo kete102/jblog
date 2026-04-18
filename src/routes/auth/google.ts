@@ -139,8 +139,7 @@ authRouter.get('/google/callback', async (c) => {
     return c.redirect('/pending')
   }
 
-  // Dashboard doesn't exist yet (Phase 3) — redirect to home for now
-  return c.redirect('/')
+  return c.redirect('/dashboard')
 })
 
 // POST /auth/logout
