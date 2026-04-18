@@ -1,7 +1,8 @@
 import { Hono } from 'hono'
 import React from 'react'
 import { requireAuthor } from '@/middleware/auth'
-import { updateUserProfile } from '@/services/users'
+import { updateUserProfile, deleteUser } from '@/services/users'
+import { deleteSession } from '@/lib/session'
 import DashboardShell from '@/components/dashboard/DashboardShell'
 
 const router = new Hono()
@@ -117,6 +118,20 @@ router.get('/', (c) => {
             </button>
           </div>
         </form>
+
+        {/* Danger zone */}
+        <div className="mt-12 pt-8 border-t border-zinc-200">
+          <h2 className="text-sm font-medium text-zinc-900 mb-1">Danger zone</h2>
+          <p className="text-sm text-zinc-500 mb-4">
+            Permanently delete your account and all of your posts. This cannot be undone.
+          </p>
+          <a
+            href="/dashboard/profile/delete"
+            className="inline-flex items-center px-4 py-2 rounded-lg border border-red-200 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors"
+          >
+            Delete account
+          </a>
+        </div>
       </div>
     </DashboardShell>,
     { seo: { title: 'Profile', noIndex: true } },
@@ -144,6 +159,59 @@ router.post('/', async (c) => {
   })
 
   return c.redirect('/dashboard/profile?saved=1')
+})
+
+// ─── GET /dashboard/profile/delete ───────────────────────────────────────────
+
+router.get('/delete', (c) => {
+  const user = c.get('user')!
+
+  return c.render(
+    <DashboardShell user={user} active="profile">
+      <div className="p-8 max-w-md">
+        <h1 className="text-xl font-semibold text-zinc-900 mb-2">Delete account</h1>
+        <p className="text-sm text-zinc-500 mb-8">
+          This will permanently delete your account, all your posts, and all associated data.
+          This action cannot be undone.
+        </p>
+
+        <div className="rounded-lg border border-red-200 bg-red-50 p-5 space-y-4">
+          <p className="text-sm font-medium text-red-700">
+            You are about to delete <span className="font-semibold">{user.name}</span>'s account.
+          </p>
+
+          <div className="flex items-center gap-3">
+            <form method="POST" action="/dashboard/profile/delete">
+              <button
+                type="submit"
+                className="px-4 py-2 rounded-lg bg-red-600 text-white text-sm font-medium hover:bg-red-700 transition-colors"
+              >
+                Yes, delete my account
+              </button>
+            </form>
+            <a
+              href="/dashboard/profile"
+              className="px-4 py-2 rounded-lg border border-zinc-200 bg-white text-sm font-medium text-zinc-700 hover:bg-zinc-50 transition-colors"
+            >
+              Cancel
+            </a>
+          </div>
+        </div>
+      </div>
+    </DashboardShell>,
+    { seo: { title: 'Delete account', noIndex: true } },
+  )
+})
+
+// ─── POST /dashboard/profile/delete ──────────────────────────────────────────
+
+router.post('/delete', async (c) => {
+  const user = c.get('user')!
+
+  await deleteSession(c)
+  await deleteUser(user.id)
+
+  return c.redirect('/')
 })
 
 export default router
