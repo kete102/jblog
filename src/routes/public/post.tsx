@@ -179,7 +179,33 @@ const commentScript = /* js */`(function () {
   });
 })();`
 
-// ─── Comment avatar helper ─────────────────────────────────────────────────────
+// ─── Copy link script ──────────────────────────────────────────────────────────
+const copyScript = /* js */`(function () {
+  var btn = document.getElementById('copy-link-btn');
+  var icon = document.getElementById('copy-link-icon');
+  var label = document.getElementById('copy-link-label');
+  if (!btn) return;
+
+  var checkIcon = '<path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />';
+  var linkIcon = '<path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />';
+  var timer;
+
+  btn.addEventListener('click', function () {
+    navigator.clipboard.writeText(window.location.href).then(function () {
+      icon.innerHTML = checkIcon;
+      label.textContent = 'Copied!';
+      btn.classList.remove('text-zinc-400', 'hover:text-indigo-500');
+      btn.classList.add('text-indigo-500');
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        icon.innerHTML = linkIcon;
+        label.textContent = 'Copy link';
+        btn.classList.remove('text-indigo-500');
+        btn.classList.add('text-zinc-400', 'hover:text-indigo-500');
+      }, 2000);
+    });
+  });
+})();`
 
 function CommentAvatar({ user, size = 'sm' }: { user: { name: string; avatarUrl: string | null }; size?: 'sm' | 'md' }) {
   const initials = user.name
@@ -548,6 +574,19 @@ postRouter.get('/:slug', async (c) => {
                 </svg>
                 <span data-like-count>{formatNumber(post.likes)}</span>
               </button>
+
+              {/* Copy link button */}
+              <button
+                id="copy-link-btn"
+                type="button"
+                className="flex items-center gap-1.5 text-sm text-zinc-400 hover:text-indigo-500 transition-colors cursor-pointer"
+                aria-label="Copy link"
+              >
+                <svg id="copy-link-icon" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
+                </svg>
+                <span id="copy-link-label">Copy link</span>
+              </button>
             </div>
           </div>
 
@@ -707,6 +746,7 @@ postRouter.get('/:slug', async (c) => {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd }} />
       <script dangerouslySetInnerHTML={{ __html: likeScript }} />
       <script dangerouslySetInnerHTML={{ __html: commentScript }} />
+      <script dangerouslySetInnerHTML={{ __html: copyScript }} />
       <Footer />
     </div>,
     { seo },
