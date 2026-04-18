@@ -51,7 +51,7 @@ function EngagementBadges({ views, likes }: { views: number; likes: number }) {
 export default function PostCard({ post, featured = false, style, className = '' }: PostCardProps) {
   if (featured) {
     return (
-      <article style={style} className={`group relative grid md:grid-cols-2 gap-6 rounded-2xl overflow-hidden border border-zinc-100 hover:border-zinc-200 transition-all duration-300 hover:shadow-lg cursor-pointer ${className}`}>
+    <article style={style} className={`group relative grid md:grid-cols-2 gap-6 rounded-2xl overflow-hidden border border-zinc-100 hover:border-zinc-200 transition-all duration-300 hover:shadow-lg cursor-pointer ${className}`}>
         {/* Cover — above the fold, load eagerly */}
         {post.coverImageUrl ? (
           <div className="relative overflow-hidden bg-zinc-100 aspect-video md:aspect-auto">
@@ -116,7 +116,7 @@ export default function PostCard({ post, featured = false, style, className = ''
                 <div className="flex items-center gap-1 mb-0.5">
                   <a
                     href={`/author/${post.author.id}`}
-                    className="font-medium text-zinc-700 hover:text-indigo-600 transition-colors"
+                    className="relative z-[2] font-medium text-zinc-700 hover:text-indigo-600 transition-colors"
                   >
                     {post.author.name}
                   </a>
@@ -143,7 +143,7 @@ export default function PostCard({ post, featured = false, style, className = ''
   }
 
   return (
-    <article style={style} className={`group flex flex-col rounded-xl overflow-hidden border border-zinc-100 hover:border-zinc-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg cursor-pointer ${className}`}>
+    <article style={style} className={`group relative flex flex-col rounded-xl overflow-hidden border border-zinc-100 hover:border-zinc-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg cursor-pointer ${className}`}>
       {/* Cover */}
       {post.coverImageUrl ? (
         <div className="relative overflow-hidden bg-zinc-100 aspect-video">
@@ -206,7 +206,12 @@ export default function PostCard({ post, featured = false, style, className = ''
               </div>
             )}
             <div className="text-xs text-zinc-500 flex items-center gap-1 min-w-0">
-              <span className="font-medium text-zinc-600 truncate">{post.author.name}</span>
+              <a
+                href={`/author/${post.author.id}`}
+                className="relative z-[2] font-medium text-zinc-600 hover:text-indigo-600 transition-colors truncate"
+              >
+                {post.author.name}
+              </a>
               {(post.author.role === 'author' || post.author.role === 'admin') && (
                 <AuthorBadge />
               )}
