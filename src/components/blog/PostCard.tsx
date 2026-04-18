@@ -1,6 +1,11 @@
 import React from 'react'
 import type { Post, User, Tag } from '@/db/schema'
 import AuthorBadge from '@/components/blog/AuthorBadge'
+import Avatar from '@/components/blog/Avatar'
+import TagPill from '@/components/blog/TagPill'
+import { EyeIcon, HeartIcon } from '@/components/icons'
+import { isVerifiedAuthor } from '@/lib/roles'
+import { formatDate, formatNumber } from '@/lib/format'
 
 export interface PostWithAuthorAndTags extends Post {
   author: User
@@ -14,34 +19,15 @@ interface PostCardProps {
   className?: string
 }
 
-function formatDate(date: Date | null) {
-  if (!date) return ''
-  return new Intl.DateTimeFormat('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  }).format(date)
-}
-
-function formatNumber(n: number): string {
-  if (n >= 1000) return `${(n / 1000).toFixed(1)}k`
-  return String(n)
-}
-
 function EngagementBadges({ views, likes }: { views: number; likes: number }) {
   return (
     <div className="flex items-center gap-3 text-xs text-zinc-400">
       <span className="flex items-center gap-1">
-        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-          <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-        </svg>
+        <EyeIcon className="w-3.5 h-3.5" />
         {formatNumber(views)}
       </span>
       <span className="flex items-center gap-1">
-        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-        </svg>
+        <HeartIcon className="w-3.5 h-3.5 fill-none stroke-current" strokeWidth={1.5} />
         {formatNumber(likes)}
       </span>
     </div>
@@ -73,13 +59,7 @@ export default function PostCard({ post, featured = false, style, className = ''
           {post.tags.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-3">
               {post.tags.slice(0, 3).map((tag) => (
-                <a
-                  key={tag.id}
-                  href={`/tag/${tag.slug}`}
-                  className="relative z-[2] text-xs font-medium text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-full hover:bg-indigo-100 transition-colors"
-                >
-                  {tag.name}
-                </a>
+                <TagPill key={tag.id} tag={tag} variant="featured" className="relative z-[2]" />
               ))}
             </div>
           )}
@@ -99,20 +79,7 @@ export default function PostCard({ post, featured = false, style, className = ''
           {/* Meta */}
           <div className="flex items-center justify-between gap-3 mt-auto flex-wrap">
             <div className="flex items-center gap-3">
-              {post.author.avatarUrl ? (
-                <img
-                  src={post.author.avatarUrl}
-                  alt={post.author.name}
-                  width={32}
-                  height={32}
-                  loading="lazy"
-                  className="w-8 h-8 rounded-full object-cover"
-                />
-              ) : (
-                <div className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-sm font-semibold">
-                  {post.author.name.charAt(0).toUpperCase()}
-                </div>
-              )}
+              <Avatar name={post.author.name} avatarUrl={post.author.avatarUrl} size="md" loading="lazy" />
               <div className="text-xs text-zinc-500">
                 <div className="flex items-center gap-1 mb-0.5">
                   <a
@@ -121,9 +88,7 @@ export default function PostCard({ post, featured = false, style, className = ''
                   >
                     {post.author.name}
                   </a>
-                  {(post.author.role === 'author' || post.author.role === 'admin') && (
-                    <AuthorBadge />
-                  )}
+                  {isVerifiedAuthor(post.author) && <AuthorBadge />}
                 </div>
                 <time dateTime={post.publishedAt?.toISOString()}>
                   {formatDate(post.publishedAt)}
@@ -167,13 +132,7 @@ export default function PostCard({ post, featured = false, style, className = ''
         {post.tags.length > 0 && (
           <div className="flex flex-wrap gap-1.5 mb-2">
             {post.tags.slice(0, 2).map((tag) => (
-              <a
-                key={tag.id}
-                href={`/tag/${tag.slug}`}
-                className="relative z-[2] text-xs font-medium text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full hover:bg-indigo-100 transition-colors"
-              >
-                {tag.name}
-              </a>
+              <TagPill key={tag.id} tag={tag} variant="card" className="relative z-[2]" />
             ))}
           </div>
         )}
@@ -193,20 +152,7 @@ export default function PostCard({ post, featured = false, style, className = ''
         {/* Meta */}
         <div className="flex items-center justify-between gap-2 mt-auto pt-4 border-t border-zinc-50 flex-wrap">
           <div className="flex items-center gap-2 min-w-0">
-            {post.author.avatarUrl ? (
-              <img
-                src={post.author.avatarUrl}
-                alt={post.author.name}
-                width={24}
-                height={24}
-                loading="lazy"
-                className="w-6 h-6 rounded-full object-cover"
-              />
-            ) : (
-              <div className="w-6 h-6 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-semibold">
-                {post.author.name.charAt(0).toUpperCase()}
-              </div>
-            )}
+            <Avatar name={post.author.name} avatarUrl={post.author.avatarUrl} size="xs" loading="lazy" />
             <div className="text-xs text-zinc-500 flex items-center gap-1 min-w-0">
               <a
                 href={`/author/${post.author.id}`}
@@ -214,9 +160,7 @@ export default function PostCard({ post, featured = false, style, className = ''
               >
                 {post.author.name}
               </a>
-              {(post.author.role === 'author' || post.author.role === 'admin') && (
-                <AuthorBadge />
-              )}
+              {isVerifiedAuthor(post.author) && <AuthorBadge />}
               <span>·</span>
               <time dateTime={post.publishedAt?.toISOString()}>
                 {formatDate(post.publishedAt)}

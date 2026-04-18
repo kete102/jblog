@@ -1,4 +1,5 @@
 import React from 'react'
+import Logo from '@/components/layout/Logo'
 
 export default function Footer() {
   const year = new Date().getFullYear()
@@ -7,13 +8,7 @@ export default function Footer() {
     <footer className="border-t border-zinc-100 mt-20">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          {/* Logo */}
-          <a href="/" className="flex items-center gap-2">
-            <span className="w-6 h-6 rounded-md bg-indigo-600 flex items-center justify-center text-white font-bold text-xs">
-              j
-            </span>
-            <span className="font-semibold text-zinc-800 text-sm">jblog</span>
-          </a>
+          <Logo size="sm" />
 
           {/* Links */}
           <nav className="flex items-center gap-5 text-sm text-zinc-500">

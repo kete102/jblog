@@ -11,6 +11,7 @@
 - [ ] **Search** — SQLite full-text search (FTS5) on title + excerpt. No external dependencies.
 - [ ] **Comment moderation** — admin can delete any comment. Small addition to the admin panel.
 - [ ] **"All posts" archive** — sortable/filterable list of all published posts.
+- [ ] Auto-create slugs for posts
 
 ## Higher effort
 

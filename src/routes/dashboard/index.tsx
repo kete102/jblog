@@ -3,15 +3,10 @@ import React from 'react'
 import { requireAuthor } from '@/middleware/auth'
 import { getAuthorPosts } from '@/services/posts'
 import DashboardShell from '@/components/dashboard/DashboardShell'
+import { PlusIcon } from '@/components/icons'
+import { formatDate } from '@/lib/format'
 
 const router = new Hono()
-
-// ─── Helpers ─────────────────────────────────────────────────────────────────
-
-function formatDate(date: Date | null | undefined): string {
-  if (!date) return '—'
-  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-}
 
 // ─── GET /dashboard ───────────────────────────────────────────────────────────
 
@@ -34,9 +29,7 @@ router.get('/', requireAuthor, async (c) => {
             href="/dashboard/post/new"
             className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors"
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-            </svg>
+            <PlusIcon className="w-4 h-4" />
             New post
           </a>
         </div>
@@ -80,7 +73,7 @@ router.get('/', requireAuthor, async (c) => {
                     </div>
                   )}
                   <p className="text-xs text-zinc-400 mb-3">
-                    {post.views.toLocaleString()} views · {post.likes.toLocaleString()} likes · {formatDate(post.updatedAt)}
+                    {post.views.toLocaleString()} views · {post.likes.toLocaleString()} likes · {formatDate(post.updatedAt, 'short')}
                   </p>
                   <div className="flex items-center gap-1">
                     <a
@@ -158,7 +151,7 @@ router.get('/', requireAuthor, async (c) => {
                       </td>
                       <td className="px-4 py-3 text-zinc-500">{post.views.toLocaleString()}</td>
                       <td className="px-4 py-3 text-zinc-500">{post.likes.toLocaleString()}</td>
-                      <td className="px-4 py-3 text-zinc-400 text-xs">{formatDate(post.updatedAt)}</td>
+                      <td className="px-4 py-3 text-zinc-400 text-xs">{formatDate(post.updatedAt, 'short')}</td>
                       <td className="px-4 py-3">
                         <div className="flex items-center justify-end gap-1">
                           <a
