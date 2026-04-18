@@ -339,6 +339,9 @@ postRouter.get('/:slug', async (c) => {
                   src={post.author.avatarUrl}
                   alt={post.author.name}
                   className="w-14 h-14 rounded-full object-cover ring-2 ring-zinc-100 shrink-0"
+                  loading="lazy"
+                  width={56}
+                  height={56}
                 />
               ) : (
                 <div className="w-14 h-14 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-xl font-bold shrink-0">
