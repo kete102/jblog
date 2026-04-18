@@ -1,7 +1,7 @@
 import { Hono } from 'hono'
 import React from 'react'
 import { requireAuth } from '@/middleware/auth'
-import { updateUserProfile, deleteUser, requestAgain } from '@/services/users'
+import { updateUserProfile, deleteUser } from '@/services/users'
 import { deleteSession } from '@/lib/session'
 import DashboardShell from '@/components/dashboard/DashboardShell'
 
@@ -20,40 +20,47 @@ router.get('/', (c) => {
       <div className="p-4 sm:p-8 max-w-xl">
         <h1 className="text-xl font-semibold text-zinc-900 mb-6">Profile</h1>
 
-        {/* Author request status banner */}
+        {/* Author request status banners */}
+        {user.role === 'reader' && (
+          <div className="mb-6 px-4 py-4 rounded-lg bg-indigo-50 border border-indigo-200">
+            <p className="text-sm font-medium text-indigo-900 mb-0.5">Want to write for jblog?</p>
+            <p className="text-sm text-indigo-700 mb-3">
+              Share your knowledge with our community. Apply to become an author.
+            </p>
+            <a
+              href="/dashboard/become-author"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors"
+            >
+              Apply now →
+            </a>
+          </div>
+        )}
+
         {user.role === 'pending' && (
           <div className="mb-6 px-4 py-4 rounded-lg bg-amber-50 border border-amber-200">
-            <p className="text-sm font-medium text-amber-800 mb-0.5">Author request pending</p>
+            <p className="text-sm font-medium text-amber-800 mb-0.5">Application under review</p>
             <p className="text-sm text-amber-700">
-              Your request to become an author is under review. You'll get access to the dashboard once approved.
+              Your author application is being reviewed. You'll get access to the editor once approved.
             </p>
           </div>
         )}
 
         {user.role === 'rejected' && (
           <div className="mb-6 px-4 py-4 rounded-lg bg-red-50 border border-red-200">
-            <p className="text-sm font-medium text-red-800 mb-1">Author request not approved</p>
+            <p className="text-sm font-medium text-red-800 mb-1">Application not approved</p>
             {user.rejectedReason ? (
               <p className="text-sm text-red-700 mb-3">{user.rejectedReason}</p>
             ) : (
               <p className="text-sm text-red-700 mb-3">
-                Your request to become an author was not approved at this time.
+                Your application was not approved at this time.
               </p>
             )}
-            <p className="text-sm text-red-600 mb-4">
-              Questions? Reach out at{' '}
-              <a href="mailto:kete102@gmail.com" className="underline underline-offset-2 hover:text-red-800">
-                kete102@gmail.com
-              </a>
-            </p>
-            <form method="POST" action="/dashboard/profile/request-again">
-              <button
-                type="submit"
-                className="px-4 py-2 rounded-lg bg-red-600 text-white text-sm font-medium hover:bg-red-700 transition-colors"
-              >
-                Submit a new request
-              </button>
-            </form>
+            <a
+              href="/dashboard/become-author"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-red-600 text-white text-sm font-medium hover:bg-red-700 transition-colors"
+            >
+              Re-apply →
+            </a>
           </div>
         )}
 
@@ -196,16 +203,6 @@ router.post('/', async (c) => {
   })
 
   return c.redirect('/dashboard/profile?saved=1')
-})
-
-// ─── POST /dashboard/profile/request-again ───────────────────────────────────
-
-router.post('/request-again', async (c) => {
-  const user = c.get('user')!
-  if (user.role !== 'rejected') return c.redirect('/dashboard/profile')
-
-  await requestAgain(user.id)
-  return c.redirect('/pending')
 })
 
 // ─── GET /dashboard/profile/delete ───────────────────────────────────────────

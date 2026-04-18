@@ -14,6 +14,7 @@ import dashboardRouter from '@/routes/dashboard'
 import dashboardPostRouter from '@/routes/dashboard/post'
 import dashboardProfileRouter from '@/routes/dashboard/profile'
 import dashboardAdminRouter from '@/routes/dashboard/admin'
+import dashboardBecomeAuthorRouter from '@/routes/dashboard/become-author'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 
@@ -61,16 +62,17 @@ app.route('/dashboard', dashboardRouter)
 app.route('/dashboard/post', dashboardPostRouter)
 app.route('/dashboard/profile', dashboardProfileRouter)
 app.route('/dashboard/admin', dashboardAdminRouter)
+app.route('/dashboard/become-author', dashboardBecomeAuthorRouter)
 
-// ─── Pending approval page (signed-in + pending role only) ───────────────────
+// ─── Pending approval page (submitted application, awaiting review) ───────────
 
 app.get('/pending', (c) => {
   const user = c.get('user')
 
   // Not signed in → send to home
   if (!user) return c.redirect('/')
-  // Already approved → send to dashboard
-  if (user.role !== 'pending') return c.redirect('/dashboard')
+  // Not in pending state → send to appropriate place
+  if (user.role !== 'pending') return c.redirect('/dashboard/profile')
 
   return c.render(
     <div className="min-h-screen flex flex-col">
@@ -81,11 +83,11 @@ app.get('/pending', (c) => {
             ⏳
           </div>
           <h1 className="text-2xl font-bold text-zinc-900 mb-3">
-            Awaiting approval
+            Application received
           </h1>
           <p className="text-zinc-500 leading-relaxed mb-8">
-            Your account has been created and is waiting for an admin to approve it.
-            You'll be able to write and publish posts once approved.
+            Your author application is under review. We'll get back to you soon.
+            In the meantime, feel free to explore the blog and leave comments.
           </p>
           <a
             href="/"
@@ -97,7 +99,7 @@ app.get('/pending', (c) => {
       </main>
       <Footer />
     </div>,
-    { seo: { title: 'Awaiting Approval', noIndex: true } },
+    { seo: { title: 'Application received', noIndex: true } },
   )
 })
 

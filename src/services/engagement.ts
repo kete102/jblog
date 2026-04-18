@@ -1,7 +1,6 @@
 import { db } from '@/db'
-import { posts, postLikes, comments } from '@/db/schema'
-import type { Comment, NewComment } from '@/db/schema'
-import { eq, sql, and, desc } from 'drizzle-orm'
+import { posts, postLikes, comments, users } from '@/db/schema'
+import { eq, sql, and } from 'drizzle-orm'
 
 // ─── Views ────────────────────────────────────────────────────────────────────
 
@@ -59,17 +58,138 @@ export async function toggleLike(
 
 // ─── Comments ─────────────────────────────────────────────────────────────────
 
-export async function getComments(postId: string): Promise<Comment[]> {
-  return db
-    .select()
-    .from(comments)
-    .where(eq(comments.postId, postId))
-    .orderBy(desc(comments.createdAt))
+export interface CommentWithUser {
+  id: string
+  postId: string
+  userId: string
+  parentId: string | null
+  content: string
+  createdAt: Date
+  updatedAt: Date
+  user: {
+    name: string
+    avatarUrl: string | null
+  }
 }
 
-export async function addComment(data: NewComment): Promise<Comment> {
+export interface CommentThread {
+  comment: CommentWithUser
+  replies: CommentWithUser[]
+}
+
+/** Fetch all comments for a post, structured as top-level threads with replies */
+export async function getCommentThreads(postId: string): Promise<CommentThread[]> {
+  const rows = await db
+    .select({
+      id: comments.id,
+      postId: comments.postId,
+      userId: comments.userId,
+      parentId: comments.parentId,
+      content: comments.content,
+      createdAt: comments.createdAt,
+      updatedAt: comments.updatedAt,
+      userName: users.name,
+      userAvatarUrl: users.avatarUrl,
+    })
+    .from(comments)
+    .innerJoin(users, eq(comments.userId, users.id))
+    .where(eq(comments.postId, postId))
+    .orderBy(comments.createdAt)
+
+  const mapped: CommentWithUser[] = rows.map((r) => ({
+    id: r.id,
+    postId: r.postId,
+    userId: r.userId,
+    parentId: r.parentId,
+    content: r.content,
+    createdAt: r.createdAt,
+    updatedAt: r.updatedAt,
+    user: { name: r.userName, avatarUrl: r.userAvatarUrl },
+  }))
+
+  // Build thread structure: top-level comments + their replies
+  const topLevel = mapped.filter((c) => !c.parentId)
+  const byParent = new Map<string, CommentWithUser[]>()
+  for (const c of mapped) {
+    if (c.parentId) {
+      const list = byParent.get(c.parentId) ?? []
+      list.push(c)
+      byParent.set(c.parentId, list)
+    }
+  }
+
+  return topLevel.map((comment) => ({
+    comment,
+    replies: byParent.get(comment.id) ?? [],
+  }))
+}
+
+/** Add a new comment or reply */
+export async function addComment(data: {
+  postId: string
+  userId: string
+  content: string
+  parentId?: string | null
+}): Promise<void> {
   const id = crypto.randomUUID()
-  await db.insert(comments).values({ ...data, id })
-  const [row] = await db.select().from(comments).where(eq(comments.id, id))
-  return row
+  await db.insert(comments).values({
+    id,
+    postId: data.postId,
+    userId: data.userId,
+    parentId: data.parentId ?? null,
+    content: data.content,
+  })
+}
+
+/** Update a comment — only the owner can do this (caller must verify) */
+export async function updateComment(id: string, userId: string, content: string): Promise<boolean> {
+  const result = await db
+    .update(comments)
+    .set({ content, updatedAt: new Date() })
+    .where(and(eq(comments.id, id), eq(comments.userId, userId)))
+    .returning({ id: comments.id })
+  return result.length > 0
+}
+
+/** Delete a comment — only the owner can do this (caller must verify) */
+export async function deleteComment(id: string, userId: string): Promise<boolean> {
+  const result = await db
+    .delete(comments)
+    .where(and(eq(comments.id, id), eq(comments.userId, userId)))
+    .returning({ id: comments.id })
+  return result.length > 0
+}
+
+/** Get a single comment by id */
+export async function getCommentById(id: string): Promise<CommentWithUser | null> {
+  const rows = await db
+    .select({
+      id: comments.id,
+      postId: comments.postId,
+      userId: comments.userId,
+      parentId: comments.parentId,
+      content: comments.content,
+      createdAt: comments.createdAt,
+      updatedAt: comments.updatedAt,
+      userName: users.name,
+      userAvatarUrl: users.avatarUrl,
+    })
+    .from(comments)
+    .innerJoin(users, eq(comments.userId, users.id))
+    .where(eq(comments.id, id))
+    .limit(1)
+
+  const r = rows[0]
+  if (!r) return null
+
+  return {
+    id: r.id,
+    postId: r.postId,
+    userId: r.userId,
+    parentId: r.parentId,
+    content: r.content,
+    createdAt: r.createdAt,
+    updatedAt: r.updatedAt,
+    user: { name: r.userName, avatarUrl: r.userAvatarUrl },
+  }
 }

@@ -12,9 +12,9 @@ export const users = sqliteTable('users', {
   socialLinks: text('social_links', { mode: 'json' })
     .$type<{ twitter?: string; github?: string; website?: string }>()
     .default({}),
-  role: text('role', { enum: ['pending', 'author', 'admin', 'rejected'] })
+  role: text('role', { enum: ['reader', 'pending', 'author', 'admin', 'rejected'] })
     .notNull()
-    .default('pending'),
+    .default('reader'),
   rejectedReason: text('rejected_reason'),
   publishedPostCount: integer('published_post_count').notNull().default(0),
   createdAt: integer('created_at', { mode: 'timestamp' })
@@ -27,7 +27,7 @@ export const users = sqliteTable('users', {
 
 export type User = typeof users.$inferSelect
 export type NewUser = typeof users.$inferInsert
-export type UserRole = 'pending' | 'author' | 'admin' | 'rejected'
+export type UserRole = 'reader' | 'pending' | 'author' | 'admin' | 'rejected'
 
 // ─── Posts ───────────────────────────────────────────────────────────────────
 
@@ -113,16 +113,44 @@ export const comments = sqliteTable('comments', {
   postId: text('post_id')
     .notNull()
     .references(() => posts.id, { onDelete: 'cascade' }),
-  authorName: text('author_name').notNull(),
-  authorEmail: text('author_email'),
+  userId: text('user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  parentId: text('parent_id'),
   content: text('content').notNull(),
   createdAt: integer('created_at', { mode: 'timestamp' })
+    .notNull()
+    .$defaultFn(() => new Date()),
+  updatedAt: integer('updated_at', { mode: 'timestamp' })
     .notNull()
     .$defaultFn(() => new Date()),
 })
 
 export type Comment = typeof comments.$inferSelect
 export type NewComment = typeof comments.$inferInsert
+
+// ─── Author requests ──────────────────────────────────────────────────────────
+
+export const authorRequests = sqliteTable('author_requests', {
+  id: text('id').primaryKey(),
+  userId: text('user_id')
+    .notNull()
+    .unique()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  bio: text('bio').notNull(),
+  topics: text('topics').notNull(),
+  sampleUrl: text('sample_url'),
+  sampleText: text('sample_text'),
+  createdAt: integer('created_at', { mode: 'timestamp' })
+    .notNull()
+    .$defaultFn(() => new Date()),
+  updatedAt: integer('updated_at', { mode: 'timestamp' })
+    .notNull()
+    .$defaultFn(() => new Date()),
+})
+
+export type AuthorRequest = typeof authorRequests.$inferSelect
+export type NewAuthorRequest = typeof authorRequests.$inferInsert
 
 // ─── Sessions ────────────────────────────────────────────────────────────────
 
@@ -141,9 +169,11 @@ export type Session = typeof sessions.$inferSelect
 
 // ─── Relations ────────────────────────────────────────────────────────────────
 
-export const usersRelations = relations(users, ({ many }) => ({
+export const usersRelations = relations(users, ({ many, one }) => ({
   posts: many(posts),
   sessions: many(sessions),
+  comments: many(comments),
+  authorRequest: one(authorRequests, { fields: [users.id], references: [authorRequests.userId] }),
 }))
 
 export const postsRelations = relations(posts, ({ one, many }) => ({
@@ -170,6 +200,13 @@ export const postLikesRelations = relations(postLikes, ({ one }) => ({
   post: one(posts, { fields: [postLikes.postId], references: [posts.id] }),
 }))
 
-export const commentsRelations = relations(comments, ({ one }) => ({
+export const commentsRelations = relations(comments, ({ one, many }) => ({
   post: one(posts, { fields: [comments.postId], references: [posts.id] }),
+  user: one(users, { fields: [comments.userId], references: [users.id] }),
+  parent: one(comments, { fields: [comments.parentId], references: [comments.id], relationName: 'replies' }),
+  replies: many(comments, { relationName: 'replies' }),
+}))
+
+export const authorRequestsRelations = relations(authorRequests, ({ one }) => ({
+  user: one(users, { fields: [authorRequests.userId], references: [users.id] }),
 }))

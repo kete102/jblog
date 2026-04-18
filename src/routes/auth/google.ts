@@ -105,7 +105,7 @@ authRouter.get('/google/callback', async (c) => {
       name,
       email,
       avatarUrl,
-      role: isAdmin ? 'admin' : 'pending',
+      role: isAdmin ? 'admin' : 'reader',
     })
 
     user = await db
@@ -135,8 +135,8 @@ authRouter.get('/google/callback', async (c) => {
   const sessionId = await createSession(user.id)
   setSessionCookie(c, sessionId)
 
-  if (user.role === 'pending') {
-    return c.redirect('/pending')
+  if (user.role === 'reader' || user.role === 'pending') {
+    return c.redirect('/dashboard/profile')
   }
 
   if (user.role === 'rejected') {
