@@ -1,5 +1,5 @@
 import { Hono } from 'hono'
-import { Google, generateCodeVerifier, generateState } from 'arctic'
+import { Google, generateCodeVerifier, generateState, decodeIdToken } from 'arctic'
 import { setCookie, getCookie, deleteCookie } from 'hono/cookie'
 import { db } from '@/db'
 import { users } from '@/db/schema'
@@ -54,32 +54,40 @@ authRouter.get('/google/callback', async (c) => {
   const storedState = getCookie(c, 'google_oauth_state')
   const codeVerifier = getCookie(c, 'google_code_verifier')
 
-  deleteCookie(c, 'google_oauth_state')
-  deleteCookie(c, 'google_code_verifier')
+  // Clean up PKCE cookies regardless of outcome
+  deleteCookie(c, 'google_oauth_state', { path: '/' })
+  deleteCookie(c, 'google_code_verifier', { path: '/' })
 
   if (!code || !state || state !== storedState || !codeVerifier) {
-    return c.text('Invalid OAuth state', 400)
+    return c.text('Invalid OAuth state — please try signing in again.', 400)
   }
 
   let tokens
   try {
     tokens = await google.validateAuthorizationCode(code, codeVerifier)
-  } catch {
+  } catch (e) {
+    console.error('OAuth token exchange failed:', e)
     return c.text('Failed to validate authorization code', 400)
   }
 
-  // Fetch Google profile
-  const idToken = tokens.idToken()
-  const payload = decodeJwtPayload(idToken)
-
-  if (!payload?.email || !payload?.sub) {
-    return c.text('Failed to get user info from Google', 400)
+  // Decode the ID token using arctic's built-in decoder
+  let claims: Record<string, unknown>
+  try {
+    claims = decodeIdToken(tokens.idToken()) as Record<string, unknown>
+  } catch (e) {
+    console.error('Failed to decode ID token:', e)
+    return c.text('Failed to decode ID token', 400)
   }
 
-  const googleId = payload.sub as string
-  const email = payload.email as string
-  const name = (payload.name as string) || email.split('@')[0]
-  const avatarUrl = (payload.picture as string) || null
+  const googleId = claims.sub as string | undefined
+  const email = claims.email as string | undefined
+
+  if (!googleId || !email) {
+    return c.text('Missing required fields in ID token', 400)
+  }
+
+  const name = (claims.name as string) || email.split('@')[0]
+  const avatarUrl = (claims.picture as string) || null
 
   // Find or create user
   let user = await db
@@ -91,10 +99,9 @@ authRouter.get('/google/callback', async (c) => {
 
   if (!user) {
     const isAdmin = email === process.env.ADMIN_EMAIL
-    const id = googleId
 
     await db.insert(users).values({
-      id,
+      id: googleId,
       name,
       email,
       avatarUrl,
@@ -104,7 +111,7 @@ authRouter.get('/google/callback', async (c) => {
     user = await db
       .select()
       .from(users)
-      .where(eq(users.id, id))
+      .where(eq(users.id, googleId))
       .limit(1)
       .then((r) => r[0])
   } else {
@@ -132,7 +139,8 @@ authRouter.get('/google/callback', async (c) => {
     return c.redirect('/pending')
   }
 
-  return c.redirect('/dashboard')
+  // Dashboard doesn't exist yet (Phase 3) — redirect to home for now
+  return c.redirect('/')
 })
 
 // POST /auth/logout
@@ -140,18 +148,5 @@ authRouter.post('/logout', async (c) => {
   await deleteSession(c)
   return c.redirect('/')
 })
-
-// Minimal JWT payload decoder (no verification needed — data comes from Google's own callback)
-function decodeJwtPayload(token: string): Record<string, unknown> | null {
-  try {
-    const parts = token.split('.')
-    if (parts.length !== 3) return null
-    const payload = parts[1]
-    const decoded = atob(payload.replace(/-/g, '+').replace(/_/g, '/'))
-    return JSON.parse(decoded)
-  } catch {
-    return null
-  }
-}
 
 export default authRouter
