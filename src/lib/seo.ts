@@ -10,8 +10,8 @@ export interface SeoProps {
   noIndex?: boolean
 }
 
-const SITE_NAME = 'jblog'
-const DEFAULT_DESCRIPTION = 'A modern blog platform for writers who care about their craft.'
+const SITE_NAME = 'Destellos de luz'
+const DEFAULT_DESCRIPTION = 'Reflexiones de fe, esperanza y vida a la luz de la Palabra.'
 
 export function buildSeoTags(props: SeoProps) {
   const {

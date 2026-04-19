@@ -18,55 +18,55 @@ router.get('/', (c) => {
   return c.render(
     <DashboardShell user={user} active="profile">
       <div className="p-4 sm:p-8 max-w-xl w-full mx-auto">
-        <h1 className="text-xl font-semibold text-zinc-900 mb-6">Profile</h1>
+        <h1 className="text-xl font-semibold text-zinc-900 mb-6">Perfil</h1>
 
         {/* Author request status banners */}
         {user.role === 'reader' && (
           <div className="mb-6 px-4 py-4 rounded-lg bg-indigo-50 border border-indigo-200">
-            <p className="text-sm font-medium text-indigo-900 mb-0.5">Want to write for jblog?</p>
+            <p className="text-sm font-medium text-indigo-900 mb-0.5">¿Quieres escribir en Destellos de luz?</p>
             <p className="text-sm text-indigo-700 mb-3">
-              Share your knowledge with our community. Apply to become an author.
+              Comparte tu conocimiento con nuestra comunidad. Solicita ser autor.
             </p>
             <a
               href="/dashboard/become-author"
               className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors"
             >
-              Apply now →
+              Solicitar ahora →
             </a>
           </div>
         )}
 
         {user.role === 'pending' && (
           <div className="mb-6 px-4 py-4 rounded-lg bg-amber-50 border border-amber-200">
-            <p className="text-sm font-medium text-amber-800 mb-0.5">Application under review</p>
+            <p className="text-sm font-medium text-amber-800 mb-0.5">Solicitud en revisión</p>
             <p className="text-sm text-amber-700">
-              Your author application is being reviewed. You'll get access to the editor once approved.
+              Tu solicitud de autor está siendo revisada. Tendrás acceso al editor una vez aprobada.
             </p>
           </div>
         )}
 
         {user.role === 'rejected' && (
           <div className="mb-6 px-4 py-4 rounded-lg bg-red-50 border border-red-200">
-            <p className="text-sm font-medium text-red-800 mb-1">Application not approved</p>
+            <p className="text-sm font-medium text-red-800 mb-1">Solicitud no aprobada</p>
             {user.rejectedReason ? (
               <p className="text-sm text-red-700 mb-3">{user.rejectedReason}</p>
             ) : (
               <p className="text-sm text-red-700 mb-3">
-                Your application was not approved at this time.
+                Tu solicitud no fue aprobada en este momento.
               </p>
             )}
             <a
               href="/dashboard/become-author"
               className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-red-600 text-white text-sm font-medium hover:bg-red-700 transition-colors"
             >
-              Re-apply →
+              Volver a solicitar →
             </a>
           </div>
         )}
 
         {saved && (
           <div className="mb-6 px-4 py-3 rounded-lg bg-green-50 text-green-700 text-sm border border-green-200">
-            Profile saved.
+            Perfil guardado.
           </div>
         )}
 
@@ -74,7 +74,7 @@ router.get('/', (c) => {
           {/* Name */}
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-zinc-700 mb-1.5">
-              Display name
+              Nombre visible
             </label>
             <input
               id="name"
@@ -89,14 +89,14 @@ router.get('/', (c) => {
           {/* Bio */}
           <div>
             <label htmlFor="bio" className="block text-sm font-medium text-zinc-700 mb-1.5">
-              Bio
+              Biografía
             </label>
             <textarea
               id="bio"
               name="bio"
               rows={3}
               defaultValue={user.bio ?? ''}
-              placeholder="A short bio shown on your author page…"
+              placeholder="Una breve biografía mostrada en tu página de autor…"
               className="w-full px-3 py-2 rounded-lg border border-zinc-200 bg-white text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"
             />
           </div>
@@ -104,7 +104,7 @@ router.get('/', (c) => {
           {/* Avatar URL */}
           <div>
             <label htmlFor="avatarUrl" className="block text-sm font-medium text-zinc-700 mb-1.5">
-              Avatar URL
+              URL del avatar
             </label>
             <input
               id="avatarUrl"
@@ -118,7 +118,7 @@ router.get('/', (c) => {
 
           {/* Social links */}
           <div>
-            <p className="text-sm font-medium text-zinc-700 mb-3">Social links</p>
+            <p className="text-sm font-medium text-zinc-700 mb-3">Redes sociales</p>
             <div className="space-y-2.5">
               <div className="flex items-center gap-2">
                 <span className="w-20 text-xs text-zinc-500 shrink-0">Twitter</span>
@@ -158,27 +158,27 @@ router.get('/', (c) => {
               type="submit"
               className="px-5 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors"
             >
-              Save profile
+              Guardar perfil
             </button>
           </div>
         </form>
 
         {/* Danger zone */}
         <div className="mt-12 pt-8 border-t border-zinc-200">
-          <h2 className="text-sm font-medium text-zinc-900 mb-1">Danger zone</h2>
+          <h2 className="text-sm font-medium text-zinc-900 mb-1">Zona de peligro</h2>
           <p className="text-sm text-zinc-500 mb-4">
-            Permanently delete your account and all of your posts. This cannot be undone.
+            Elimina permanentemente tu cuenta y todas tus publicaciones. Esta acción no se puede deshacer.
           </p>
           <a
             href="/dashboard/profile/delete"
             className="inline-flex items-center px-4 py-2 rounded-lg border border-red-200 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors"
           >
-            Delete account
+            Eliminar cuenta
           </a>
         </div>
       </div>
     </DashboardShell>,
-    { seo: { title: 'Profile', noIndex: true } },
+    { seo: { title: 'Perfil', noIndex: true } },
   )
 })
 
@@ -213,37 +213,37 @@ router.get('/delete', (c) => {
   return c.render(
     <DashboardShell user={user} active="profile">
       <div className="p-4 sm:p-8 max-w-md w-full mx-auto">
-        <h1 className="text-xl font-semibold text-zinc-900 mb-2">Delete account</h1>
+        <h1 className="text-xl font-semibold text-zinc-900 mb-2">Eliminar cuenta</h1>
         <p className="text-sm text-zinc-500 mb-8">
-          This will permanently delete your account, all your posts, and all associated data.
-          This action cannot be undone.
+          Esto eliminará permanentemente tu cuenta, todas tus publicaciones y todos los datos asociados.
+          Esta acción no se puede deshacer.
         </p>
 
         <div className="rounded-lg border border-red-200 bg-red-50 p-5 space-y-4">
           <p className="text-sm font-medium text-red-700">
-            You are about to delete <span className="font-semibold">{user.name}</span>'s account.
+            Estás a punto de eliminar la cuenta de <span className="font-semibold">{user.name}</span>.
           </p>
 
           <div className="flex items-center gap-3">
             <form method="POST" action="/dashboard/profile/delete">
-              <button
+                <button
                 type="submit"
                 className="px-4 py-2 rounded-lg bg-red-600 text-white text-sm font-medium hover:bg-red-700 transition-colors"
               >
-                Yes, delete my account
+                Sí, eliminar mi cuenta
               </button>
             </form>
             <a
               href="/dashboard/profile"
               className="px-4 py-2 rounded-lg border border-zinc-200 bg-white text-sm font-medium text-zinc-700 hover:bg-zinc-50 transition-colors"
             >
-              Cancel
+              Cancelar
             </a>
           </div>
         </div>
       </div>
     </DashboardShell>,
-    { seo: { title: 'Delete account', noIndex: true } },
+    { seo: { title: 'Eliminar cuenta', noIndex: true } },
   )
 })
 

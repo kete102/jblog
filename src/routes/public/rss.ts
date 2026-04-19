@@ -35,10 +35,10 @@ rssRouter.get('/feed.xml', async (c) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>jblog</title>
+    <title>Destellos de luz</title>
     <link>${baseUrl}</link>
-    <description>Thoughtful writing on technology, design, and everything in between.</description>
-    <language>en-us</language>
+    <description>Reflexiones de fe, esperanza y vida a la luz de la Palabra.</description>
+    <language>es</language>
     <atom:link href="${baseUrl}/feed.xml" rel="self" type="application/rss+xml" />
 ${items}
   </channel>

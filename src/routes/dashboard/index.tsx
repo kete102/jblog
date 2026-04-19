@@ -20,9 +20,9 @@ router.get('/', requireAuthor, async (c) => {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-xl font-semibold text-zinc-900">Posts</h1>
+            <h1 className="text-xl font-semibold text-zinc-900">Publicaciones</h1>
             <p className="text-sm text-zinc-500 mt-0.5">
-              {posts.length} {posts.length === 1 ? 'post' : 'posts'}
+              {posts.length} {posts.length === 1 ? 'publicación' : 'publicaciones'}
             </p>
           </div>
           <a
@@ -30,19 +30,19 @@ router.get('/', requireAuthor, async (c) => {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors"
           >
             <PlusIcon className="w-4 h-4" />
-            New post
+            Nueva publicación
           </a>
         </div>
 
         {/* Posts list */}
         {posts.length === 0 ? (
           <div className="text-center py-16 border border-dashed border-zinc-200 rounded-xl">
-            <p className="text-zinc-500 text-sm">No posts yet.</p>
+            <p className="text-zinc-500 text-sm">Aún no hay publicaciones.</p>
             <a
               href="/dashboard/post/new"
               className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-indigo-600 hover:text-indigo-700"
             >
-              Write your first post →
+              Escribe tu primera publicación →
             </a>
           </div>
         ) : (
@@ -60,7 +60,7 @@ router.get('/', requireAuthor, async (c) => {
                           : 'bg-zinc-100 text-zinc-500'
                       }`}
                     >
-                      {post.status}
+                      {post.status === 'published' ? 'publicado' : 'borrador'}
                     </span>
                   </div>
                   {post.tags.length > 0 && (
@@ -73,33 +73,33 @@ router.get('/', requireAuthor, async (c) => {
                     </div>
                   )}
                   <p className="text-xs text-zinc-400 mb-3">
-                    {post.views.toLocaleString()} views · {post.likes.toLocaleString()} likes · {formatDate(post.updatedAt, 'short')}
+                    {post.views.toLocaleString()} vistas · {post.likes.toLocaleString()} me gusta · {formatDate(post.updatedAt, 'short')}
                   </p>
                   <div className="flex items-center gap-1">
                     <a
                       href={`/dashboard/post/${post.id}/edit`}
                       className="px-2.5 py-1.5 rounded-lg text-xs font-medium text-zinc-600 hover:bg-zinc-100 transition-colors"
                     >
-                      Edit
+                      Editar
                     </a>
                     <form method="POST" action={`/dashboard/post/${post.id}/publish`}>
                       <button
                         type="submit"
                         className="px-2.5 py-1.5 rounded-lg text-xs font-medium text-zinc-600 hover:bg-zinc-100 transition-colors"
                       >
-                        {post.status === 'published' ? 'Unpublish' : 'Publish'}
+                        {post.status === 'published' ? 'Despublicar' : 'Publicar'}
                       </button>
                     </form>
                     <form
                       method="POST"
                       action={`/dashboard/post/${post.id}/delete`}
-                      onSubmit="return confirm('Delete this post? This cannot be undone.')"
+                      onSubmit="return confirm('¿Eliminar esta publicación? Esta acción no se puede deshacer.')"
                     >
                       <button
                         type="submit"
                         className="px-2.5 py-1.5 rounded-lg text-xs font-medium text-red-500 hover:bg-red-50 transition-colors"
                       >
-                        Delete
+                        Eliminar
                       </button>
                     </form>
                   </div>
@@ -112,11 +112,11 @@ router.get('/', requireAuthor, async (c) => {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-zinc-200 bg-zinc-50">
-                    <th className="text-left px-4 py-3 font-medium text-zinc-500">Title</th>
-                    <th className="text-left px-4 py-3 font-medium text-zinc-500 w-24">Status</th>
-                    <th className="text-left px-4 py-3 font-medium text-zinc-500 w-20">Views</th>
-                    <th className="text-left px-4 py-3 font-medium text-zinc-500 w-20">Likes</th>
-                    <th className="text-left px-4 py-3 font-medium text-zinc-500 w-32">Updated</th>
+                    <th className="text-left px-4 py-3 font-medium text-zinc-500">Título</th>
+                    <th className="text-left px-4 py-3 font-medium text-zinc-500 w-24">Estado</th>
+                    <th className="text-left px-4 py-3 font-medium text-zinc-500 w-20">Vistas</th>
+                    <th className="text-left px-4 py-3 font-medium text-zinc-500 w-20">Me gusta</th>
+                    <th className="text-left px-4 py-3 font-medium text-zinc-500 w-32">Actualizado</th>
                     <th className="px-4 py-3 w-32" />
                   </tr>
                 </thead>
@@ -146,7 +146,7 @@ router.get('/', requireAuthor, async (c) => {
                               : 'bg-zinc-100 text-zinc-500'
                           }`}
                         >
-                          {post.status}
+                          {post.status === 'published' ? 'publicado' : 'borrador'}
                         </span>
                       </td>
                       <td className="px-4 py-3 text-zinc-500">{post.views.toLocaleString()}</td>
@@ -158,26 +158,26 @@ router.get('/', requireAuthor, async (c) => {
                             href={`/dashboard/post/${post.id}/edit`}
                             className="px-2.5 py-1.5 rounded-lg text-xs font-medium text-zinc-600 hover:bg-zinc-100 transition-colors"
                           >
-                            Edit
+                            Editar
                           </a>
                           <form method="POST" action={`/dashboard/post/${post.id}/publish`}>
                             <button
                               type="submit"
                               className="px-2.5 py-1.5 rounded-lg text-xs font-medium text-zinc-600 hover:bg-zinc-100 transition-colors"
                             >
-                              {post.status === 'published' ? 'Unpublish' : 'Publish'}
+                              {post.status === 'published' ? 'Despublicar' : 'Publicar'}
                             </button>
                           </form>
                           <form
                             method="POST"
                             action={`/dashboard/post/${post.id}/delete`}
-                            onSubmit="return confirm('Delete this post? This cannot be undone.')"
+                            onSubmit="return confirm('¿Eliminar esta publicación? Esta acción no se puede deshacer.')"
                           >
                             <button
                               type="submit"
                               className="px-2.5 py-1.5 rounded-lg text-xs font-medium text-red-500 hover:bg-red-50 transition-colors"
                             >
-                              Delete
+                              Eliminar
                             </button>
                           </form>
                         </div>

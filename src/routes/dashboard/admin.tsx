@@ -18,15 +18,15 @@ router.get('/', async (c) => {
     <DashboardShell user={user} active="admin">
       <div className="p-4 sm:p-8">
         <div className="mb-8">
-          <h1 className="text-xl font-semibold text-zinc-900">Pending approvals</h1>
+          <h1 className="text-xl font-semibold text-zinc-900">Solicitudes pendientes</h1>
           <p className="text-sm text-zinc-500 mt-0.5">
-            {pending.length} application{pending.length !== 1 ? 's' : ''} awaiting review
+            {pending.length} solicitud{pending.length !== 1 ? 'es' : ''} pendiente{pending.length !== 1 ? 's' : ''} de revisión
           </p>
         </div>
 
         {pending.length === 0 ? (
           <div className="text-center py-16 border border-dashed border-zinc-200 rounded-xl">
-            <p className="text-zinc-500 text-sm">No pending applications.</p>
+            <p className="text-zinc-500 text-sm">No hay solicitudes pendientes.</p>
           </div>
         ) : (
           <div className="space-y-4">
@@ -50,7 +50,7 @@ router.get('/', async (c) => {
                     <p className="text-xs text-zinc-500">{u.email}</p>
                   </div>
                   <span className="text-xs text-zinc-400 shrink-0">
-                    {u.createdAt.toLocaleDateString('en-US', {
+                    {u.createdAt.toLocaleDateString('es-ES', {
                       month: 'short',
                       day: 'numeric',
                       year: 'numeric',
@@ -62,16 +62,16 @@ router.get('/', async (c) => {
                 {u.authorRequest ? (
                   <div className="px-5 py-4 space-y-4">
                     <div>
-                      <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wide mb-1.5">Bio</p>
+                      <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wide mb-1.5">Biografía</p>
                       <p className="text-sm text-zinc-700 leading-relaxed">{u.authorRequest.bio}</p>
                     </div>
                     <div>
-                      <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wide mb-1.5">Topics</p>
+                      <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wide mb-1.5">Temas</p>
                       <p className="text-sm text-zinc-700">{u.authorRequest.topics}</p>
                     </div>
                     {u.authorRequest.sampleUrl && (
                       <div>
-                        <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wide mb-1.5">Writing sample</p>
+                        <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wide mb-1.5">Muestra de escritura</p>
                         <a
                           href={u.authorRequest.sampleUrl}
                           target="_blank"
@@ -84,7 +84,7 @@ router.get('/', async (c) => {
                     )}
                     {u.authorRequest.sampleText && (
                       <div>
-                        <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wide mb-1.5">Writing sample (text)</p>
+                        <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wide mb-1.5">Muestra de escritura (texto)</p>
                         <p className="text-sm text-zinc-700 leading-relaxed whitespace-pre-wrap line-clamp-6">
                           {u.authorRequest.sampleText}
                         </p>
@@ -93,7 +93,7 @@ router.get('/', async (c) => {
                   </div>
                 ) : (
                   <div className="px-5 py-4">
-                    <p className="text-sm text-zinc-400 italic">No application data submitted.</p>
+                    <p className="text-sm text-zinc-400 italic">No se enviaron datos de solicitud.</p>
                   </div>
                 )}
 
@@ -104,14 +104,14 @@ router.get('/', async (c) => {
                       type="submit"
                       className="px-3 py-1.5 rounded-lg text-xs font-medium bg-green-50 text-green-700 hover:bg-green-100 transition-colors"
                     >
-                      Approve
+                      Aprobar
                     </button>
                   </form>
                   <a
                     href={`/dashboard/admin/reject/${u.id}`}
                     className="px-3 py-1.5 rounded-lg text-xs font-medium bg-red-50 text-red-600 hover:bg-red-100 transition-colors"
                   >
-                    Reject
+                    Rechazar
                   </a>
                 </div>
               </div>
@@ -120,7 +120,7 @@ router.get('/', async (c) => {
         )}
       </div>
     </DashboardShell>,
-    { seo: { title: 'Admin', noIndex: true } },
+    { seo: { title: 'Administración', noIndex: true } },
   )
 })
 
@@ -141,9 +141,9 @@ router.get('/reject/:id', async (c) => {
   return c.render(
     <DashboardShell user={admin} active="admin">
       <div className="p-4 sm:p-8 max-w-md">
-        <h1 className="text-xl font-semibold text-zinc-900 mb-2">Reject author application</h1>
+        <h1 className="text-xl font-semibold text-zinc-900 mb-2">Rechazar solicitud de autor</h1>
         <p className="text-sm text-zinc-500 mb-8">
-          Optionally provide feedback. The user will see it when they re-apply.
+          Opcionalmente, proporciona comentarios. El usuario los verá al volver a solicitar.
         </p>
 
         <div className="flex items-center gap-2.5 mb-6">
@@ -163,13 +163,13 @@ router.get('/reject/:id', async (c) => {
         <form method="POST" action={`/dashboard/admin/reject/${target.id}`} className="space-y-4">
           <div>
             <label htmlFor="reason" className="block text-sm font-medium text-zinc-700 mb-1.5">
-              Feedback <span className="text-zinc-400 font-normal">(optional)</span>
+              Comentarios <span className="text-zinc-400 font-normal">(opcional)</span>
             </label>
             <textarea
               id="reason"
               name="reason"
               rows={3}
-              placeholder="e.g. Please add more detail to your bio and include a writing sample before re-applying."
+              placeholder="p. ej. Por favor añade más detalle a tu biografía e incluye una muestra de escritura antes de volver a solicitar."
               className="w-full px-3 py-2 rounded-lg border border-zinc-200 bg-white text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"
             />
           </div>
@@ -179,19 +179,19 @@ router.get('/reject/:id', async (c) => {
               type="submit"
               className="px-4 py-2 rounded-lg bg-red-600 text-white text-sm font-medium hover:bg-red-700 transition-colors"
             >
-              Confirm rejection
+              Confirmar rechazo
             </button>
             <a
               href="/dashboard/admin"
               className="px-4 py-2 rounded-lg border border-zinc-200 bg-white text-sm font-medium text-zinc-700 hover:bg-zinc-50 transition-colors"
             >
-              Cancel
+              Cancelar
             </a>
           </div>
         </form>
       </div>
     </DashboardShell>,
-    { seo: { title: 'Reject application', noIndex: true } },
+    { seo: { title: 'Rechazar solicitud', noIndex: true } },
   )
 })
 

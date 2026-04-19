@@ -89,23 +89,23 @@ app.get('/pending', (c) => {
             ⏳
           </div>
           <h1 className="text-2xl font-bold text-zinc-900 mb-3">
-            Application received
+            Solicitud recibida
           </h1>
           <p className="text-zinc-500 leading-relaxed mb-8">
-            Your author application is under review. We'll get back to you soon.
-            In the meantime, feel free to explore the blog and leave comments.
+            Tu solicitud de autor está en revisión. Nos pondremos en contacto contigo pronto.
+            Mientras tanto, explora el blog y deja comentarios.
           </p>
           <a
             href="/"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors"
           >
-            Back to blog
+            Volver al blog
           </a>
         </div>
       </main>
       <Footer />
     </div>,
-    { seo: { title: 'Application received', noIndex: true } },
+    { seo: { title: 'Solicitud recibida', noIndex: true } },
   )
 })
 
@@ -121,21 +121,21 @@ app.notFound((c) => {
       <main className="flex-1 flex items-center justify-center px-4">
         <div className="text-center max-w-md">
           <p className="text-8xl font-black text-zinc-100 mb-4">404</p>
-          <h1 className="text-2xl font-bold text-zinc-900 mb-3">Page not found</h1>
+          <h1 className="text-2xl font-bold text-zinc-900 mb-3">Página no encontrada</h1>
           <p className="text-zinc-500 mb-8">
-            The page you're looking for doesn't exist or has been moved.
+            La página que buscas no existe o ha sido movida.
           </p>
           <a
             href="/"
             className="inline-flex items-center px-5 py-2.5 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors"
           >
-            Back to home
+            Volver al inicio
           </a>
         </div>
       </main>
       <Footer />
     </div>,
-    { seo: { title: '404 — Page not found', noIndex: true } },
+    { seo: { title: '404 — Página no encontrada', noIndex: true } },
   )
 })
 
