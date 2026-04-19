@@ -56,7 +56,7 @@ router.get('/new', async (c) => {
       />
       <div id="editor-root" className="min-h-screen" />
     </>,
-    { seo: { title: 'New Post', noIndex: true }, clientBundle: 'editor' },
+    { seo: { title: 'Nueva publicación', noIndex: true }, clientBundle: 'editor' },
   )
 })
 
@@ -92,7 +92,7 @@ router.get('/:id/edit', async (c) => {
       />
       <div id="editor-root" className="min-h-screen" />
     </>,
-    { seo: { title: `Edit: ${post.title}`, noIndex: true }, clientBundle: 'editor' },
+    { seo: { title: `Editar: ${post.title}`, noIndex: true }, clientBundle: 'editor' },
   )
 })
 

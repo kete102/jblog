@@ -105,7 +105,7 @@ function Toolbar({ editor }: { editor: ReturnType<typeof useEditor> }) {
 
   const handleLink = () => {
     const prev = editor.getAttributes('link').href as string | undefined
-    const url = window.prompt('Link URL:', prev ?? 'https://')
+    const url = window.prompt('URL del enlace:', prev ?? 'https://')
     if (url === null) return
     if (url === '') {
       editor.chain().focus().unsetLink().run()
@@ -115,7 +115,7 @@ function Toolbar({ editor }: { editor: ReturnType<typeof useEditor> }) {
   }
 
   const handleImage = () => {
-    const url = window.prompt('Image URL:', 'https://')
+    const url = window.prompt('URL de la imagen:', 'https://')
     if (!url) return
     editor.chain().focus().setImage({ src: url }).run()
   }
@@ -126,7 +126,7 @@ function Toolbar({ editor }: { editor: ReturnType<typeof useEditor> }) {
       <ToolbarBtn
         onClick={() => editor.chain().focus().toggleBold().run()}
         active={editor.isActive('bold')}
-        title="Bold"
+        title="Negrita"
       >
         <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
           <path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/>
@@ -136,7 +136,7 @@ function Toolbar({ editor }: { editor: ReturnType<typeof useEditor> }) {
       <ToolbarBtn
         onClick={() => editor.chain().focus().toggleItalic().run()}
         active={editor.isActive('italic')}
-        title="Italic"
+        title="Cursiva"
       >
         <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
           <line x1="19" y1="4" x2="10" y2="4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
@@ -147,7 +147,7 @@ function Toolbar({ editor }: { editor: ReturnType<typeof useEditor> }) {
       <ToolbarBtn
         onClick={() => editor.chain().focus().toggleUnderline().run()}
         active={editor.isActive('underline')}
-        title="Underline"
+        title="Subrayado"
       >
         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
           <path d="M6 3v7a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3" strokeLinecap="round"/>
@@ -157,7 +157,7 @@ function Toolbar({ editor }: { editor: ReturnType<typeof useEditor> }) {
       <ToolbarBtn
         onClick={() => editor.chain().focus().toggleStrike().run()}
         active={editor.isActive('strike')}
-        title="Strikethrough"
+        title="Tachado"
       >
         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
           <path d="M16 4H9a3 3 0 0 0-2.83 4M14 12a4 4 0 0 1 0 8H6" strokeLinecap="round"/>
@@ -167,7 +167,7 @@ function Toolbar({ editor }: { editor: ReturnType<typeof useEditor> }) {
       <ToolbarBtn
         onClick={() => editor.chain().focus().toggleCode().run()}
         active={editor.isActive('code')}
-        title="Inline code"
+        title="Código en línea"
       >
         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
           <polyline points="16 18 22 12 16 6"/>
@@ -177,7 +177,7 @@ function Toolbar({ editor }: { editor: ReturnType<typeof useEditor> }) {
       <ToolbarBtn
         onClick={() => editor.chain().focus().toggleHighlight().run()}
         active={editor.isActive('highlight')}
-        title="Highlight"
+        title="Resaltado"
       >
         <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
           <path d="M9.62 12L12 9.62 19 16.62 16.62 19zM3 21v-3l4-4 3 3-4 4z"/>
@@ -190,14 +190,14 @@ function Toolbar({ editor }: { editor: ReturnType<typeof useEditor> }) {
       <ToolbarBtn
         onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
         active={editor.isActive('heading', { level: 2 })}
-        title="Heading 2"
+        title="Encabezado 2"
       >
         <span className="text-xs font-bold leading-none">H2</span>
       </ToolbarBtn>
       <ToolbarBtn
         onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
         active={editor.isActive('heading', { level: 3 })}
-        title="Heading 3"
+        title="Encabezado 3"
       >
         <span className="text-xs font-bold leading-none">H3</span>
       </ToolbarBtn>
@@ -208,7 +208,7 @@ function Toolbar({ editor }: { editor: ReturnType<typeof useEditor> }) {
       <ToolbarBtn
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         active={editor.isActive('bulletList')}
-        title="Bullet list"
+        title="Lista con viñetas"
       >
         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
           <line x1="9" y1="6" x2="20" y2="6" strokeLinecap="round"/>
@@ -222,7 +222,7 @@ function Toolbar({ editor }: { editor: ReturnType<typeof useEditor> }) {
       <ToolbarBtn
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
         active={editor.isActive('orderedList')}
-        title="Ordered list"
+        title="Lista numerada"
       >
         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
           <line x1="10" y1="6" x2="21" y2="6" strokeLinecap="round"/>
@@ -240,7 +240,7 @@ function Toolbar({ editor }: { editor: ReturnType<typeof useEditor> }) {
       <ToolbarBtn
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
         active={editor.isActive('blockquote')}
-        title="Blockquote"
+        title="Cita"
       >
         <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
           <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
@@ -250,7 +250,7 @@ function Toolbar({ editor }: { editor: ReturnType<typeof useEditor> }) {
       <ToolbarBtn
         onClick={() => editor.chain().focus().toggleCodeBlock().run()}
         active={editor.isActive('codeBlock')}
-        title="Code block"
+        title="Bloque de código"
       >
         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
           <polyline points="4 17 10 11 4 5"/>
@@ -260,7 +260,7 @@ function Toolbar({ editor }: { editor: ReturnType<typeof useEditor> }) {
       <ToolbarBtn
         onClick={() => editor.chain().focus().setHorizontalRule().run()}
         active={false}
-        title="Horizontal rule"
+        title="Línea horizontal"
       >
         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
           <line x1="3" y1="12" x2="21" y2="12" strokeLinecap="round"/>
@@ -273,7 +273,7 @@ function Toolbar({ editor }: { editor: ReturnType<typeof useEditor> }) {
       <ToolbarBtn
         onClick={handleLink}
         active={editor.isActive('link')}
-        title="Link"
+        title="Enlace"
       >
         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
           <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" strokeLinecap="round"/>
@@ -283,7 +283,7 @@ function Toolbar({ editor }: { editor: ReturnType<typeof useEditor> }) {
       <ToolbarBtn
         onClick={handleImage}
         active={false}
-        title="Image"
+        title="Imagen"
       >
         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
           <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
@@ -294,7 +294,7 @@ function Toolbar({ editor }: { editor: ReturnType<typeof useEditor> }) {
 
       {/* Word count */}
       <div className="ml-auto text-xs text-zinc-400 pr-1 whitespace-nowrap">
-        {editor.storage.characterCount?.words?.() ?? 0} words
+        {editor.storage.characterCount?.words?.() ?? 0} palabras
       </div>
     </div>
   )
@@ -321,7 +321,7 @@ function EditorApp({ data }: { data: EditorData }) {
       Underline,
       Link.configure({ openOnClick: false }),
       Image,
-      Placeholder.configure({ placeholder: 'Start writing your post…' }),
+      Placeholder.configure({ placeholder: 'Empieza a escribir tu publicación…' }),
       Highlight,
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
       CharacterCount,
@@ -367,7 +367,7 @@ function EditorApp({ data }: { data: EditorData }) {
 
       if (!res.ok) {
         const json = await res.json().catch(() => ({}))
-        throw new Error((json as { message?: string }).message ?? 'Failed to save')
+        throw new Error((json as { message?: string }).message ?? 'Error al guardar')
       }
 
       const json = await res.json() as { id?: string; ok?: boolean }
@@ -381,7 +381,7 @@ function EditorApp({ data }: { data: EditorData }) {
       setSaveState('saved')
       setTimeout(() => setSaveState('idle'), 2500)
     } catch (err) {
-      setErrorMsg(err instanceof Error ? err.message : 'Failed to save')
+      setErrorMsg(err instanceof Error ? err.message : 'Error al guardar')
       setSaveState('error')
     } finally {
       setSaving(false)
@@ -411,7 +411,7 @@ function EditorApp({ data }: { data: EditorData }) {
           <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
           </svg>
-          Dashboard
+          Panel
         </a>
 
         <div className="flex items-center gap-3">
@@ -425,7 +425,7 @@ function EditorApp({ data }: { data: EditorData }) {
                 transition={{ duration: 0.15 }}
                 className="text-xs text-zinc-400"
               >
-                Saving…
+                Guardando…
               </motion.span>
             ) : saveState === 'saved' ? (
               <motion.span
@@ -436,7 +436,7 @@ function EditorApp({ data }: { data: EditorData }) {
                 transition={{ duration: 0.15 }}
                 className="text-xs text-green-600 font-medium"
               >
-                Saved
+                Guardado
               </motion.span>
             ) : saveState === 'error' && errorMsg ? (
               <motion.span
@@ -457,7 +457,7 @@ function EditorApp({ data }: { data: EditorData }) {
             disabled={saving}
             className="px-4 py-1.5 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors disabled:opacity-50"
           >
-            Save
+            Guardar
           </button>
         </div>
       </header>
@@ -472,7 +472,7 @@ function EditorApp({ data }: { data: EditorData }) {
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Post title…"
+              placeholder="Título de la publicación…"
               className="w-full text-3xl font-bold text-zinc-900 placeholder-zinc-300 bg-transparent border-none outline-none resize-none"
             />
           </div>
@@ -492,15 +492,15 @@ function EditorApp({ data }: { data: EditorData }) {
             {/* Status */}
             <div>
               <label className="block text-xs font-medium text-zinc-500 uppercase tracking-wide mb-2">
-                Status
+                Estado
               </label>
               <select
                 value={status}
                 onChange={(e) => setStatus(e.target.value as 'draft' | 'published')}
                 className="w-full px-3 py-2 rounded-lg border border-zinc-200 bg-white text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               >
-                <option value="draft">Draft</option>
-                <option value="published">Published</option>
+                <option value="draft">Borrador</option>
+                <option value="published">Publicado</option>
               </select>
             </div>
 
@@ -516,10 +516,10 @@ function EditorApp({ data }: { data: EditorData }) {
                     onClick={() => { setSlug(makeSlug(title)); setSlugTouched(false) }}
                     className="text-xs text-indigo-500 hover:text-indigo-700 transition-colors"
                   >
-                    Reset to auto
+                    Restablecer automático
                   </button>
                 ) : (
-                  <span className="text-xs text-zinc-400">Auto</span>
+                  <span className="text-xs text-zinc-400">Automático</span>
                 )}
               </div>
               <input
@@ -537,12 +537,12 @@ function EditorApp({ data }: { data: EditorData }) {
             {/* Excerpt */}
             <div>
               <label className="block text-xs font-medium text-zinc-500 uppercase tracking-wide mb-2">
-                Excerpt
+                Extracto
               </label>
               <textarea
                 value={excerpt}
                 onChange={(e) => setExcerpt(e.target.value)}
-                placeholder="A short summary…"
+                placeholder="Un breve resumen…"
                 rows={3}
                 className="w-full px-3 py-2 rounded-lg border border-zinc-200 bg-white text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
               />
@@ -551,7 +551,7 @@ function EditorApp({ data }: { data: EditorData }) {
             {/* Cover image URL */}
             <div>
               <label className="block text-xs font-medium text-zinc-500 uppercase tracking-wide mb-2">
-                Cover image URL
+                URL de la imagen de portada
               </label>
               <input
                 type="url"
@@ -563,7 +563,7 @@ function EditorApp({ data }: { data: EditorData }) {
               {coverImageUrl && (
                 <img
                   src={coverImageUrl}
-                  alt="Cover preview"
+                  alt="Vista previa de portada"
                   className="mt-2 w-full h-24 object-cover rounded-lg"
                   onError={(e) => ((e.target as HTMLImageElement).style.display = 'none')}
                 />
@@ -574,7 +574,7 @@ function EditorApp({ data }: { data: EditorData }) {
             {data.allTags.length > 0 && (
               <div>
                 <label className="block text-xs font-medium text-zinc-500 uppercase tracking-wide mb-2">
-                  Tags
+                  Etiquetas
                 </label>
                 <div className="flex flex-wrap gap-1.5">
                   {data.allTags.map((tag) => {
@@ -606,10 +606,10 @@ function EditorApp({ data }: { data: EditorData }) {
                 disabled={saving}
                 className="w-full px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors disabled:opacity-50"
               >
-                {saving ? 'Saving…' : 'Save'}
+                {saving ? 'Guardando…' : 'Guardar'}
               </button>
               <p className="text-xs text-zinc-400 mt-2 text-center">
-                or press ⌘S / Ctrl+S
+                o presiona ⌘S / Ctrl+S
               </p>
             </div>
           </div>

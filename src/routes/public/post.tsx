@@ -55,7 +55,7 @@ const likeScript = /* js */`(function () {
       el.textContent = fmtNum(STATE.likes);
     });
   var label = document.querySelector('[data-like-label]');
-  if (label) label.textContent = STATE.liked ? 'Me gusta' : 'Me gusta esta publicación';
+  if (label) label.textContent = STATE.liked ? 'Liked' : 'Like this post';
   }
 
   var first = document.querySelector('[data-like-btn]');
