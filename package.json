@@ -1,5 +1,6 @@
 {
   "name": "jblog",
+  "version": "1.3.0",
   "scripts": {
     "dev": "concurrently --names 'server,css,client' --prefix-colors 'blue,green,yellow' 'bun run --hot src/index.ts' 'bunx tailwindcss -i src/styles/app.css -o public/styles.css --watch' 'bun build src/client/editor.tsx --outdir public/js/ --watch'",
     "dev:server": "bun run --hot src/index.ts",
@@ -10,7 +11,13 @@
     "db:migrate": "bunx drizzle-kit migrate",
     "db:studio": "bunx drizzle-kit studio",
     "db:seed": "bun run src/db/seed.ts",
-    "db:migrate:prod": "bun run src/db/migrate.ts"
+    "db:migrate:prod": "bun run src/db/migrate.ts",
+    "deploy": "~/.fly/bin/flyctl deploy --config fly.toml",
+    "deploy:open": "~/.fly/bin/flyctl apps open --app destellos-de-fe",
+    "deploy:staging": "~/.fly/bin/flyctl deploy --config fly.staging.toml",
+    "deploy:staging:open": "~/.fly/bin/flyctl apps open --app destellos-de-fe-staging",
+    "logs": "~/.fly/bin/flyctl logs --app destellos-de-fe",
+    "logs:staging": "~/.fly/bin/flyctl logs --app destellos-de-fe-staging"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1032.0",
@@ -36,6 +43,7 @@
     "hono-sessions": "^0.8.1",
     "lowlight": "^3.3.0",
     "lucide-react": "^1.8.0",
+    "marked": "^18.0.2",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "slugify": "^1.6.9"
