@@ -1,8 +1,9 @@
 import { Database } from 'bun:sqlite'
 import { drizzle } from 'drizzle-orm/bun-sqlite'
 import * as schema from './schema'
+import { config } from '@/config'
 
-const sqlite = new Database(process.env.DATABASE_URL || './jblog.db', {
+const sqlite = new Database(config.database.url, {
   create: true,
 })
 

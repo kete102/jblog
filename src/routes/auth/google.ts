@@ -5,14 +5,15 @@ import { db } from '@/db'
 import { users } from '@/db/schema'
 import { eq } from 'drizzle-orm'
 import { createSession, setSessionCookie, deleteSession } from '@/lib/session'
+import { config } from '@/config'
 
 const authRouter = new Hono()
 
 function getGoogle() {
   return new Google(
-    process.env.GOOGLE_CLIENT_ID!,
-    process.env.GOOGLE_CLIENT_SECRET!,
-    `${process.env.BASE_URL}/auth/google/callback`,
+    config.auth.googleClientId,
+    config.auth.googleClientSecret,
+    `${config.server.baseUrl}/auth/google/callback`,
   )
 }
 
@@ -30,7 +31,7 @@ authRouter.get('/google', async (c) => {
 
   setCookie(c, 'google_oauth_state', state, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: config.server.isProduction,
     maxAge: 60 * 10, // 10 minutes
     path: '/',
     sameSite: 'Lax',
@@ -38,7 +39,7 @@ authRouter.get('/google', async (c) => {
 
   setCookie(c, 'google_code_verifier', codeVerifier, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: config.server.isProduction,
     maxAge: 60 * 10,
     path: '/',
     sameSite: 'Lax',
@@ -98,7 +99,7 @@ authRouter.get('/google/callback', async (c) => {
     .then((r) => r[0] ?? null)
 
   if (!user) {
-    const isAdmin = email === process.env.ADMIN_EMAIL
+    const isAdmin = email === config.auth.adminEmail
 
     await db.insert(users).values({
       id: googleId,
@@ -116,7 +117,7 @@ authRouter.get('/google/callback', async (c) => {
       .then((r) => r[0])
   } else {
     // Promote to admin if email matches and not already admin
-    if (email === process.env.ADMIN_EMAIL && user.role !== 'admin') {
+    if (email === config.auth.adminEmail && user.role !== 'admin') {
       await db
         .update(users)
         .set({ role: 'admin', updatedAt: new Date() })

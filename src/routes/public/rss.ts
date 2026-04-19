@@ -1,5 +1,6 @@
 import { Hono } from 'hono'
 import { getPublishedPostsPaged } from '@/services/posts'
+import { config } from '@/config'
 
 const rssRouter = new Hono()
 
@@ -13,7 +14,7 @@ function escapeXml(str: string): string {
 }
 
 rssRouter.get('/feed.xml', async (c) => {
-  const baseUrl = (process.env.BASE_URL ?? 'https://destellos-de-fe.fly.dev').replace(/\/$/, '')
+  const baseUrl = config.server.baseUrl.replace(/\/$/, '')
   const posts = await getPublishedPostsPaged(1, 20)
 
   const items = posts.map((post) => {

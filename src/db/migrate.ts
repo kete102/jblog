@@ -3,8 +3,9 @@ import { drizzle } from 'drizzle-orm/bun-sqlite'
 import { migrate } from 'drizzle-orm/bun-sqlite/migrator'
 import { mkdirSync } from 'fs'
 import { dirname } from 'path'
+import { config } from '@/config'
 
-const dbUrl = process.env.DATABASE_URL || './jblog.db'
+const { url: dbUrl } = config.database
 
 // Ensure the parent directory exists (e.g. /data on Fly.io volume)
 mkdirSync(dirname(dbUrl), { recursive: true })

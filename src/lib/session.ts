@@ -4,6 +4,7 @@ import type { User } from '@/db/schema'
 import { eq, lt } from 'drizzle-orm'
 import type { Context } from 'hono'
 import { getCookie, setCookie, deleteCookie } from 'hono/cookie'
+import { config } from '@/config'
 
 const SESSION_COOKIE = 'jblog_session'
 const SESSION_DURATION_MS = 1000 * 60 * 60 * 24 * 7 // 7 days
@@ -46,7 +47,7 @@ export function setSessionCookie(c: Context, sessionId: string) {
     httpOnly: true,
     sameSite: 'Lax',
     path: '/',
-    secure: process.env.NODE_ENV === 'production',
+    secure: config.server.isProduction,
     maxAge: SESSION_DURATION_MS / 1000,
   })
 }

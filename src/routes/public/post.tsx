@@ -15,6 +15,7 @@ import { buildSeoTags, jsonLdArticle } from '@/lib/seo'
 import { formatDate, formatNumber } from '@/lib/format'
 import { isVerifiedAuthor } from '@/lib/roles'
 import { getClientIp } from '@/lib/request'
+import { config } from '@/config'
 import type { User } from '@/db/schema'
 
 const postRouter = new Hono()
@@ -212,7 +213,7 @@ postRouter.get('/:slug', async (c) => {
   const totalComments = threads.reduce((sum, t) => sum + 1 + t.replies.length, 0)
 
   const contentHtml = tiptapToHtml(post.content ?? {})
-  const postUrl = `${process.env.BASE_URL}/post/${post.slug}`
+  const postUrl = `${config.server.baseUrl}/post/${post.slug}`
 
   const seo = buildSeoTags({
     title: post.title,
@@ -232,7 +233,7 @@ postRouter.get('/:slug', async (c) => {
     image: post.coverImageUrl ?? undefined,
     publishedTime: post.publishedAt?.toISOString(),
     authorName: post.author.name,
-    authorUrl: `${process.env.BASE_URL}/author/${post.author.id}`,
+    authorUrl: `${config.server.baseUrl}/author/${post.author.id}`,
   })
 
   const isReader = user && user.role === 'reader'
