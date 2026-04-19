@@ -8,13 +8,13 @@ interface ShellProps {
 }
 
 export default function Shell({ children, seo, clientBundle }: ShellProps) {
-  const title = seo?.title ?? 'jblog'
-  const description = seo?.description ?? 'A modern blog platform for writers who care about their craft.'
+  const title = seo?.title ?? 'Destellos de luz'
+  const description = seo?.description ?? 'Reflexiones de fe, esperanza y vida a la luz de la Palabra.'
   const image = seo?.image
   const url = seo?.url
 
   return (
-    <html lang="en">
+    <html lang="es">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -30,7 +30,7 @@ export default function Shell({ children, seo, clientBundle }: ShellProps) {
         <meta property="og:description" content={description} />
         {image && <meta property="og:image" content={image} />}
         {url && <meta property="og:url" content={url} />}
-        <meta property="og:site_name" content="jblog" />
+        <meta property="og:site_name" content="Destellos de luz" />
 
         {/* Twitter Card */}
         <meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
@@ -65,7 +65,7 @@ export default function Shell({ children, seo, clientBundle }: ShellProps) {
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
         {/* RSS */}
-        <link rel="alternate" type="application/rss+xml" title="jblog RSS feed" href="/feed.xml" />
+        <link rel="alternate" type="application/rss+xml" title="Destellos de luz RSS" href="/feed.xml" />
       </head>
       <body className="min-h-screen bg-white text-zinc-900 antialiased">
         {children}

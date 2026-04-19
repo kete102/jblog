@@ -28,22 +28,22 @@ tagRouter.get('/:slug', async (c) => {
           {/* Header */}
           <div className="mb-10">
             <div className="flex items-center gap-2 mb-4 text-sm text-zinc-400">
-              <a href="/" className="hover:text-zinc-600 transition-colors">Home</a>
+              <a href="/" className="hover:text-zinc-600 transition-colors">Inicio</a>
               <span>/</span>
-              <span className="text-zinc-500">Tag</span>
+              <span className="text-zinc-500">Etiqueta</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-black text-zinc-900 tracking-tight">
               #{tag.name}
             </h1>
             <p className="text-zinc-500 mt-2 text-sm">
-              {posts.length} post{posts.length !== 1 ? 's' : ''} tagged with &ldquo;{tag.name}&rdquo;
+              {posts.length} publicación{posts.length !== 1 ? 'es' : ''} con la etiqueta &ldquo;{tag.name}&rdquo;
             </p>
           </div>
 
           {posts.length === 0 ? (
             <div className="text-center py-16 text-zinc-400">
-              <p className="text-lg font-medium">No posts yet.</p>
-              <p className="text-sm mt-1">Check back soon!</p>
+              <p className="text-lg font-medium">Aún no hay publicaciones.</p>
+              <p className="text-sm mt-1">¡Vuelve pronto!</p>
             </div>
           ) : (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -60,8 +60,8 @@ tagRouter.get('/:slug', async (c) => {
     </div>,
     {
       seo: {
-        title: `#${tag.name} — jblog`,
-        description: `All posts tagged with "${tag.name}" on jblog.`,
+        title: `#${tag.name} — Destellos de luz`,
+        description: `Todas las publicaciones con la etiqueta "${tag.name}" en Destellos de luz.`,
       },
     },
   )

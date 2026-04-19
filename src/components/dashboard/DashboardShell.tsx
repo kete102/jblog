@@ -51,7 +51,7 @@ export default function DashboardShell({ user, children, active }: DashboardShel
               }`}
             >
               <DocumentIcon className="w-4 h-4 shrink-0" />
-              Posts
+              Publicaciones
             </a>
           )}
 
@@ -64,7 +64,7 @@ export default function DashboardShell({ user, children, active }: DashboardShel
             }`}
           >
             <UserIcon className="w-4 h-4 shrink-0" />
-            Profile
+            Perfil
           </a>
 
           {user.role === 'admin' && (
@@ -89,7 +89,7 @@ export default function DashboardShell({ user, children, active }: DashboardShel
             <div className="min-w-0">
               <p className="text-xs font-medium text-zinc-900 truncate">{user.name}</p>
               <p className="text-xs text-zinc-400 truncate capitalize">
-                {user.role === 'reader' ? 'Reader' : user.role === 'pending' ? 'Pending review' : user.role}
+                {user.role === 'reader' ? 'Lector' : user.role === 'pending' ? 'En revisión' : user.role}
               </p>
             </div>
           </div>
@@ -99,7 +99,7 @@ export default function DashboardShell({ user, children, active }: DashboardShel
               className="w-full flex items-center gap-2 px-2 py-1.5 rounded-lg text-xs text-zinc-500 hover:bg-red-50 hover:text-red-600 transition-colors"
             >
               <SignOutIcon className="w-3.5 h-3.5" />
-              Sign out
+              Cerrar sesión
             </button>
           </form>
         </div>

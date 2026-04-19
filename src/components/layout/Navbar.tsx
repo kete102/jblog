@@ -100,7 +100,7 @@ export default function Navbar({ user }: NavbarProps) {
                     role="menuitem"
                     className="block px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50"
                   >
-                    Profile
+                    Perfil
                   </a>
                   {user.role === 'admin' && (
                     <a
@@ -118,7 +118,7 @@ export default function Navbar({ user }: NavbarProps) {
                         role="menuitem"
                         className="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50"
                       >
-                        Sign out
+                        Cerrar sesión
                       </button>
                     </form>
                   </div>
@@ -133,7 +133,7 @@ export default function Navbar({ user }: NavbarProps) {
               className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium transition-all duration-200 hover:bg-indigo-700 hover:scale-[1.04] active:scale-[0.97]"
             >
               <GoogleIcon className="w-4 h-4" />
-              Sign in
+              Iniciar sesión
             </a>
           )}
         </div>

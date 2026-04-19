@@ -54,8 +54,8 @@ const likeScript = /* js */`(function () {
     document.querySelectorAll('[data-like-count]').forEach(function (el) {
       el.textContent = fmtNum(STATE.likes);
     });
-    var label = document.querySelector('[data-like-label]');
-    if (label) label.textContent = STATE.liked ? 'Liked' : 'Like this post';
+  var label = document.querySelector('[data-like-label]');
+  if (label) label.textContent = STATE.liked ? 'Liked' : 'Like this post';
   }
 
   var first = document.querySelector('[data-like-btn]');
@@ -176,13 +176,13 @@ const copyScript = /* js */`(function () {
   btn.addEventListener('click', function () {
     navigator.clipboard.writeText(window.location.href).then(function () {
       icon.innerHTML = checkIcon;
-      label.textContent = 'Copied!';
+      label.textContent = '¡Copiado!';
       btn.classList.remove('text-zinc-400', 'hover:text-indigo-500');
       btn.classList.add('text-indigo-500');
       clearTimeout(timer);
       timer = setTimeout(function () {
         icon.innerHTML = linkIcon;
-        label.textContent = 'Copy link';
+        label.textContent = 'Copiar enlace';
         btn.classList.remove('text-indigo-500');
         btn.classList.add('text-zinc-400', 'hover:text-indigo-500');
       }, 2000);
@@ -279,7 +279,7 @@ postRouter.get('/:slug', async (c) => {
                     {formatDate(post.publishedAt)}
                   </time>
                   {post.readingTimeMinutes && (
-                    <> · {post.readingTimeMinutes} min read</>
+                    <> · {post.readingTimeMinutes} min de lectura</>
                   )}
                 </p>
               </div>
@@ -321,14 +321,14 @@ postRouter.get('/:slug', async (c) => {
               </button>
 
               {/* Copy link button */}
-              <button
+                <button
                 id="copy-link-btn"
                 type="button"
                 className="flex items-center gap-1.5 text-sm text-zinc-400 hover:text-indigo-500 transition-colors cursor-pointer"
-                aria-label="Copy link"
+                aria-label="Copiar enlace"
               >
                 <LinkIcon id="copy-link-icon" className="w-4 h-4" />
-                <span id="copy-link-label">Copy link</span>
+                <span id="copy-link-label">Copiar enlace</span>
               </button>
             </div>
           </div>
@@ -362,7 +362,7 @@ postRouter.get('/:slug', async (c) => {
                 className="shrink-0"
               />
               <div>
-                <p className="text-xs font-semibold text-zinc-400 uppercase tracking-widest mb-1">Written by</p>
+                <p className="text-xs font-semibold text-zinc-400 uppercase tracking-widest mb-1">Escrito por</p>
                 <p className="font-bold text-zinc-900 group-hover:text-indigo-600 transition-colors flex items-center gap-1.5">
                   {post.author.name}
                   {isVerifiedAuthor(post.author) && <AuthorBadge className="w-4 h-4" />}
@@ -373,7 +373,7 @@ postRouter.get('/:slug', async (c) => {
                   </p>
                 )}
                 <p className="text-xs text-indigo-500 mt-2 font-medium">
-                  {post.author.publishedPostCount} published post{post.author.publishedPostCount !== 1 ? 's' : ''}
+                  {post.author.publishedPostCount} publicación{post.author.publishedPostCount !== 1 ? 'es' : ''} publicada{post.author.publishedPostCount !== 1 ? 's' : ''}
                 </p>
               </div>
             </a>
@@ -386,13 +386,13 @@ postRouter.get('/:slug', async (c) => {
                 <PencilIcon className="w-4 h-4 text-white" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-indigo-900 mb-0.5">Want to write for jblog?</p>
-                <p className="text-sm text-indigo-700 mb-3">Share your knowledge with our community. Apply to become an author.</p>
+                <p className="text-sm font-semibold text-indigo-900 mb-0.5">¿Quieres escribir en Destellos de luz?</p>
+                <p className="text-sm text-indigo-700 mb-3">Comparte tu conocimiento con nuestra comunidad. Solicita ser autor.</p>
                 <a
                   href="/dashboard/become-author"
                   className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors"
                 >
-                  Apply now →
+                  Solicitar ahora →
                 </a>
               </div>
             </div>
@@ -402,8 +402,8 @@ postRouter.get('/:slug', async (c) => {
           <section className="mt-12 pt-8 border-t border-zinc-100" id="comments">
             <h2 className="text-xl font-bold text-zinc-900 mb-8">
               {totalComments > 0
-                ? `${totalComments} Comment${totalComments !== 1 ? 's' : ''}`
-                : 'Comments'}
+                ? `${totalComments} comentario${totalComments !== 1 ? 's' : ''}`
+                : 'Comentarios'}
             </h2>
 
             {/* Thread list */}
@@ -422,7 +422,7 @@ postRouter.get('/:slug', async (c) => {
 
             {threads.length === 0 && (
               <p className="text-zinc-400 text-sm mb-8">
-                No comments yet. Be the first to share your thoughts!
+                Aún no hay comentarios. ¡Sé el primero en compartir tus pensamientos!
               </p>
             )}
 
@@ -441,7 +441,7 @@ postRouter.get('/:slug', async (c) => {
                       minLength={3}
                       maxLength={1000}
                       rows={4}
-                      placeholder="Share your thoughts…"
+                      placeholder="Comparte tus pensamientos…"
                       className="w-full px-3 py-2 rounded-lg border border-zinc-200 bg-white text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"
                     />
                   </div>
@@ -449,20 +449,20 @@ postRouter.get('/:slug', async (c) => {
                     type="submit"
                     className="px-5 py-2.5 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors"
                   >
-                    Post comment
+                    Publicar comentario
                   </button>
                 </form>
               </div>
             ) : (
               <div className="rounded-2xl border border-zinc-200 bg-zinc-50 p-6 text-center">
-                <p className="text-sm font-semibold text-zinc-800 mb-1">Join the conversation</p>
-                <p className="text-sm text-zinc-500 mb-4">Sign in to leave a comment and reply to others.</p>
+                <p className="text-sm font-semibold text-zinc-800 mb-1">Únete a la conversación</p>
+                <p className="text-sm text-zinc-500 mb-4">Inicia sesión para dejar un comentario y responder a otros.</p>
                 <a
                   href="/auth/google"
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-zinc-900 text-white text-sm font-medium hover:bg-zinc-800 transition-colors"
                 >
                   <GoogleIcon className="w-4 h-4" />
-                  Sign in with Google
+                  Iniciar sesión con Google
                 </a>
               </div>
             )}

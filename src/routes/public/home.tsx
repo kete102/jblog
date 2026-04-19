@@ -35,15 +35,15 @@ homeRouter.get('/', async (c) => {
           <section className="border-b border-zinc-100 bg-linear-to-b from-indigo-50/60 to-white">
             <div className="max-w-5xl mx-auto px-4 sm:px-6 py-16 sm:py-24 text-center">
               <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-600 bg-indigo-50 border border-indigo-100 px-3 py-1 rounded-full mb-6 animate-fade-in">
-                ✦ Independent writing platform
+                ✦ Plataforma de escritura independiente
               </span>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-zinc-900 tracking-tight leading-[1.1] mb-5">
-                <span className="block animate-fade-in-up" style={{ animationDelay: '0.1s' }}>Stories worth</span>
-                <span className="text-indigo-600 animate-fade-in-up" style={{ animationDelay: '0.22s' }}>reading.</span>
+                <span className="block animate-fade-in-up" style={{ animationDelay: '0.1s' }}>Palabras que</span>
+                <span className="text-indigo-600 animate-fade-in-up" style={{ animationDelay: '0.22s' }}>iluminan.</span>
               </h1>
               <p className="text-zinc-500 text-lg max-w-xl mx-auto leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.32s' }}>
-                Thoughtful writing on technology, design, and everything in
-                between. No ads. No noise. Just good reads.
+                Reflexiones de fe, esperanza y vida a la luz de la Palabra.
+                Sin anuncios. Sin ruido. Solo buenas lecturas.
               </p>
             </div>
           </section>
@@ -57,18 +57,18 @@ homeRouter.get('/', async (c) => {
                 href="/"
                 className="text-sm text-zinc-400 hover:text-zinc-600 transition-colors"
               >
-                ← Back to latest
+                ← Volver al inicio
               </a>
               <div className="flex-1 h-px bg-zinc-100" />
-              <span className="text-xs text-zinc-400">Page {page} of {totalPages}</span>
+              <span className="text-xs text-zinc-400">Página {page} de {totalPages}</span>
             </div>
           )}
 
           {posts.length === 0 ? (
             <div className="text-center py-24 text-zinc-400">
               <p className="text-5xl mb-4">✍️</p>
-              <p className="text-lg font-medium">No posts yet.</p>
-              <p className="text-sm mt-1">Check back soon!</p>
+              <p className="text-lg font-medium">Aún no hay publicaciones.</p>
+              <p className="text-sm mt-1">¡Vuelve pronto!</p>
             </div>
           ) : (
             <>
@@ -77,7 +77,7 @@ homeRouter.get('/', async (c) => {
                 <section className="mb-14 animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
                   <div className="flex items-center gap-3 mb-6">
                     <span className="text-xs font-bold uppercase tracking-widest text-indigo-500">
-                      Featured
+                      Destacado
                     </span>
                     <div className="flex-1 h-px bg-zinc-100" />
                   </div>
@@ -91,7 +91,7 @@ homeRouter.get('/', async (c) => {
                   {page === 1 && (
                     <div className="flex items-center gap-3 mb-6 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
                       <span className="text-xs font-bold uppercase tracking-widest text-zinc-400">
-                        Latest
+                        Últimas
                       </span>
                       <div className="flex-1 h-px bg-zinc-100" />
                     </div>
@@ -118,12 +118,12 @@ homeRouter.get('/', async (c) => {
                       className="flex items-center gap-2 text-sm font-medium text-zinc-600 hover:text-indigo-600 transition-colors"
                     >
                       <ChevronLeftIcon className="w-4 h-4" />
-                      Newer posts
+                      Más recientes
                     </a>
                   ) : <span />}
 
                   <span className="text-xs text-zinc-400">
-                    Page {page} of {totalPages}
+                    Página {page} de {totalPages}
                   </span>
 
                   {hasNext ? (
@@ -131,7 +131,7 @@ homeRouter.get('/', async (c) => {
                       href={`/?page=${page + 1}`}
                       className="flex items-center gap-2 text-sm font-medium text-zinc-600 hover:text-indigo-600 transition-colors"
                     >
-                      Older posts
+                      Más antiguas
                       <ChevronRightIcon className="w-4 h-4" />
                     </a>
                   ) : <span />}
@@ -151,18 +151,18 @@ homeRouter.get('/', async (c) => {
                 {!user ? (
                   <>
                     <p className="mb-4 text-xs font-bold uppercase tracking-widest text-indigo-200">
-                      For writers
+                      Para escritores
                     </p>
                     <h2 className="mb-3 text-2xl font-black sm:text-3xl">
-                      Share your ideas with the world.
+                      Comparte tu fe con el mundo.
                     </h2>
                     <p className="mx-auto mb-8 max-w-sm text-sm leading-relaxed text-zinc-300">
-                      jblog is an independent publishing platform for engineers
-                      and designers who care about their craft. No algorithms,
-                      no noise — just your words.
+                      Destellos de luz es una plataforma independiente para quienes
+                      desean compartir reflexiones de fe. Sin algoritmos,
+                      sin ruido — solo tus palabras.
                     </p>
                     <ul className="mx-auto mb-10 flex max-w-xs flex-col gap-2 text-sm text-zinc-300 text-left">
-                      {['Beautiful reading experience', 'Full ownership of your content', 'Direct connection with readers'].map((item) => (
+                      {['Experiencia de lectura hermosa', 'Plena propiedad de tu contenido', 'Conexión directa con los lectores'].map((item) => (
                         <li key={item} className="flex items-center gap-2">
                           <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 shrink-0" />
                           {item}
@@ -174,31 +174,31 @@ homeRouter.get('/', async (c) => {
                       className="inline-flex items-center gap-2.5 rounded-full bg-white px-7 py-3 text-sm font-semibold text-zinc-900 shadow-sm transition-colors hover:bg-zinc-100"
                     >
                       <GoogleIcon className="w-4 h-4" />
-                      Apply to write
+                      Solicitar escribir
                     </a>
                   </>
                 ) : user.role === 'pending' ? (
                   <>
                     <p className="mb-3 text-3xl">⏳</p>
                     <h2 className="mb-2 text-xl font-bold sm:text-2xl">
-                      Your application is in review
+                      Tu solicitud está en revisión
                     </h2>
                     <p className="text-sm text-zinc-300">
-                      You're on our radar. An admin will approve your account
-                      shortly.
+                      Ya te tenemos en mente. Un administrador aprobará tu cuenta
+                      en breve.
                     </p>
                   </>
                 ) : (
                   <>
                     <p className="mb-3 text-3xl">✍️</p>
                     <h2 className="mb-4 text-xl font-bold sm:text-2xl">
-                      Ready to write?
+                      ¿Listo para escribir?
                     </h2>
                     <a
                       href="/dashboard"
                       className="inline-flex items-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-zinc-900 shadow-sm transition-colors hover:bg-zinc-100"
                     >
-                      Go to dashboard
+                      Ir al panel
                     </a>
                   </>
                 )}
@@ -212,8 +212,8 @@ homeRouter.get('/', async (c) => {
     </div>,
     {
       seo: {
-        title: page === 1 ? 'jblog — Stories worth reading' : `jblog — Page ${page}`,
-        description: 'Thoughtful writing on technology, design, and everything in between.',
+        title: page === 1 ? 'Destellos de luz — Palabras que iluminan' : `Destellos de luz — Página ${page}`,
+        description: 'Reflexiones de fe, esperanza y vida a la luz de la Palabra.',
         noIndex: page > 1,
       },
     },

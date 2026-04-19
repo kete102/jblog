@@ -12,15 +12,15 @@ export default function Footer() {
 
           {/* Links */}
           <nav className="flex items-center gap-5 text-sm text-zinc-500">
-            <a href="/" className="hover:text-zinc-800 transition-colors">Home</a>
-            <a href="/changelog" className="hover:text-zinc-800 transition-colors">Changelog</a>
-            <a href="/sitemap.xml" className="hover:text-zinc-800 transition-colors">Sitemap</a>
-            <a href="/dashboard/become-author" className="hover:text-zinc-800 transition-colors">Write for us</a>
+            <a href="/" className="hover:text-zinc-800 transition-colors">Inicio</a>
+            <a href="/changelog" className="hover:text-zinc-800 transition-colors">Cambios</a>
+            <a href="/sitemap.xml" className="hover:text-zinc-800 transition-colors">Mapa del sitio</a>
+            <a href="/dashboard/become-author" className="hover:text-zinc-800 transition-colors">Escribe con nosotros</a>
           </nav>
 
           {/* Copyright */}
           <p className="text-xs text-zinc-400">
-            &copy; {year} jblog. All rights reserved.
+            &copy; {year} Destellos de luz. Todos los derechos reservados.
           </p>
         </div>
       </div>

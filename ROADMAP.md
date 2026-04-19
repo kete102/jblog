@@ -14,7 +14,8 @@
 - [ ] **Comment moderation** — admin can delete any comment. Small addition to the admin panel.
 - [ ] **"All posts" archive** — sortable/filterable list of all published posts.
 - [x] **Auto-create slugs** — Auto-generate slugs for posts from the title in the editor.
-  - [x] **Changelog page** — Public `/changelog` page listing updates and fixes. Authenticated users can submit feature requests or bug reports directly from the page.
+- [x] **Changelog page** — Public `/changelog` page listing updates and fixes.
+- [ ] **Spanish localisation + rebrand** — Change site language to Spanish. Rename to "Destellos de luz", update all page titles, meta descriptions, UI copy, and logo to reflect the name and Christian theme.
 
 ## Higher effort
 

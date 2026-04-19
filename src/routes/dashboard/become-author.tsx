@@ -24,15 +24,15 @@ router.get('/', async (c) => {
     <DashboardShell user={user} active="profile">
       <div className="p-4 sm:p-8 max-w-2xl">
         <div className="mb-8">
-          <h1 className="text-xl font-semibold text-zinc-900 mb-1">Apply to become an author</h1>
+          <h1 className="text-xl font-semibold text-zinc-900 mb-1">Solicitar ser autor</h1>
           <p className="text-sm text-zinc-500">
-            Tell us about yourself and what you'd like to write about. An admin will review your application.
+            Cuéntanos sobre ti y sobre qué te gustaría escribir. Un administrador revisará tu solicitud.
           </p>
         </div>
 
         {user.role === 'rejected' && user.rejectedReason && (
           <div className="mb-6 px-4 py-4 rounded-lg bg-amber-50 border border-amber-200">
-            <p className="text-sm font-medium text-amber-800 mb-0.5">Previous application feedback</p>
+            <p className="text-sm font-medium text-amber-800 mb-0.5">Comentarios de solicitud anterior</p>
             <p className="text-sm text-amber-700">{user.rejectedReason}</p>
           </div>
         )}
@@ -41,10 +41,10 @@ router.get('/', async (c) => {
           {/* Bio */}
           <div>
             <label htmlFor="bio" className="block text-sm font-medium text-zinc-700 mb-1.5">
-              Short bio <span className="text-red-400">*</span>
+              Biografía breve <span className="text-red-400">*</span>
             </label>
             <p className="text-xs text-zinc-500 mb-2">
-              Introduce yourself — who you are, your background, and what drives your writing.
+              Preséntate: quién eres, tu trayectoria y qué te impulsa a escribir.
             </p>
             <textarea
               id="bio"
@@ -54,7 +54,7 @@ router.get('/', async (c) => {
               maxLength={500}
               rows={4}
               defaultValue={existing?.bio ?? ''}
-              placeholder="I'm a software engineer with 5 years of experience in distributed systems…"
+              placeholder="Soy un desarrollador de software con 5 años de experiencia en sistemas distribuidos…"
               className="w-full px-3 py-2 rounded-lg border border-zinc-200 bg-white text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"
             />
           </div>
@@ -62,10 +62,10 @@ router.get('/', async (c) => {
           {/* Topics */}
           <div>
             <label htmlFor="topics" className="block text-sm font-medium text-zinc-700 mb-1.5">
-              Topics you want to write about <span className="text-red-400">*</span>
+              Temas sobre los que quieres escribir <span className="text-red-400">*</span>
             </label>
             <p className="text-xs text-zinc-500 mb-2">
-              What subjects, themes or areas would your posts cover?
+              ¿Qué materias, temas o áreas cubrirían tus publicaciones?
             </p>
             <textarea
               id="topics"
@@ -75,7 +75,7 @@ router.get('/', async (c) => {
               maxLength={300}
               rows={3}
               defaultValue={existing?.topics ?? ''}
-              placeholder="Backend architecture, Rust, developer productivity tools…"
+              placeholder="Fe y vida cotidiana, devocionales, reflexiones bíblicas…"
               className="w-full px-3 py-2 rounded-lg border border-zinc-200 bg-white text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"
             />
           </div>
@@ -83,11 +83,11 @@ router.get('/', async (c) => {
           {/* Sample writing — URL */}
           <div>
             <label htmlFor="sampleUrl" className="block text-sm font-medium text-zinc-700 mb-1.5">
-              Link to existing writing{' '}
-              <span className="text-zinc-400 font-normal">(optional)</span>
+              Enlace a escritura existente{' '}
+              <span className="text-zinc-400 font-normal">(opcional)</span>
             </label>
             <p className="text-xs text-zinc-500 mb-2">
-              A blog post, Medium article, GitHub README — anything that shows your writing style.
+              Una entrada de blog, artículo de Medium, README de GitHub — cualquier cosa que muestre tu estilo de escritura.
             </p>
             <input
               id="sampleUrl"
@@ -102,8 +102,8 @@ router.get('/', async (c) => {
           {/* Sample writing — text */}
           <div>
             <label htmlFor="sampleText" className="block text-sm font-medium text-zinc-700 mb-1.5">
-              Or paste a writing sample{' '}
-              <span className="text-zinc-400 font-normal">(optional)</span>
+              O pega una muestra de escritura{' '}
+              <span className="text-zinc-400 font-normal">(opcional)</span>
             </label>
             <textarea
               id="sampleText"
@@ -111,7 +111,7 @@ router.get('/', async (c) => {
               maxLength={2000}
               rows={5}
               defaultValue={existing?.sampleText ?? ''}
-              placeholder="Paste an excerpt or short article you've written…"
+              placeholder="Pega un extracto o artículo corto que hayas escrito…"
               className="w-full px-3 py-2 rounded-lg border border-zinc-200 bg-white text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"
             />
           </div>
@@ -121,19 +121,19 @@ router.get('/', async (c) => {
               type="submit"
               className="px-5 py-2.5 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors"
             >
-              Submit application
+              Enviar solicitud
             </button>
             <a
               href="/dashboard/profile"
               className="px-5 py-2.5 rounded-lg border border-zinc-200 text-sm font-medium text-zinc-600 hover:bg-zinc-50 transition-colors"
             >
-              Cancel
+              Cancelar
             </a>
           </div>
         </form>
       </div>
     </DashboardShell>,
-    { seo: { title: 'Become an author', noIndex: true } },
+    { seo: { title: 'Solicitar ser autor', noIndex: true } },
   )
 })
 

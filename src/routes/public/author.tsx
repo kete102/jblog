@@ -27,21 +27,21 @@ authorRouter.get('/:id', async (c) => {
         <main className="flex-1 flex items-center justify-center px-4">
           <div className="text-center max-w-md">
             <p className="text-8xl font-black text-zinc-100 mb-4">404</p>
-            <h1 className="text-2xl font-bold text-zinc-900 mb-3">Author not found</h1>
+            <h1 className="text-2xl font-bold text-zinc-900 mb-3">Autor no encontrado</h1>
             <p className="text-zinc-500 mb-8">
-              This author doesn't exist or is no longer active.
+              Este autor no existe o ya no está activo.
             </p>
-            <a
+              <a
               href="/"
               className="inline-flex items-center px-5 py-2.5 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors"
             >
-              Back to home
+              Volver al inicio
             </a>
           </div>
         </main>
         <Footer />
       </div>,
-      { seo: { title: '404 — Author not found', noIndex: true } },
+      { seo: { title: '404 — Autor no encontrado', noIndex: true } },
     )
   }
 
@@ -95,19 +95,19 @@ authorRouter.get('/:id', async (c) => {
                     <strong className="text-zinc-800 font-semibold">
                       {authorPosts.length}
                     </strong>{' '}
-                    {authorPosts.length === 1 ? 'post' : 'posts'}
+                    {authorPosts.length === 1 ? 'publicación' : 'publicaciones'}
                   </span>
                   <span>
                     <strong className="text-zinc-800 font-semibold">
                       {formatNumber(totalViews)}
                     </strong>{' '}
-                    views
+                    vistas
                   </span>
                   <span>
                     <strong className="text-zinc-800 font-semibold">
                       {formatNumber(totalLikes)}
                     </strong>{' '}
-                    likes
+                    me gusta
                   </span>
                 </div>
 
@@ -159,13 +159,13 @@ authorRouter.get('/:id', async (c) => {
           {authorPosts.length === 0 ? (
             <div className="text-center py-16 text-zinc-400">
               <p className="text-4xl mb-4">✍️</p>
-              <p className="text-lg font-medium">No posts yet.</p>
+              <p className="text-lg font-medium">Aún no hay publicaciones.</p>
             </div>
           ) : (
             <>
               <div className="flex items-center gap-3 mb-8 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
                 <span className="text-xs font-bold uppercase tracking-widest text-zinc-400">
-                  All posts
+                  Todas las publicaciones
                 </span>
                 <div className="flex-1 h-px bg-zinc-100" />
                 <span className="text-xs text-zinc-400">{authorPosts.length}</span>
@@ -189,8 +189,8 @@ authorRouter.get('/:id', async (c) => {
     </div>,
     {
       seo: {
-        title: `${author.name} — jblog`,
-        description: author.bio ?? `Posts by ${author.name} on jblog.`,
+        title: `${author.name} — Destellos de luz`,
+        description: author.bio ?? `Publicaciones de ${author.name} en Destellos de luz.`,
       },
     },
   )
