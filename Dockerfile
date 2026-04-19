@@ -22,6 +22,7 @@ COPY --from=builder /app/drizzle.config.ts ./drizzle.config.ts
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/tsconfig.json ./tsconfig.json
 COPY --from=builder /app/src/db/migrations ./src/db/migrations
+COPY --from=builder /app/CHANGELOG.md ./CHANGELOG.md
 
 EXPOSE 3000
 

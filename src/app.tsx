@@ -12,6 +12,7 @@ import authorRouter from '@/routes/public/author'
 import tagRouter from '@/routes/public/tag'
 import sitemapRouter from '@/routes/public/sitemap'
 import rssRouter from '@/routes/public/rss'
+import changelogRouter from '@/routes/public/changelog'
 import dashboardRouter from '@/routes/dashboard'
 import dashboardPostRouter from '@/routes/dashboard/post'
 import dashboardProfileRouter from '@/routes/dashboard/profile'
@@ -59,6 +60,7 @@ app.route('/author', authorRouter)
 app.route('/tag', tagRouter)
 app.route('/', sitemapRouter)
 app.route('/', rssRouter)
+app.route('/', changelogRouter)
 
 // ─── Dashboard routes ────────────────────────────────────────────────────────
 

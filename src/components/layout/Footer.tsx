@@ -13,6 +13,7 @@ export default function Footer() {
           {/* Links */}
           <nav className="flex items-center gap-5 text-sm text-zinc-500">
             <a href="/" className="hover:text-zinc-800 transition-colors">Home</a>
+            <a href="/changelog" className="hover:text-zinc-800 transition-colors">Changelog</a>
             <a href="/sitemap.xml" className="hover:text-zinc-800 transition-colors">Sitemap</a>
             <a href="/dashboard/become-author" className="hover:text-zinc-800 transition-colors">Write for us</a>
           </nav>
