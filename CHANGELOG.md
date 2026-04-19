@@ -6,13 +6,22 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [Unreleased]
 
 ### Added
-- Public `/changelog` page — you are reading it right now.
+- **CI/CD** — GitHub Actions workflows: push to `staging` auto-deploys to staging; pushing a `v*` tag auto-deploys to production.
+- **Staging environment** — separate Fly.io app (`destellos-de-fe-staging`) with its own SQLite volume.
+
+### Changed
+- `bun run deploy` now explicitly passes `--config fly.toml` to avoid ambiguity with `fly.staging.toml`.
+
+### Docs
+- Rewrote README with environment links, tech stack, project structure, scripts reference, and setup guide.
+- Added CONTRIBUTING.md covering branching strategy, commit conventions, and the release process.
 
 ---
 
 ## [1.3.0] — 2026-04-19
 
 ### Added
+- **Changelog page** — Public `/changelog` page at `/changelog`. Reads `CHANGELOG.md` at request time, renders it with `marked` and styles it with `@tailwindcss/typography`. Linked from the footer.
 - **Type-safe env config** — `src/config.ts` centralises all `process.env` reads behind typed `required()` / `optional()` helpers. App fails fast at startup when a required variable is missing.
 - **Deploy scripts** — `bun run deploy`, `bun run deploy:open`, and `bun run logs` helpers in `package.json`.
 - **Auto-slug UX** — The post editor now derives a slug from the title automatically and shows an "Auto" badge. Manually editing the slug overrides it and reveals a "Reset to auto" button.
