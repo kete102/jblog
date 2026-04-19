@@ -506,9 +506,22 @@ function EditorApp({ data }: { data: EditorData }) {
 
             {/* Slug */}
             <div>
-              <label className="block text-xs font-medium text-zinc-500 uppercase tracking-wide mb-2">
-                Slug
-              </label>
+              <div className="flex items-center justify-between mb-2">
+                <label className="text-xs font-medium text-zinc-500 uppercase tracking-wide">
+                  Slug
+                </label>
+                {slugTouched ? (
+                  <button
+                    type="button"
+                    onClick={() => { setSlug(makeSlug(title)); setSlugTouched(false) }}
+                    className="text-xs text-indigo-500 hover:text-indigo-700 transition-colors"
+                  >
+                    Reset to auto
+                  </button>
+                ) : (
+                  <span className="text-xs text-zinc-400">Auto</span>
+                )}
+              </div>
               <input
                 type="text"
                 value={slug}
