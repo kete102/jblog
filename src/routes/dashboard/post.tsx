@@ -201,14 +201,15 @@ router.post('/:id', async (c) => {
 router.post('/:id/delete', async (c) => {
   const user = c.get('user')!
   const id = c.req.param('id')
+  const isXhr = c.req.header('x-requested-with')?.toLowerCase() === 'xmlhttprequest'
 
   const post = await getPostById(id)
   if (post && post.authorId !== user.id && user.role !== 'admin') {
-    return c.redirect('/dashboard')
+    return isXhr ? c.json({ message: 'Forbidden' }, 403) : c.redirect('/dashboard')
   }
 
   await deletePost(id)
-  return c.redirect('/dashboard')
+  return isXhr ? c.json({ ok: true }) : c.redirect('/dashboard')
 })
 
 // ─── POST /dashboard/post/:id/publish ────────────────────────────────────────
@@ -216,15 +217,16 @@ router.post('/:id/delete', async (c) => {
 router.post('/:id/publish', async (c) => {
   const user = c.get('user')!
   const id = c.req.param('id')
+  const isXhr = c.req.header('x-requested-with')?.toLowerCase() === 'xmlhttprequest'
 
   const post = await getPostById(id)
   if (!post || (post.authorId !== user.id && user.role !== 'admin')) {
-    return c.redirect('/dashboard')
+    return isXhr ? c.json({ message: 'Not found' }, 404) : c.redirect('/dashboard')
   }
 
   const newStatus = post.status === 'published' ? 'draft' : 'published'
   await setPostStatus(id, newStatus)
-  return c.redirect('/dashboard')
+  return isXhr ? c.json({ ok: true, status: newStatus }) : c.redirect('/dashboard')
 })
 
 export default router
