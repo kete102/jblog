@@ -107,7 +107,12 @@ html {
   border-radius: 3px;
 }
 
-/* Tiptap editor styles */
+/* Confirm dialog backdrop */
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(2px);
+}
+
 .tiptap-editor {
   min-height: 400px;
   outline: none;
