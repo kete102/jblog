@@ -11,6 +11,7 @@ node_modules/
 *.db-wal
 
 # build output
+dist/
 public/styles.css
 public/js/editor.js
 
