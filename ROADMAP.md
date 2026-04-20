@@ -8,6 +8,7 @@
 - [x] **Type-safe env config** — Centralized `src/config.ts` that parses and types all env variables at startup. Fail fast on missing required vars.
 - [x] **Mobile navbar fix** — Avatar button not clickable on mobile. Replace with a slide-in side menu (mirroring the dashboard sidebar) or a reliable dropdown.
 - [x] **Confirm modal on post delete** — Show a confirmation dialog before permanently deleting a post to prevent accidental data loss.
+- [x] **Edit button on post page for owner** — When the logged-in user is the post's author, show an "Edit" button at the top of the public post page as a shortcut to the editor.
 - [ ] **Remove Dashboard link from navbar** — The text link "Dashboard" that appears next to the avatar for verified authors (Navbar.tsx lines 59–66) is redundant; the same link exists inside the avatar dropdown. Remove the standalone link.
 - [ ] **Changelog: English + fix duplicate title** — Revert the changelog page copy back to English (title, description, footer CTA). Also fix the duplicate heading: the page renders an `<h1>` in JSX *and* CHANGELOG.md opens with `# Changelog`, causing the title to appear twice. Strip the first heading from the rendered markdown or remove the JSX `<h1>`.
 

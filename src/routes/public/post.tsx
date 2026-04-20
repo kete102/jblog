@@ -237,6 +237,7 @@ postRouter.get('/:slug', async (c) => {
   })
 
   const isReader = user && user.role === 'reader'
+  const isOwner = user && (user.id === post.author.id || user.role === 'admin')
 
   return c.render(
     <div className="min-h-screen flex flex-col">
@@ -244,6 +245,19 @@ postRouter.get('/:slug', async (c) => {
 
       <main className="flex-1">
         <article className="max-w-2xl mx-auto px-4 sm:px-6 py-12 sm:py-16 animate-fade-in-up">
+
+          {/* Edit button — visible to the post author and admins */}
+          {isOwner && (
+            <div className="flex justify-end mb-6">
+              <a
+                href={`/dashboard/post/${post.id}/edit`}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-zinc-500 border border-zinc-200 hover:border-indigo-300 hover:text-indigo-600 hover:bg-indigo-50 transition-colors"
+              >
+                <PencilIcon className="w-3.5 h-3.5" />
+                Editar publicación
+              </a>
+            </div>
+          )}
 
           {/* Tags */}
           {post.tags.length > 0 && (
