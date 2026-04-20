@@ -1,5 +1,6 @@
 import React from 'react'
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
+import type { Me } from '../types'
 
 // ─── Dashboard parent route + auth guard ─────────────────────────────────────
 // This file lives alongside the dashboard/ directory. TanStack Router
@@ -11,12 +12,6 @@ import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 // NOTE: Uses plain fetch here because the typed Hono RPC client (api) requires
 // a clean API-router-only AppType to infer correctly. That will be wired up
 // properly in Phase 5 once we extract the API type cleanly.
-
-interface Me {
-  id: string
-  name: string
-  role: 'admin' | 'author' | 'reader'
-}
 
 async function fetchMe(): Promise<Me | null> {
   try {
