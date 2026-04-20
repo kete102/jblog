@@ -10,7 +10,10 @@ changelogRouter.get('/changelog', async (c) => {
   const user = c.get('user')
 
   const markdown = await Bun.file('CHANGELOG.md').text()
-  const html = marked.parse(markdown) as string
+  // Strip the first heading ("# Changelog") from the markdown before rendering
+  // to avoid a duplicate title — the page already renders an <h1> in JSX.
+  const markdownWithoutTitle = markdown.replace(/^#\s+[^\n]+\n/, '')
+  const html = marked.parse(markdownWithoutTitle) as string
 
   return c.render(
     <div className="min-h-screen flex flex-col">
@@ -21,10 +24,10 @@ changelogRouter.get('/changelog', async (c) => {
           {/* Header */}
           <div className="mb-10">
             <h1 className="text-3xl sm:text-4xl font-black text-zinc-900 tracking-tight mb-3">
-              Historial de cambios
+              Changelog
             </h1>
             <p className="text-zinc-500 text-sm leading-relaxed">
-              Un registro de todo lo que se ha construido, corregido y mejorado.
+              A running record of everything built, fixed, and improved.
             </p>
           </div>
 
@@ -37,14 +40,14 @@ changelogRouter.get('/changelog', async (c) => {
           {/* Footer CTA */}
           <div className="mt-14 pt-8 border-t border-zinc-100">
             <p className="text-sm text-zinc-500">
-              ¿Encontraste un error o tienes una sugerencia?{' '}
+              Found a bug or have a suggestion?{' '}
               <a
                 href="https://github.com/kete102/jblog/issues"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-indigo-600 font-medium hover:text-indigo-700 transition-colors"
               >
-                Abre un issue en GitHub
+                Open an issue on GitHub
               </a>
               .
             </p>
@@ -56,8 +59,8 @@ changelogRouter.get('/changelog', async (c) => {
     </div>,
     {
       seo: {
-        title: 'Historial de cambios — Destellos de luz',
-        description: 'Un registro de todo lo que se ha construido, corregido y mejorado en Destellos de luz.',
+        title: 'Changelog — jblog',
+        description: 'A running record of everything built, fixed, and improved in jblog.',
       },
     },
   )
