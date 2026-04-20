@@ -78,11 +78,7 @@ export function Navbar() {
                 </Link>
               )}
               {/* Avatar */}
-              <Link
-                to="/dashboard"
-                className="ml-1"
-                aria-label="Mi perfil"
-              >
+              <Link to="/dashboard" className="ml-1" aria-label="Mi perfil">
                 {me.avatarUrl ? (
                   <img
                     src={me.avatarUrl}

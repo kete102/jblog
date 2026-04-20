@@ -66,9 +66,7 @@ function AuthorPage() {
         <AuthorCard author={data.author} linkToProfile={false} />
       </div>
 
-      <h2 className="text-xl font-semibold text-zinc-800 mb-6">
-        Publicaciones ({posts.length})
-      </h2>
+      <h2 className="text-xl font-semibold text-zinc-800 mb-6">Publicaciones ({posts.length})</h2>
 
       {posts.length === 0 ? (
         <p className="text-zinc-400 text-sm">Este autor todavía no ha publicado nada.</p>

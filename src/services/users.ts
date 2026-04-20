@@ -10,8 +10,14 @@ export async function getUserById(id: string): Promise<User | null> {
 }
 
 /** Get all users awaiting approval, joined with their author request */
-export async function getPendingUsers(): Promise<(User & { authorRequest: AuthorRequest | null })[]> {
-  const rows = await db.select().from(users).where(eq(users.role, 'pending')).orderBy(users.createdAt)
+export async function getPendingUsers(): Promise<
+  (User & { authorRequest: AuthorRequest | null })[]
+> {
+  const rows = await db
+    .select()
+    .from(users)
+    .where(eq(users.role, 'pending'))
+    .orderBy(users.createdAt)
   const results: (User & { authorRequest: AuthorRequest | null })[] = []
 
   for (const u of rows) {
@@ -28,10 +34,7 @@ export async function getPendingUsers(): Promise<(User & { authorRequest: Author
 
 /** Promote a pending user to author */
 export async function approveUser(id: string): Promise<void> {
-  await db
-    .update(users)
-    .set({ role: 'author', updatedAt: new Date() })
-    .where(eq(users.id, id))
+  await db.update(users).set({ role: 'author', updatedAt: new Date() }).where(eq(users.id, id))
 }
 
 /** Mark a pending user as rejected, storing the reason */
@@ -78,7 +81,10 @@ export interface AuthorRequestInput {
 }
 
 /** Submit (or update) an author request and set the user's role to pending */
-export async function submitAuthorRequest(userId: string, input: AuthorRequestInput): Promise<void> {
+export async function submitAuthorRequest(
+  userId: string,
+  input: AuthorRequestInput,
+): Promise<void> {
   const existing = await db
     .select({ id: authorRequests.id })
     .from(authorRequests)

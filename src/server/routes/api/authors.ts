@@ -9,10 +9,7 @@ const router = new Hono()
 router.get('/:id', async (c) => {
   const { id } = c.req.param()
 
-  const [author, posts] = await Promise.all([
-    getAuthorById(id),
-    getPostsByAuthor(id),
-  ])
+  const [author, posts] = await Promise.all([getAuthorById(id), getPostsByAuthor(id)])
 
   if (!author) return c.json({ error: 'Author not found' }, 404)
 

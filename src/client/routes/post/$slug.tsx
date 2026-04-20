@@ -56,11 +56,7 @@ function PostPage() {
       {/* Cover image */}
       {post.coverImageUrl && (
         <div className="rounded-2xl overflow-hidden mb-8 aspect-video">
-          <img
-            src={post.coverImageUrl}
-            alt={post.title}
-            className="w-full h-full object-cover"
-          />
+          <img src={post.coverImageUrl} alt={post.title} className="w-full h-full object-cover" />
         </div>
       )}
 

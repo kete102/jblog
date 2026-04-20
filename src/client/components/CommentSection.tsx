@@ -51,9 +51,7 @@ function Avatar({ user }: { user: CommentWithUser['user'] }) {
     />
   ) : (
     <div className="w-8 h-8 rounded-full bg-zinc-200 flex items-center justify-center shrink-0">
-      <span className="text-sm font-medium text-zinc-500">
-        {user.name[0]?.toUpperCase()}
-      </span>
+      <span className="text-sm font-medium text-zinc-500">{user.name[0]?.toUpperCase()}</span>
     </div>
   )
 }
@@ -258,9 +256,7 @@ function SingleComment({
       <div className="flex-1 min-w-0">
         <div className="flex items-baseline gap-2 flex-wrap">
           <span className="text-sm font-semibold text-zinc-900">{comment.user.name}</span>
-          <span className="text-xs text-zinc-400">
-            {formatDate(comment.createdAt, 'short')}
-          </span>
+          <span className="text-xs text-zinc-400">{formatDate(comment.createdAt, 'short')}</span>
           {comment.updatedAt !== comment.createdAt && (
             <span className="text-xs text-zinc-400">(editado)</span>
           )}
@@ -269,7 +265,10 @@ function SingleComment({
         {editing ? (
           <EditCommentForm
             comment={comment}
-            onSave={(updated) => { onEdit(updated); setEditing(false) }}
+            onSave={(updated) => {
+              onEdit(updated)
+              setEditing(false)
+            }}
             onCancel={() => setEditing(false)}
           />
         ) : (
@@ -354,9 +353,7 @@ export function CommentSection({ postSlug, initialThreads, me }: CommentSectionP
   const addReply = (reply: CommentWithUser) => {
     setThreads((prev) =>
       prev.map((t) =>
-        t.comment.id === reply.parentId
-          ? { ...t, replies: [...t.replies, reply] }
-          : t,
+        t.comment.id === reply.parentId ? { ...t, replies: [...t.replies, reply] } : t,
       ),
     )
   }
@@ -394,10 +391,7 @@ export function CommentSection({ postSlug, initialThreads, me }: CommentSectionP
         <div className="flex gap-3 mb-8">
           <Avatar user={{ name: me.name, avatarUrl: me.avatarUrl }} />
           <div className="flex-1">
-            <CommentForm
-              postSlug={postSlug}
-              onSuccess={addTopLevel}
-            />
+            <CommentForm postSlug={postSlug} onSuccess={addTopLevel} />
           </div>
         </div>
       ) : (

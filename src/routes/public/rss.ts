@@ -17,20 +17,24 @@ rssRouter.get('/feed.xml', async (c) => {
   const baseUrl = config.server.baseUrl.replace(/\/$/, '')
   const posts = await getPublishedPostsPaged(1, 20)
 
-  const items = posts.map((post) => {
-    const url = `${baseUrl}/post/${post.slug}`
-    const pubDate = post.publishedAt ? new Date(post.publishedAt).toUTCString() : ''
-    return [
-      '    <item>',
-      `      <title>${escapeXml(post.title)}</title>`,
-      `      <link>${url}</link>`,
-      `      <guid isPermaLink="true">${url}</guid>`,
-      post.excerpt ? `      <description>${escapeXml(post.excerpt)}</description>` : '',
-      `      <author>${escapeXml(post.author.name)}</author>`,
-      pubDate ? `      <pubDate>${pubDate}</pubDate>` : '',
-      '    </item>',
-    ].filter(Boolean).join('\n')
-  }).join('\n')
+  const items = posts
+    .map((post) => {
+      const url = `${baseUrl}/post/${post.slug}`
+      const pubDate = post.publishedAt ? new Date(post.publishedAt).toUTCString() : ''
+      return [
+        '    <item>',
+        `      <title>${escapeXml(post.title)}</title>`,
+        `      <link>${url}</link>`,
+        `      <guid isPermaLink="true">${url}</guid>`,
+        post.excerpt ? `      <description>${escapeXml(post.excerpt)}</description>` : '',
+        `      <author>${escapeXml(post.author.name)}</author>`,
+        pubDate ? `      <pubDate>${pubDate}</pubDate>` : '',
+        '    </item>',
+      ]
+        .filter(Boolean)
+        .join('\n')
+    })
+    .join('\n')
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">

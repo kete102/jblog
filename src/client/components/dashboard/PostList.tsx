@@ -23,11 +23,9 @@ export function PostList({ initialPosts }: PostListProps) {
       })
       if (!res.ok) throw new Error()
       const data = (await res.json()) as { ok: boolean; status: 'draft' | 'published' }
-      setPosts((prev) =>
-        prev.map((p) => (p.id === post.id ? { ...p, status: data.status } : p)),
-      )
+      setPosts((prev) => prev.map((p) => (p.id === post.id ? { ...p, status: data.status } : p)))
     } catch {
-      // Silently fail — a toast system can be wired in Phase 5
+      // Silently fail — no toast system yet
     } finally {
       setBusy(null)
     }
@@ -45,7 +43,7 @@ export function PostList({ initialPosts }: PostListProps) {
       if (!res.ok) throw new Error()
       setPosts((prev) => prev.filter((p) => p.id !== post.id))
     } catch {
-      // Silently fail
+      // Silently fail — no toast system yet
     } finally {
       setBusy(null)
     }
@@ -91,9 +89,7 @@ export function PostList({ initialPosts }: PostListProps) {
               <div className="flex items-center gap-2 flex-wrap">
                 <span
                   className={`px-2 py-0.5 rounded-full text-xs font-medium ${
-                    isPublished
-                      ? 'bg-green-100 text-green-700'
-                      : 'bg-zinc-100 text-zinc-600'
+                    isPublished ? 'bg-green-100 text-green-700' : 'bg-zinc-100 text-zinc-600'
                   }`}
                 >
                   {isPublished ? 'Publicado' : 'Borrador'}

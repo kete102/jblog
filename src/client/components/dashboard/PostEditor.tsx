@@ -1,13 +1,7 @@
 // ─── PostEditor — Tiptap-powered post editor ─────────────────────────────────
-// Migrated from src/client/editor.tsx.
-// Changes vs old version:
-//   - Receives data as props (no DOM script-tag bootstrap)
-//   - API URLs updated to new JSON API routes
-//   - Navigation uses TanStack Router's useNavigate
-//   - Toolbar icons replaced with lucide-react
-//   - slugify package used for slug generation
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { useNavigate, Link } from '@tanstack/react-router'
+import slugify from 'slugify'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
@@ -57,12 +51,7 @@ export interface PostEditorProps {
 // ─── Slug helper ──────────────────────────────────────────────────────────────
 
 function makeSlug(text: string): string {
-  return text
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
+  return slugify(text, { lower: true, strict: true, trim: true })
 }
 
 // ─── Toolbar ──────────────────────────────────────────────────────────────────
@@ -120,55 +109,107 @@ function Toolbar({ editor }: { editor: ReturnType<typeof useEditor> }) {
   return (
     <div className="flex items-center gap-0.5 flex-wrap px-3 py-2 border-b border-zinc-200 bg-white sticky top-0 z-10">
       {/* Text marks */}
-      <ToolbarBtn onClick={() => editor.chain().focus().toggleBold().run()} active={editor.isActive('bold')} title="Negrita">
+      <ToolbarBtn
+        onClick={() => editor.chain().focus().toggleBold().run()}
+        active={editor.isActive('bold')}
+        title="Negrita"
+      >
         <Bold className="w-3.5 h-3.5" />
       </ToolbarBtn>
-      <ToolbarBtn onClick={() => editor.chain().focus().toggleItalic().run()} active={editor.isActive('italic')} title="Cursiva">
+      <ToolbarBtn
+        onClick={() => editor.chain().focus().toggleItalic().run()}
+        active={editor.isActive('italic')}
+        title="Cursiva"
+      >
         <Italic className="w-3.5 h-3.5" />
       </ToolbarBtn>
-      <ToolbarBtn onClick={() => editor.chain().focus().toggleUnderline().run()} active={editor.isActive('underline')} title="Subrayado">
+      <ToolbarBtn
+        onClick={() => editor.chain().focus().toggleUnderline().run()}
+        active={editor.isActive('underline')}
+        title="Subrayado"
+      >
         <UnderlineIcon className="w-3.5 h-3.5" />
       </ToolbarBtn>
-      <ToolbarBtn onClick={() => editor.chain().focus().toggleStrike().run()} active={editor.isActive('strike')} title="Tachado">
+      <ToolbarBtn
+        onClick={() => editor.chain().focus().toggleStrike().run()}
+        active={editor.isActive('strike')}
+        title="Tachado"
+      >
         <Strikethrough className="w-3.5 h-3.5" />
       </ToolbarBtn>
-      <ToolbarBtn onClick={() => editor.chain().focus().toggleCode().run()} active={editor.isActive('code')} title="Código en línea">
+      <ToolbarBtn
+        onClick={() => editor.chain().focus().toggleCode().run()}
+        active={editor.isActive('code')}
+        title="Código en línea"
+      >
         <Code className="w-3.5 h-3.5" />
       </ToolbarBtn>
-      <ToolbarBtn onClick={() => editor.chain().focus().toggleHighlight().run()} active={editor.isActive('highlight')} title="Resaltado">
+      <ToolbarBtn
+        onClick={() => editor.chain().focus().toggleHighlight().run()}
+        active={editor.isActive('highlight')}
+        title="Resaltado"
+      >
         <Highlighter className="w-3.5 h-3.5" />
       </ToolbarBtn>
 
       <ToolbarDivider />
 
       {/* Headings */}
-      <ToolbarBtn onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} active={editor.isActive('heading', { level: 2 })} title="Encabezado 2">
+      <ToolbarBtn
+        onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+        active={editor.isActive('heading', { level: 2 })}
+        title="Encabezado 2"
+      >
         <Heading2 className="w-4 h-4" />
       </ToolbarBtn>
-      <ToolbarBtn onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} active={editor.isActive('heading', { level: 3 })} title="Encabezado 3">
+      <ToolbarBtn
+        onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
+        active={editor.isActive('heading', { level: 3 })}
+        title="Encabezado 3"
+      >
         <Heading3 className="w-4 h-4" />
       </ToolbarBtn>
 
       <ToolbarDivider />
 
       {/* Lists */}
-      <ToolbarBtn onClick={() => editor.chain().focus().toggleBulletList().run()} active={editor.isActive('bulletList')} title="Lista con viñetas">
+      <ToolbarBtn
+        onClick={() => editor.chain().focus().toggleBulletList().run()}
+        active={editor.isActive('bulletList')}
+        title="Lista con viñetas"
+      >
         <List className="w-3.5 h-3.5" />
       </ToolbarBtn>
-      <ToolbarBtn onClick={() => editor.chain().focus().toggleOrderedList().run()} active={editor.isActive('orderedList')} title="Lista numerada">
+      <ToolbarBtn
+        onClick={() => editor.chain().focus().toggleOrderedList().run()}
+        active={editor.isActive('orderedList')}
+        title="Lista numerada"
+      >
         <ListOrdered className="w-3.5 h-3.5" />
       </ToolbarBtn>
 
       <ToolbarDivider />
 
       {/* Block nodes */}
-      <ToolbarBtn onClick={() => editor.chain().focus().toggleBlockquote().run()} active={editor.isActive('blockquote')} title="Cita">
+      <ToolbarBtn
+        onClick={() => editor.chain().focus().toggleBlockquote().run()}
+        active={editor.isActive('blockquote')}
+        title="Cita"
+      >
         <Quote className="w-3.5 h-3.5" />
       </ToolbarBtn>
-      <ToolbarBtn onClick={() => editor.chain().focus().toggleCodeBlock().run()} active={editor.isActive('codeBlock')} title="Bloque de código">
+      <ToolbarBtn
+        onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+        active={editor.isActive('codeBlock')}
+        title="Bloque de código"
+      >
         <Terminal className="w-3.5 h-3.5" />
       </ToolbarBtn>
-      <ToolbarBtn onClick={() => editor.chain().focus().setHorizontalRule().run()} active={false} title="Línea horizontal">
+      <ToolbarBtn
+        onClick={() => editor.chain().focus().setHorizontalRule().run()}
+        active={false}
+        title="Línea horizontal"
+      >
         <Minus className="w-3.5 h-3.5" />
       </ToolbarBtn>
 
@@ -328,15 +369,36 @@ export function PostEditor({
         <div className="flex items-center gap-3">
           <AnimatePresence mode="wait">
             {saving ? (
-              <motion.span key="saving" initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 5 }} transition={{ duration: 0.15 }} className="text-xs text-zinc-400">
+              <motion.span
+                key="saving"
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 5 }}
+                transition={{ duration: 0.15 }}
+                className="text-xs text-zinc-400"
+              >
                 Guardando…
               </motion.span>
             ) : saveState === 'saved' ? (
-              <motion.span key="saved" initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 5 }} transition={{ duration: 0.15 }} className="text-xs text-green-600 font-medium">
+              <motion.span
+                key="saved"
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 5 }}
+                transition={{ duration: 0.15 }}
+                className="text-xs text-green-600 font-medium"
+              >
                 Guardado
               </motion.span>
             ) : saveState === 'error' && errorMsg ? (
-              <motion.span key="error" initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 5 }} transition={{ duration: 0.15 }} className="text-xs text-red-500">
+              <motion.span
+                key="error"
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 5 }}
+                transition={{ duration: 0.15 }}
+                className="text-xs text-red-500"
+              >
                 {errorMsg}
               </motion.span>
             ) : null}
@@ -398,7 +460,10 @@ export function PostEditor({
                 {slugTouched ? (
                   <button
                     type="button"
-                    onClick={() => { setSlug(makeSlug(title)); setSlugTouched(false) }}
+                    onClick={() => {
+                      setSlug(makeSlug(title))
+                      setSlugTouched(false)
+                    }}
                     className="text-xs text-indigo-500 hover:text-indigo-700 transition-colors"
                   >
                     Restablecer automático
@@ -410,7 +475,10 @@ export function PostEditor({
               <input
                 type="text"
                 value={slug}
-                onChange={(e) => { setSlug(e.target.value); setSlugTouched(true) }}
+                onChange={(e) => {
+                  setSlug(e.target.value)
+                  setSlugTouched(true)
+                }}
                 placeholder="post-slug"
                 className="w-full px-3 py-2 rounded-lg border border-zinc-200 bg-white text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />

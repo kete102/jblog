@@ -55,9 +55,7 @@ function TagPage() {
       </div>
 
       {data.posts.length === 0 ? (
-        <p className="text-zinc-400 text-sm">
-          No hay publicaciones con esta etiqueta todavía.
-        </p>
+        <p className="text-zinc-400 text-sm">No hay publicaciones con esta etiqueta todavía.</p>
       ) : (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {data.posts.map((post) => (

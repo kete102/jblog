@@ -21,7 +21,9 @@ export interface PostWithMeta extends Post {
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-async function attachTagsAndAuthors(rawPosts: (Post & { author: User })[]): Promise<PostWithMeta[]> {
+async function attachTagsAndAuthors(
+  rawPosts: (Post & { author: User })[],
+): Promise<PostWithMeta[]> {
   if (!rawPosts.length) return []
 
   const postIds = rawPosts.map((p) => p.id)
@@ -158,7 +160,10 @@ export async function getPublishedPostsCount(): Promise<number> {
 }
 
 /** Fetch a page of published posts (1-indexed) */
-export async function getPublishedPostsPaged(page: number, pageSize: number): Promise<PostWithMeta[]> {
+export async function getPublishedPostsPaged(
+  page: number,
+  pageSize: number,
+): Promise<PostWithMeta[]> {
   const rows = await db
     .select({ post: posts, author: users })
     .from(posts)
@@ -176,9 +181,11 @@ export async function getPublishedPostsPaged(page: number, pageSize: number): Pr
 
 /** Returns true if the slug is not taken by any other post */
 export async function isSlugAvailable(slug: string, excludeId?: string): Promise<boolean> {
-  const rows = await db.select({ id: posts.id }).from(posts).where(
-    excludeId ? and(eq(posts.slug, slug), ne(posts.id, excludeId)) : eq(posts.slug, slug),
-  ).limit(1)
+  const rows = await db
+    .select({ id: posts.id })
+    .from(posts)
+    .where(excludeId ? and(eq(posts.slug, slug), ne(posts.id, excludeId)) : eq(posts.slug, slug))
+    .limit(1)
   return rows.length === 0
 }
 
@@ -242,7 +249,12 @@ export interface UpdatePostInput {
 
 /** Update an existing post */
 export async function updatePost(id: string, input: UpdatePostInput): Promise<void> {
-  const current = await db.select().from(posts).where(eq(posts.id, id)).limit(1).then((r) => r[0])
+  const current = await db
+    .select()
+    .from(posts)
+    .where(eq(posts.id, id))
+    .limit(1)
+    .then((r) => r[0])
   if (!current) throw new Error('Post not found')
 
   const now = new Date()
@@ -290,7 +302,12 @@ export async function updatePost(id: string, input: UpdatePostInput): Promise<vo
 
 /** Delete a post by ID */
 export async function deletePost(id: string): Promise<void> {
-  const current = await db.select().from(posts).where(eq(posts.id, id)).limit(1).then((r) => r[0])
+  const current = await db
+    .select()
+    .from(posts)
+    .where(eq(posts.id, id))
+    .limit(1)
+    .then((r) => r[0])
   if (!current) return
 
   await db.delete(posts).where(eq(posts.id, id))
@@ -308,7 +325,12 @@ export async function deletePost(id: string): Promise<void> {
 
 /** Set a post's published/draft status */
 export async function setPostStatus(id: string, status: 'draft' | 'published'): Promise<void> {
-  const current = await db.select().from(posts).where(eq(posts.id, id)).limit(1).then((r) => r[0])
+  const current = await db
+    .select()
+    .from(posts)
+    .where(eq(posts.id, id))
+    .limit(1)
+    .then((r) => r[0])
   if (!current || current.status === status) return
 
   const now = new Date()

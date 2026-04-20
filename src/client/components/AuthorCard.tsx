@@ -51,9 +51,7 @@ export function AuthorCard({ author, linkToProfile = true }: AuthorCardProps) {
         </div>
 
         {/* Bio */}
-        {author.bio && (
-          <p className="text-sm text-zinc-600 mt-1 line-clamp-3">{author.bio}</p>
-        )}
+        {author.bio && <p className="text-sm text-zinc-600 mt-1 line-clamp-3">{author.bio}</p>}
 
         {/* Social links */}
         <div className="flex items-center gap-3 mt-2">
