@@ -15,12 +15,12 @@ import { config } from '@/config'
 
 // ─── Bot UA patterns ──────────────────────────────────────────────────────────
 
-const BOT_UA_RE =
+export const BOT_UA_RE =
   /bot|crawl|spider|slurp|mediapartners|adsbot|facebookexternalhit|whatsapp|twitterbot|linkedinbot|telegrambot|discordbot|slackbot|applebot|ia_archiver|semrush|ahrefs|mj12bot|dotbot/i
 
 // ─── HTML template ────────────────────────────────────────────────────────────
 
-interface MetaOpts {
+export interface MetaOpts {
   title: string
   description: string
   canonicalUrl: string
@@ -28,7 +28,7 @@ interface MetaOpts {
   type?: 'website' | 'article'
 }
 
-function buildMetaHtml({
+export function buildMetaHtml({
   title,
   description,
   canonicalUrl,
