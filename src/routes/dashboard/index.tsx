@@ -8,6 +8,32 @@ import { formatDate } from '@/lib/format'
 
 const router = new Hono()
 
+// Inline script — wires up the delete confirmation <dialog>.
+// Each "Eliminar" button carries data-post-id and data-post-title;
+// clicking one sets the form action and opens the modal.
+const deleteModalScript = /* js */`(function () {
+  var modal   = document.getElementById('delete-modal');
+  var form    = document.getElementById('delete-modal-form');
+  var titleEl = document.getElementById('delete-modal-title');
+  var cancel  = document.getElementById('delete-modal-cancel');
+  if (!modal || !form || !cancel) return;
+
+  document.querySelectorAll('[data-delete-btn]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      form.action = '/dashboard/post/' + btn.dataset.postId + '/delete';
+      if (titleEl) titleEl.textContent = '\u201C' + btn.dataset.postTitle + '\u201D';
+      modal.showModal();
+    });
+  });
+
+  cancel.addEventListener('click', function () { modal.close(); });
+
+  // Close when clicking the backdrop (outside the dialog box)
+  modal.addEventListener('click', function (e) {
+    if (e.target === modal) modal.close();
+  });
+})();`
+
 // ─── GET /dashboard ───────────────────────────────────────────────────────────
 
 router.get('/', requireAuthor, async (c) => {
@@ -90,18 +116,15 @@ router.get('/', requireAuthor, async (c) => {
                         {post.status === 'published' ? 'Despublicar' : 'Publicar'}
                       </button>
                     </form>
-                    <form
-                      method="POST"
-                      action={`/dashboard/post/${post.id}/delete`}
-                      onSubmit="return confirm('¿Eliminar esta publicación? Esta acción no se puede deshacer.')"
+                    <button
+                      type="button"
+                      data-delete-btn
+                      data-post-id={post.id}
+                      data-post-title={post.title}
+                      className="px-2.5 py-1.5 rounded-lg text-xs font-medium text-red-500 hover:bg-red-50 transition-colors"
                     >
-                      <button
-                        type="submit"
-                        className="px-2.5 py-1.5 rounded-lg text-xs font-medium text-red-500 hover:bg-red-50 transition-colors"
-                      >
-                        Eliminar
-                      </button>
-                    </form>
+                      Eliminar
+                    </button>
                   </div>
                 </div>
               ))}
@@ -168,18 +191,15 @@ router.get('/', requireAuthor, async (c) => {
                               {post.status === 'published' ? 'Despublicar' : 'Publicar'}
                             </button>
                           </form>
-                          <form
-                            method="POST"
-                            action={`/dashboard/post/${post.id}/delete`}
-                            onSubmit="return confirm('¿Eliminar esta publicación? Esta acción no se puede deshacer.')"
-                          >
-                            <button
-                              type="submit"
+                          <button
+                              type="button"
+                              data-delete-btn
+                              data-post-id={post.id}
+                              data-post-title={post.title}
                               className="px-2.5 py-1.5 rounded-lg text-xs font-medium text-red-500 hover:bg-red-50 transition-colors"
                             >
                               Eliminar
                             </button>
-                          </form>
                         </div>
                       </td>
                     </tr>
@@ -190,6 +210,39 @@ router.get('/', requireAuthor, async (c) => {
           </>
         )}
       </div>
+
+      {/* ── Delete confirmation modal ───────────────────────────────────────── */}
+      <dialog
+        id="delete-modal"
+        className="rounded-2xl shadow-2xl border border-zinc-200 p-0 w-full max-w-sm"
+      >
+        <div className="p-6">
+          <h3 className="text-base font-semibold text-zinc-900 mb-1">
+            ¿Eliminar esta publicación?
+          </h3>
+          <p className="text-sm text-zinc-500 mb-1">Esta acción no se puede deshacer.</p>
+          <p id="delete-modal-title" className="text-sm font-medium text-zinc-800 mb-6 truncate" />
+          <div className="flex justify-end gap-2">
+            <button
+              id="delete-modal-cancel"
+              type="button"
+              className="px-4 py-2 rounded-lg text-sm font-medium text-zinc-600 hover:bg-zinc-100 transition-colors"
+            >
+              Cancelar
+            </button>
+            <form id="delete-modal-form" method="POST">
+              <button
+                type="submit"
+                className="px-4 py-2 rounded-lg text-sm font-medium bg-red-600 text-white hover:bg-red-700 transition-colors"
+              >
+                Eliminar
+              </button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+
+      <script dangerouslySetInnerHTML={{ __html: deleteModalScript }} />
     </DashboardShell>,
     { seo: { title: 'Dashboard', noIndex: true } },
   )
