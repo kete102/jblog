@@ -4,7 +4,7 @@ import { migrate } from 'drizzle-orm/bun-sqlite/migrator'
 import { mkdirSync } from 'fs'
 import { dirname } from 'path'
 import { config } from './config'
-import app from './app.tsx'
+import app from './server/index'
 
 const { url: dbUrl } = config.database
 mkdirSync(dirname(dbUrl), { recursive: true })
