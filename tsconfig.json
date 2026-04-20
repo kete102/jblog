@@ -1,12 +1,15 @@
 {
   "compilerOptions": {
     "strict": true,
+    "skipLibCheck": true,
     "jsx": "react-jsx",
     "jsxImportSource": "react",
     "moduleResolution": "bundler",
     "module": "ESNext",
     "target": "ESNext",
     "lib": ["ESNext", "DOM"],
+    "types": ["bun"],
+    "ignoreDeprecations": "6.0",
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
