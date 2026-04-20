@@ -8,7 +8,7 @@
 - [x] **Type-safe env config** — Centralized `src/config.ts` that parses and types all env variables at startup. Fail fast on missing required vars.
 - [x] **Mobile navbar fix** — Avatar button not clickable on mobile. Replace with a slide-in side menu (mirroring the dashboard sidebar) or a reliable dropdown.
 - [ ] **Remove Dashboard link from navbar** — The text link "Dashboard" that appears next to the avatar for verified authors (Navbar.tsx lines 59–66) is redundant; the same link exists inside the avatar dropdown. Remove the standalone link.
-- [ ] **Changelog: English + fix duplicate title** — Revert the changelog page copy back to English (title, description, footer CTA). Also fix the duplicate heading: the page renders an `<h1>` in JSX *and* CHANGELOG.md opens with `# Changelog`, causing the title to appear twice. Strip the first heading from the rendered markdown or remove the JSX `<h1>`.
+- [x] **Changelog: English + fix duplicate title** — Revert the changelog page copy back to English (title, description, footer CTA). Also fix the duplicate heading: the page renders an `<h1>` in JSX *and* CHANGELOG.md opens with `# Changelog`, causing the title to appear twice. Strip the first heading from the rendered markdown or remove the JSX `<h1>`.
 
 ## Medium effort
 
