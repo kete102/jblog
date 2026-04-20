@@ -43,11 +43,7 @@ function ChangelogPage() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-10">
       <h1 className="text-3xl font-bold text-zinc-900 mb-8">Changelog</h1>
-      <div
-        className="prose prose-zinc max-w-none"
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: html }}
-      />
+      <div className="prose prose-zinc max-w-none" dangerouslySetInnerHTML={{ __html: html }} />
     </div>
   )
 }

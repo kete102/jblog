@@ -32,11 +32,7 @@ export function CopyLinkButton({ url, className }: CopyLinkButtonProps) {
         'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-zinc-600 hover:bg-zinc-100 transition-colors'
       }
     >
-      {copied ? (
-        <Check className="w-4 h-4 text-green-600" />
-      ) : (
-        <Copy className="w-4 h-4" />
-      )}
+      {copied ? <Check className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
       {copied ? 'Copiado' : 'Copiar enlace'}
     </button>
   )

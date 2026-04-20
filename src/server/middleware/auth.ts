@@ -21,7 +21,8 @@ export async function requireAuthorApi(c: Context, next: Next) {
   if (!user) return c.json({ error: 'Unauthorized' }, 401)
   if (user.role === 'reader') return c.json({ error: 'Forbidden: author role required' }, 403)
   if (user.role === 'pending') return c.json({ error: 'Forbidden: account pending approval' }, 403)
-  if (user.role === 'rejected') return c.json({ error: 'Forbidden: author request was rejected' }, 403)
+  if (user.role === 'rejected')
+    return c.json({ error: 'Forbidden: author request was rejected' }, 403)
   await next()
 }
 

@@ -35,9 +35,7 @@ export async function toggleLike(
 
   if (already) {
     // Unlike
-    await db
-      .delete(postLikes)
-      .where(and(eq(postLikes.postId, postId), eq(postLikes.ip, ip)))
+    await db.delete(postLikes).where(and(eq(postLikes.postId, postId), eq(postLikes.ip, ip)))
     const [updated] = await db
       .update(posts)
       .set({ likes: sql`MAX(0, ${posts.likes} - 1)` })

@@ -2,11 +2,11 @@
 
 ## Branches
 
-| Branch | Purpose | Deploys to |
-|---|---|---|
-| `main` | Production-ready code | https://destellos-de-fe.fly.dev |
-| `staging` | Pre-production verification | https://destellos-de-fe-staging.fly.dev |
-| `feat/*`, `fix/*`, `chore/*`, … | Feature / fix work | — |
+| Branch                          | Purpose                     | Deploys to                              |
+| ------------------------------- | --------------------------- | --------------------------------------- |
+| `main`                          | Production-ready code       | https://destellos-de-fe.fly.dev         |
+| `staging`                       | Pre-production verification | https://destellos-de-fe-staging.fly.dev |
+| `feat/*`, `fix/*`, `chore/*`, … | Feature / fix work          | —                                       |
 
 **Workflow:**
 
@@ -19,17 +19,18 @@
 
 This project follows [Conventional Commits](https://www.conventionalcommits.org).
 
-| Prefix | When to use | Semver impact |
-|---|---|---|
-| `feat:` | New user-facing feature | Minor bump |
-| `fix:` | Bug fix | Patch bump |
-| `refactor:` | Code restructuring, no behaviour change | — |
-| `perf:` | Performance improvement | — |
-| `chore:` | Tooling, deps, config — not user-facing | — |
-| `docs:` | Documentation only | — |
-| `style:` | Formatting, no logic change | — |
+| Prefix      | When to use                             | Semver impact |
+| ----------- | --------------------------------------- | ------------- |
+| `feat:`     | New user-facing feature                 | Minor bump    |
+| `fix:`      | Bug fix                                 | Patch bump    |
+| `refactor:` | Code restructuring, no behaviour change | —             |
+| `perf:`     | Performance improvement                 | —             |
+| `chore:`    | Tooling, deps, config — not user-facing | —             |
+| `docs:`     | Documentation only                      | —             |
+| `style:`    | Formatting, no logic change             | —             |
 
 Rules:
+
 - Lowercase prefix and message
 - Imperative mood: "add search" not "added search" or "adds search"
 - No period at the end
@@ -57,8 +58,8 @@ Releases are tag-based. Pushing a `v*` tag triggers the production deploy automa
 
 **Semver rules:**
 
-| Commits since last release | Version bump | Example |
-|---|---|---|
-| Only `fix:` | Patch | `1.3.0` → `1.3.1` |
-| At least one `feat:` | Minor | `1.3.0` → `1.4.0` |
-| Any `BREAKING CHANGE` | Major | `1.3.0` → `2.0.0` |
+| Commits since last release | Version bump | Example           |
+| -------------------------- | ------------ | ----------------- |
+| Only `fix:`                | Patch        | `1.3.0` → `1.3.1` |
+| At least one `feat:`       | Minor        | `1.3.0` → `1.4.0` |
+| Any `BREAKING CHANGE`      | Major        | `1.3.0` → `2.0.0` |

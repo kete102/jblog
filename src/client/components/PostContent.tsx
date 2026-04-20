@@ -8,9 +8,5 @@ interface PostContentProps {
 }
 
 export function PostContent({ doc, className }: PostContentProps) {
-  return (
-    <div className={`prose prose-zinc max-w-none ${className ?? ''}`}>
-      {tiptapToJsx(doc)}
-    </div>
-  )
+  return <div className={`prose prose-zinc max-w-none ${className ?? ''}`}>{tiptapToJsx(doc)}</div>
 }

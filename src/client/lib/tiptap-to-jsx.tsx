@@ -36,10 +36,7 @@ interface HastElement {
 
 // ─── Hast (lowlight output) → React elements ─────────────────────────────────
 
-function renderHastNodes(
-  nodes: (HastText | HastElement)[],
-  keyPrefix: string,
-): React.ReactNode {
+function renderHastNodes(nodes: (HastText | HastElement)[], keyPrefix: string): React.ReactNode {
   return nodes.map((node, i) => {
     if (node.type === 'text') return node.value
     const cls = node.properties?.className?.join(' ') ?? ''
@@ -57,10 +54,7 @@ function renderCodeBlock(code: string, lang: string | undefined, key: string): R
   if (lang && lowlight.listLanguages().includes(lang)) {
     try {
       const tree = lowlight.highlight(lang, code)
-      highlighted = renderHastNodes(
-        (tree.children ?? []) as (HastText | HastElement)[],
-        key,
-      )
+      highlighted = renderHastNodes((tree.children ?? []) as (HastText | HastElement)[], key)
     } catch {
       highlighted = code
     }
@@ -132,8 +126,7 @@ function renderInline(node: TiptapNode, key: string): React.ReactNode {
 // ─── Block node renderer ──────────────────────────────────────────────────────
 
 function renderNode(node: TiptapNode, key: string): React.ReactNode {
-  const children = () =>
-    (node.content ?? []).map((child, i) => renderInline(child, `${key}-${i}`))
+  const children = () => (node.content ?? []).map((child, i) => renderInline(child, `${key}-${i}`))
 
   const blockChildren = () =>
     (node.content ?? []).map((child, i) => renderNode(child, `${key}-${i}`))

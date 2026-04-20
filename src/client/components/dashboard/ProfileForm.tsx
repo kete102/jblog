@@ -56,11 +56,7 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
   }
 
   const deleteAccount = async () => {
-    if (
-      !window.confirm(
-        '¿Eliminar tu cuenta? Esta acción es permanente y no se puede deshacer.',
-      )
-    )
+    if (!window.confirm('¿Eliminar tu cuenta? Esta acción es permanente y no se puede deshacer.'))
       return
     setDeleting(true)
     try {
@@ -88,9 +84,7 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
           />
         ) : (
           <div className="w-16 h-16 rounded-full bg-zinc-200 flex items-center justify-center">
-            <span className="text-2xl font-semibold text-zinc-500">
-              {name[0]?.toUpperCase()}
-            </span>
+            <span className="text-2xl font-semibold text-zinc-500">{name[0]?.toUpperCase()}</span>
           </div>
         )}
         <div className="flex-1">

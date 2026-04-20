@@ -28,12 +28,8 @@ sitemapRouter.get('/sitemap.xml', async (c) => {
 
   const entries = [
     urlEntry(`${baseUrl}/`, null, 1.0),
-    ...publishedPosts.map((p) =>
-      urlEntry(`${baseUrl}/post/${p.slug}`, p.publishedAt, 0.8),
-    ),
-    ...authors.map((a) =>
-      urlEntry(`${baseUrl}/author/${a.id}`, null, 0.6),
-    ),
+    ...publishedPosts.map((p) => urlEntry(`${baseUrl}/post/${p.slug}`, p.publishedAt, 0.8)),
+    ...authors.map((a) => urlEntry(`${baseUrl}/author/${a.id}`, null, 0.6)),
   ]
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>

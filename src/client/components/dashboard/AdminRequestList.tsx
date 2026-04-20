@@ -51,11 +51,7 @@ export function AdminRequestList({ initialRequests }: AdminRequestListProps) {
   }
 
   if (requests.length === 0) {
-    return (
-      <p className="text-sm text-zinc-500 py-8 text-center">
-        No hay solicitudes pendientes.
-      </p>
-    )
+    return <p className="text-sm text-zinc-500 py-8 text-center">No hay solicitudes pendientes.</p>
   }
 
   return (
@@ -78,9 +74,7 @@ export function AdminRequestList({ initialRequests }: AdminRequestListProps) {
                 />
               ) : (
                 <div className="w-10 h-10 rounded-full bg-zinc-200 flex items-center justify-center">
-                  <span className="font-semibold text-zinc-500">
-                    {req.name[0]?.toUpperCase()}
-                  </span>
+                  <span className="font-semibold text-zinc-500">{req.name[0]?.toUpperCase()}</span>
                 </div>
               )}
               <div>

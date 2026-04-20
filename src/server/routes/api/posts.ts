@@ -8,12 +8,7 @@ import {
   getPostsByTag,
   getTagBySlug,
 } from '@/services/posts'
-import {
-  incrementViews,
-  toggleLike,
-  hasLiked,
-  getCommentThreads,
-} from '@/services/engagement'
+import { incrementViews, toggleLike, hasLiked, getCommentThreads } from '@/services/engagement'
 import { getClientIp } from '@/lib/request'
 
 // ─── Schemas ──────────────────────────────────────────────────────────────────
@@ -35,10 +30,7 @@ router.get('/', zValidator('query', postsQuerySchema), async (c) => {
 
   // Tag filter: return posts for that tag along with tag metadata
   if (tag) {
-    const [tagData, posts] = await Promise.all([
-      getTagBySlug(tag),
-      getPostsByTag(tag),
-    ])
+    const [tagData, posts] = await Promise.all([getTagBySlug(tag), getPostsByTag(tag)])
 
     if (!tagData) return c.json({ error: 'Tag not found' }, 404)
 
@@ -88,10 +80,7 @@ router.get('/:slug', async (c) => {
   incrementViews(post.id).catch(() => {})
 
   const ip = getClientIp(c)
-  const [threads, liked] = await Promise.all([
-    getCommentThreads(post.id),
-    hasLiked(post.id, ip),
-  ])
+  const [threads, liked] = await Promise.all([getCommentThreads(post.id), hasLiked(post.id, ip)])
 
   return c.json(
     {

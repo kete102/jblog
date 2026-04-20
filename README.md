@@ -4,22 +4,22 @@ An independent blogging platform. Authors apply to write, readers can comment an
 
 ## Environments
 
-| Environment | URL | Branch |
-|---|---|---|
-| Production | https://destellos-de-fe.fly.dev | `main` |
-| Staging | https://destellos-de-fe-staging.fly.dev | `staging` |
+| Environment | URL                                     | Branch    |
+| ----------- | --------------------------------------- | --------- |
+| Production  | https://destellos-de-fe.fly.dev         | `main`    |
+| Staging     | https://destellos-de-fe-staging.fly.dev | `staging` |
 
 ## Tech stack
 
-| Layer | Technology |
-|---|---|
-| Runtime | Bun |
-| Server / SSR | Hono + `@hono/react-renderer` |
-| Frontend | React 19 + TailwindCSS v4 |
-| Rich text editor | Tiptap |
-| Database | SQLite via `bun:sqlite` + Drizzle ORM |
-| Auth | Google OAuth via Arctic |
-| Deployment | Fly.io — Docker, region `ams` |
+| Layer            | Technology                            |
+| ---------------- | ------------------------------------- |
+| Runtime          | Bun                                   |
+| Server / SSR     | Hono + `@hono/react-renderer`         |
+| Frontend         | React 19 + TailwindCSS v4             |
+| Rich text editor | Tiptap                                |
+| Database         | SQLite via `bun:sqlite` + Drizzle ORM |
+| Auth             | Google OAuth via Arctic               |
+| Deployment       | Fly.io — Docker, region `ams`         |
 
 ## Local development
 
@@ -44,14 +44,14 @@ An independent blogging platform. Authors apply to write, readers can comment an
 
 3. Required environment variables:
 
-   | Variable | Description |
-   |---|---|
-   | `BASE_URL` | Full origin (e.g. `http://localhost:3000`) |
-   | `DATABASE_URL` | Path to the SQLite file (e.g. `./jblog.db`) |
-   | `GOOGLE_CLIENT_ID` | Google OAuth client ID |
-   | `GOOGLE_CLIENT_SECRET` | Google OAuth client secret |
-   | `ADMIN_EMAIL` | Google account email that receives `admin` role on first sign-in |
-   | `SESSION_SECRET` | Random string — at least 32 characters |
+   | Variable               | Description                                                      |
+   | ---------------------- | ---------------------------------------------------------------- |
+   | `BASE_URL`             | Full origin (e.g. `http://localhost:3000`)                       |
+   | `DATABASE_URL`         | Path to the SQLite file (e.g. `./jblog.db`)                      |
+   | `GOOGLE_CLIENT_ID`     | Google OAuth client ID                                           |
+   | `GOOGLE_CLIENT_SECRET` | Google OAuth client secret                                       |
+   | `ADMIN_EMAIL`          | Google account email that receives `admin` role on first sign-in |
+   | `SESSION_SECRET`       | Random string — at least 32 characters                           |
 
    Optional S3/R2 variables (`S3_ENDPOINT`, `S3_BUCKET`, etc.) enable image upload. The app runs fine without them.
 
@@ -117,20 +117,20 @@ bun run db:migrate    # applies it locally
 
 ## Scripts
 
-| Script | Description |
-|---|---|
-| `bun run dev` | Server + CSS watcher + client bundle watcher (parallel) |
-| `bun run build` | Production CSS + client bundle (minified) |
-| `bun run deploy` | Deploy to production |
-| `bun run deploy:staging` | Deploy to staging |
-| `bun run deploy:open` | Open production app in browser |
-| `bun run deploy:staging:open` | Open staging app in browser |
-| `bun run logs` | Tail production logs |
-| `bun run logs:staging` | Tail staging logs |
-| `bun run db:generate` | Generate a Drizzle migration from schema changes |
-| `bun run db:migrate` | Apply pending migrations locally |
-| `bun run db:studio` | Open Drizzle Studio |
-| `bun run db:seed` | Seed the local database with sample data |
+| Script                        | Description                                             |
+| ----------------------------- | ------------------------------------------------------- |
+| `bun run dev`                 | Server + CSS watcher + client bundle watcher (parallel) |
+| `bun run build`               | Production CSS + client bundle (minified)               |
+| `bun run deploy`              | Deploy to production                                    |
+| `bun run deploy:staging`      | Deploy to staging                                       |
+| `bun run deploy:open`         | Open production app in browser                          |
+| `bun run deploy:staging:open` | Open staging app in browser                             |
+| `bun run logs`                | Tail production logs                                    |
+| `bun run logs:staging`        | Tail staging logs                                       |
+| `bun run db:generate`         | Generate a Drizzle migration from schema changes        |
+| `bun run db:migrate`          | Apply pending migrations locally                        |
+| `bun run db:studio`           | Open Drizzle Studio                                     |
+| `bun run db:seed`             | Seed the local database with sample data                |
 
 ## Deployment
 

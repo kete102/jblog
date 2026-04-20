@@ -1,8 +1,5 @@
 // ─── Typed fetch helpers + TanStack Query queryOptions ────────────────────────
 // All client → API communication goes through this file.
-// Using plain fetch (credentials: 'include') so we don't need the Hono RPC
-// client to be fully typed yet — that can be tackled when the AppType exports
-// a clean sub-router type without middleware interference.
 
 import { queryOptions } from '@tanstack/react-query'
 import type {
@@ -81,8 +78,7 @@ export const changelogOptions = queryOptions({
 
 export const dashboardPostsOptions = queryOptions({
   queryKey: ['dashboard', 'posts'],
-  queryFn: () =>
-    apiFetch<{ posts: DashboardPost[] }>('/api/dashboard/posts').then((d) => d.posts),
+  queryFn: () => apiFetch<{ posts: DashboardPost[] }>('/api/dashboard/posts').then((d) => d.posts),
   staleTime: 30_000,
 })
 

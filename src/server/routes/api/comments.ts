@@ -2,12 +2,7 @@ import { Hono } from 'hono'
 import { zValidator } from '@hono/zod-validator'
 import { z } from 'zod'
 import { getPostBySlug } from '@/services/posts'
-import {
-  addComment,
-  updateComment,
-  deleteComment,
-  getCommentById,
-} from '@/services/engagement'
+import { addComment, updateComment, deleteComment, getCommentById } from '@/services/engagement'
 import { requireAuthApi } from '@/server/middleware/auth'
 
 // ─── Schemas ──────────────────────────────────────────────────────────────────

@@ -76,15 +76,7 @@ function DashboardLayout() {
 
 // ─── Sidebar nav link ─────────────────────────────────────────────────────────
 
-function SideLink({
-  to,
-  icon,
-  label,
-}: {
-  to: string
-  icon: React.ReactNode
-  label: string
-}) {
+function SideLink({ to, icon, label }: { to: string; icon: React.ReactNode; label: string }) {
   return (
     <Link
       to={to}

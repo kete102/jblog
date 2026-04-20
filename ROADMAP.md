@@ -10,7 +10,7 @@
 - [x] **Confirm modal on post delete** — Show a confirmation dialog before permanently deleting a post to prevent accidental data loss.
 - [x] **Edit button on post page for owner** — When the logged-in user is the post's author, show an "Edit" button at the top of the public post page as a shortcut to the editor.
 - [x] **Remove Dashboard link from navbar** — The text link "Dashboard" that appears next to the avatar for verified authors (Navbar.tsx lines 59–66) is redundant; the same link exists inside the avatar dropdown. Remove the standalone link.
-- [x] **Changelog: English + fix duplicate title** — Revert the changelog page copy back to English (title, description, footer CTA). Also fix the duplicate heading: the page renders an `<h1>` in JSX *and* CHANGELOG.md opens with `# Changelog`, causing the title to appear twice. Strip the first heading from the rendered markdown or remove the JSX `<h1>`.
+- [x] **Changelog: English + fix duplicate title** — Revert the changelog page copy back to English (title, description, footer CTA). Also fix the duplicate heading: the page renders an `<h1>` in JSX _and_ CHANGELOG.md opens with `# Changelog`, causing the title to appear twice. Strip the first heading from the rendered markdown or remove the JSX `<h1>`.
 - [ ] **Site logo** — Design or source a logo for the site and integrate it into the navbar and favicon.
 
 ## Medium effort
@@ -30,7 +30,7 @@
 - [ ] **Remove slug input** — The slug is already auto-generated from the title; remove the manual slug input from the sidebar. Keep the auto-generation logic but stop exposing it as an editable field.
 - [ ] **Reduce editor line-height** — The Tiptap editor area currently uses default prose line-height which is larger than what the public post page renders. Adjust the editor's line-height to match the published view so what you see is closer to what readers see.
 - [ ] **Redesign post creation page** — Make the editor more minimal and focused on writing. Remove visual noise, keep only essential controls visible. Fix toolbar active-state highlighting so authors can clearly see which formatting is active (bold, italic, etc.). Add H1 to the toolbar — it is currently missing.
-- [ ] **Local image upload in editor** — Authors can upload images from their device for inline content and for the cover image, instead of pasting a URL. Requires file storage (e.g. Tigris on Fly.io) — see also *Image upload* below.
+- [ ] **Local image upload in editor** — Authors can upload images from their device for inline content and for the cover image, instead of pasting a URL. Requires file storage (e.g. Tigris on Fly.io) — see also _Image upload_ below.
 
 ## Higher effort
 
@@ -46,7 +46,6 @@
   **Why a pure client SPA does not work for this app:**
 
   A pure SPA serves an empty HTML shell and paints all content with JavaScript. For a blog this breaks SEO in two distinct ways:
-
   - **Social sharing stops working.** Facebook, Twitter/X, LinkedIn, iMessage, WhatsApp and most other platforms scrape `og:title`, `og:description`, and `og:image` from raw HTML without executing JavaScript. Every shared post link would render a blank card with no title, no image, and no description. This is a hard blocker.
   - **Search indexing becomes unreliable.** Google does execute JavaScript but queues rendering separately from crawling — a new post can sit unrendered in that queue for days or weeks before it is re-indexed. Bing, DuckDuckGo, and other crawlers generally do not execute JavaScript at all. The current JSON-LD `BlogPosting` structured data (which drives Google rich results) would also disappear.
 
@@ -60,14 +59,13 @@
 
   **Split by route surface:**
 
-  | Route group | Rendering strategy | Why |
-  |---|---|---|
-  | `/`, `/post/:slug`, `/tag/:slug`, `/author/:id` | SSR first load + hydrate | Public, indexed, shared on social |
-  | `/dashboard/*`, `/dashboard/post/*` | Pure client SPA | `noIndex`, no social sharing, auth-gated |
-  | `/auth/*` | Server redirect flows | No client component needed |
+  | Route group                                     | Rendering strategy       | Why                                      |
+  | ----------------------------------------------- | ------------------------ | ---------------------------------------- |
+  | `/`, `/post/:slug`, `/tag/:slug`, `/author/:id` | SSR first load + hydrate | Public, indexed, shared on social        |
+  | `/dashboard/*`, `/dashboard/post/*`             | Pure client SPA          | `noIndex`, no social sharing, auth-gated |
+  | `/auth/*`                                       | Server redirect flows    | No client component needed               |
 
   **What would need to change:**
-
   1. **Add Zod validators to all mutating routes** (`@hono/zod-validator`). Required for Hono RPC to infer typed inputs. Currently `POST /dashboard/post` and `POST /dashboard/post/:id` parse JSON manually.
 
   2. **Explicit status codes on all `c.json()` calls.** RPC narrows response types by status code. Replace `c.json(data)` with `c.json(data, 200)` throughout. Replace `c.notFound()` with `c.json({ error: '...' }, 404)`.
@@ -75,6 +73,7 @@
   3. **Export `AppType` from the root router** using chained route definitions so TypeScript can infer the full type. Sub-routers need to chain handlers (`.get().post()...`) instead of the current imperative `router.get(...)` style.
 
   4. **Add an `hcWithType` wrapper** to pre-compute the client type at compile time and avoid IDE slowdown from deep type instantiation:
+
      ```ts
      // src/client/rpc.ts
      import { hc } from 'hono/client'

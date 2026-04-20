@@ -89,9 +89,7 @@ function renderNode(node: Node): string {
 
     case 'codeBlock': {
       const lang = node.attrs?.language ? ` data-language="${node.attrs.language}"` : ''
-      const inner = escapeHtml(
-        (node.content ?? []).map((n) => n.text ?? '').join(''),
-      )
+      const inner = escapeHtml((node.content ?? []).map((n) => n.text ?? '').join(''))
       return `<pre class="bg-zinc-900 text-zinc-100 rounded-xl p-4 overflow-x-auto my-6 text-sm font-mono"${lang}><code>${inner}</code></pre>`
     }
 

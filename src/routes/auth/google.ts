@@ -23,11 +23,7 @@ authRouter.get('/google', async (c) => {
   const state = generateState()
   const codeVerifier = generateCodeVerifier()
 
-  const url = google.createAuthorizationURL(state, codeVerifier, [
-    'openid',
-    'email',
-    'profile',
-  ])
+  const url = google.createAuthorizationURL(state, codeVerifier, ['openid', 'email', 'profile'])
 
   setCookie(c, 'google_oauth_state', state, {
     httpOnly: true,
@@ -126,10 +122,7 @@ authRouter.get('/google/callback', async (c) => {
     }
     // Update avatar if changed
     if (avatarUrl && avatarUrl !== user.avatarUrl) {
-      await db
-        .update(users)
-        .set({ avatarUrl, updatedAt: new Date() })
-        .where(eq(users.id, user.id))
+      await db.update(users).set({ avatarUrl, updatedAt: new Date() }).where(eq(users.id, user.id))
     }
   }
 

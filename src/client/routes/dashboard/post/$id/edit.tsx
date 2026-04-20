@@ -15,9 +15,7 @@ export const Route = createFileRoute('/dashboard/post/$id/edit')({
     }
   },
   component: EditPostPage,
-  notFoundComponent: () => (
-    <div className="text-zinc-500 text-sm">Publicación no encontrada.</div>
-  ),
+  notFoundComponent: () => <div className="text-zinc-500 text-sm">Publicación no encontrada.</div>,
 })
 
 function EditPostPage() {

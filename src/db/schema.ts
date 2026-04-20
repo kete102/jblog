@@ -36,9 +36,7 @@ export const posts = sqliteTable('posts', {
   slug: text('slug').notNull().unique(),
   title: text('title').notNull(),
   excerpt: text('excerpt'),
-  content: text('content', { mode: 'json' })
-    .$type<Record<string, unknown>>()
-    .default({}),
+  content: text('content', { mode: 'json' }).$type<Record<string, unknown>>().default({}),
   coverImageUrl: text('cover_image_url'),
   authorId: text('author_id')
     .notNull()
@@ -203,7 +201,11 @@ export const postLikesRelations = relations(postLikes, ({ one }) => ({
 export const commentsRelations = relations(comments, ({ one, many }) => ({
   post: one(posts, { fields: [comments.postId], references: [posts.id] }),
   user: one(users, { fields: [comments.userId], references: [users.id] }),
-  parent: one(comments, { fields: [comments.parentId], references: [comments.id], relationName: 'replies' }),
+  parent: one(comments, {
+    fields: [comments.parentId],
+    references: [comments.id],
+    relationName: 'replies',
+  }),
   replies: many(comments, { relationName: 'replies' }),
 }))
 
