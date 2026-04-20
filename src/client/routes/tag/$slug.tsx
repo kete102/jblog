@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { PostCard } from '../../components/PostCard'
 import { TagBadge } from '../../components/TagBadge'
 import { tagPostsOptions } from '../../lib/api'
+import { usePageTitle } from '../../lib/usePageTitle'
 
 // ─── Tag page — posts filtered by tag ─────────────────────────────────────────
 
@@ -26,6 +27,7 @@ export const Route = createFileRoute('/tag/$slug')({
 function TagPage() {
   const { slug } = Route.useParams()
   const { data, isLoading, isError } = useQuery(tagPostsOptions(slug))
+  usePageTitle(data?.tag.name)
 
   if (isLoading) {
     return (

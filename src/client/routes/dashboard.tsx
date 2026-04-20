@@ -2,6 +2,7 @@ import React from 'react'
 import { createFileRoute, Outlet, redirect, Link } from '@tanstack/react-router'
 import { LayoutDashboard, FileText, User, Shield, PenSquare } from 'lucide-react'
 import { meOptions } from '../lib/api'
+import { usePageTitle } from '../lib/usePageTitle'
 import type { Me } from '../types'
 
 // ─── Dashboard parent route + auth guard ─────────────────────────────────────
@@ -28,6 +29,7 @@ export const Route = createFileRoute('/dashboard')({
 
 function DashboardLayout() {
   const { me } = Route.useRouteContext()
+  usePageTitle('Dashboard')
 
   return (
     <div className="flex min-h-[calc(100vh-3.5rem)]">

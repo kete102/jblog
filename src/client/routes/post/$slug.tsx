@@ -7,6 +7,7 @@ import { CopyLinkButton } from '../../components/CopyLinkButton'
 import { AuthorCard } from '../../components/AuthorCard'
 import { CommentSection } from '../../components/CommentSection'
 import { postOptions, meOptions } from '../../lib/api'
+import { usePageTitle } from '../../lib/usePageTitle'
 
 // ─── Post detail page ─────────────────────────────────────────────────────────
 
@@ -30,6 +31,7 @@ function PostPage() {
   const { slug } = Route.useParams()
   const { data, isLoading, isError } = useQuery(postOptions(slug))
   const { data: me = null } = useQuery(meOptions)
+  usePageTitle(data?.post.title)
 
   if (isLoading) {
     return (
