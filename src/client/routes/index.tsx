@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { PostCard } from '../components/PostCard'
 import { Pagination } from '../components/Pagination'
 import { postsOptions } from '../lib/api'
+import { usePageTitle } from '../lib/usePageTitle'
 
 // ─── Home — paginated published post listing ───────────────────────────────────
 
@@ -15,6 +16,7 @@ export const Route = createFileRoute('/')({
 function HomePage() {
   const [page, setPage] = useState(1)
   const { data, isLoading, isError } = useQuery(postsOptions(page))
+  usePageTitle()
 
   if (isLoading) {
     return (

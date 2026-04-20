@@ -3,6 +3,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
 import { marked } from 'marked'
 import { changelogOptions } from '../lib/api'
+import { usePageTitle } from '../lib/usePageTitle'
 
 // Configure marked — use synchronous renderer, sanitise nothing (we own the MD)
 marked.setOptions({ async: false })
@@ -16,6 +17,7 @@ export const Route = createFileRoute('/changelog')({
 
 function ChangelogPage() {
   const { data, isLoading, isError } = useQuery(changelogOptions)
+  usePageTitle('Changelog')
 
   const html = useMemo(() => {
     if (!data?.markdown) return ''

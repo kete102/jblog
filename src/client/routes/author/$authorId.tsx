@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { AuthorCard } from '../../components/AuthorCard'
 import { PostCard } from '../../components/PostCard'
 import { authorOptions } from '../../lib/api'
+import { usePageTitle } from '../../lib/usePageTitle'
 import type { PostSummary } from '../../types'
 
 // ─── Author public profile page ───────────────────────────────────────────────
@@ -27,6 +28,7 @@ export const Route = createFileRoute('/author/$authorId')({
 function AuthorPage() {
   const { authorId } = Route.useParams()
   const { data, isLoading, isError } = useQuery(authorOptions(authorId))
+  usePageTitle(data?.author.name)
 
   if (isLoading) {
     return (
