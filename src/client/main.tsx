@@ -1,21 +1,38 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
+import { RouterProvider, createRouter } from '@tanstack/react-router'
+import { QueryClientProvider } from '@tanstack/react-query'
+import { routeTree } from './routeTree.gen'
+import { queryClient } from './query-client'
 import './styles.css'
 
-// ─── Placeholder root ─────────────────────────────────────────────────────────
-// Phase 3 will replace this with TanStack Router + Query.
+// ─── Router ───────────────────────────────────────────────────────────────────
+// The query client is passed as router context so route loaders (beforeLoad)
+// can prefetch data with the same cache used by useQuery() in components.
 
-function App() {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-zinc-50">
-      <p className="text-zinc-500 text-sm">jblog — SPA en construcción</p>
-    </div>
-  )
+const router = createRouter({
+  routeTree,
+  context: { queryClient },
+  defaultPreload: 'intent',
+  defaultPreloadStaleTime: 0,
+})
+
+// ─── Type registration ────────────────────────────────────────────────────────
+// Required by TanStack Router for full TypeScript inference across routes.
+
+declare module '@tanstack/react-router' {
+  interface Register {
+    router: typeof router
+  }
 }
+
+// ─── Mount ────────────────────────────────────────────────────────────────────
 
 const root = document.getElementById('root')!
 createRoot(root).render(
   <React.StrictMode>
-    <App />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   </React.StrictMode>,
 )
