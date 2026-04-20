@@ -8,8 +8,10 @@
 - [x] **Type-safe env config** — Centralized `src/config.ts` that parses and types all env variables at startup. Fail fast on missing required vars.
 - [x] **Mobile navbar fix** — Avatar button not clickable on mobile. Replace with a slide-in side menu (mirroring the dashboard sidebar) or a reliable dropdown.
 - [x] **Confirm modal on post delete** — Show a confirmation dialog before permanently deleting a post to prevent accidental data loss.
-- [ ] **Remove Dashboard link from navbar** — The text link "Dashboard" that appears next to the avatar for verified authors (Navbar.tsx lines 59–66) is redundant; the same link exists inside the avatar dropdown. Remove the standalone link.
-- [ ] **Changelog: English + fix duplicate title** — Revert the changelog page copy back to English (title, description, footer CTA). Also fix the duplicate heading: the page renders an `<h1>` in JSX *and* CHANGELOG.md opens with `# Changelog`, causing the title to appear twice. Strip the first heading from the rendered markdown or remove the JSX `<h1>`.
+- [x] **Edit button on post page for owner** — When the logged-in user is the post's author, show an "Edit" button at the top of the public post page as a shortcut to the editor.
+- [x] **Remove Dashboard link from navbar** — The text link "Dashboard" that appeared next to the avatar for verified authors was redundant; the same link exists inside the avatar dropdown.
+- [x] **Changelog: English + fix duplicate title** — Reverted changelog copy back to English and stripped the leading `# Changelog` heading from the rendered markdown to prevent the title appearing twice.
+- [ ] **Site logo** — Design or source a logo for the site and integrate it into the navbar and favicon.
 
 ## Medium effort
 
@@ -19,6 +21,7 @@
 - [x] **Auto-create slugs** — Auto-generate slugs for posts from the title in the editor.
 - [x] **Changelog page** — Public `/changelog` page listing updates and fixes.
 - [ ] **Spanish localisation + rebrand** — Change site language to Spanish. Rename to "Destellos de luz", update all page titles, meta descriptions, UI copy, and logo to reflect the name and Christian theme.
+- [ ] **30-day trash for deleted posts** — Soft-delete posts instead of hard-deleting them. Keep them in a trash bin for 30 days so authors can restore accidentally deleted content. Requires a `deleted_at` column, a trash view in the dashboard, and a scheduled cleanup job.
 - [ ] **Dashboard posts as cards** — Replace the current table layout in `/dashboard` with post cards that match the public postcard look, so authors can preview how their posts will appear. Each card should have a 3-dot context menu with actions: Edit, Publish/Unpublish, Delete.
 
 ## Post editor improvements
