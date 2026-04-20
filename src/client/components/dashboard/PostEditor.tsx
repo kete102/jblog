@@ -314,7 +314,7 @@ export function PostEditor({
   }, [save])
 
   return (
-    <div className="h-screen flex flex-col bg-white">
+    <div className="h-[calc(100vh-3.5rem)] flex flex-col bg-white">
       {/* Top bar */}
       <header className="h-14 flex items-center justify-between px-6 border-b border-zinc-200 shrink-0">
         <Link
