@@ -56,15 +56,6 @@ export default function Navbar({ user }: NavbarProps) {
         <div className="flex items-center gap-3">
           {user ? (
             <>
-              {isVerifiedAuthor(user) && (
-                <a
-                  href="/dashboard"
-                  className="text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors px-3 py-1.5 rounded-lg hover:bg-zinc-100"
-                >
-                  Dashboard
-                </a>
-              )}
-
               <div className="relative">
                 <button
                   id="nav-avatar-btn"
