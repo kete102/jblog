@@ -13,8 +13,10 @@ describe('formatDate', () => {
   const JAN_15_ISO = '2025-01-15T00:00:00.000Z'
 
   // Helper: what the es-ES locale actually produces — avoids hard-coding
-  const long = (d: Date) => d.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })
-  const short = (d: Date) => d.toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
+  const long = (d: Date) =>
+    d.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })
+  const short = (d: Date) =>
+    d.toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
 
   it('returns empty string for null', () => {
     expect(formatDate(null)).toBe('')

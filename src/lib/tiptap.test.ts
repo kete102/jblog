@@ -175,9 +175,7 @@ describe('tiptapToHtml', () => {
 
   it('applies link mark with target="_blank"', () => {
     const html = tiptapToHtml(
-      doc(
-        p(text('go', [{ type: 'link', attrs: { href: '/path', target: '_blank' } }])),
-      ),
+      doc(p(text('go', [{ type: 'link', attrs: { href: '/path', target: '_blank' } }]))),
     )
     expect(html).toContain('target="_blank"')
   })

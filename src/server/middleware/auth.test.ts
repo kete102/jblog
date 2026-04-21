@@ -21,7 +21,10 @@ function makeUser(role: User['role']): User {
   }
 }
 
-type Guard = (c: Parameters<Parameters<Hono['get']>[1]>[0], next: () => Promise<void>) => Promise<Response | void>
+type Guard = (
+  c: Parameters<Parameters<Hono['get']>[1]>[0],
+  next: () => Promise<void>,
+) => Promise<Response | void>
 
 /** Create a minimal Hono app that injects a user then runs the guard. */
 function makeApp(guard: Guard, user: User | null) {

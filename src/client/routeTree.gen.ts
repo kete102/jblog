@@ -264,9 +264,7 @@ const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardPostIdEditRoute: DashboardPostIdEditRoute,
 }
 
-const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
-  DashboardRouteChildren,
-)
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(DashboardRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,

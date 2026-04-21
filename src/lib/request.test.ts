@@ -15,9 +15,7 @@ describe('getClientIp', () => {
   })
 
   it('returns the first IP when x-forwarded-for contains multiple IPs', () => {
-    expect(getClientIp(ctx({ 'x-forwarded-for': '1.2.3.4, 5.6.7.8, 9.10.11.12' }))).toBe(
-      '1.2.3.4',
-    )
+    expect(getClientIp(ctx({ 'x-forwarded-for': '1.2.3.4, 5.6.7.8, 9.10.11.12' }))).toBe('1.2.3.4')
   })
 
   it('trims whitespace from the first IP in x-forwarded-for', () => {
@@ -33,8 +31,8 @@ describe('getClientIp', () => {
   })
 
   it('prefers x-forwarded-for over x-real-ip', () => {
-    expect(
-      getClientIp(ctx({ 'x-forwarded-for': '1.1.1.1', 'x-real-ip': '2.2.2.2' })),
-    ).toBe('1.1.1.1')
+    expect(getClientIp(ctx({ 'x-forwarded-for': '1.1.1.1', 'x-real-ip': '2.2.2.2' }))).toBe(
+      '1.1.1.1',
+    )
   })
 })
