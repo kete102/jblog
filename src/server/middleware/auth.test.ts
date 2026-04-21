@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test'
-import { Hono } from 'hono'
+import { Hono, type Context } from 'hono'
 import { requireAdminApi, requireAuthApi, requireAuthorApi } from './auth'
 import type { User } from '@/db/schema'
 
@@ -21,10 +21,7 @@ function makeUser(role: User['role']): User {
   }
 }
 
-type Guard = (
-  c: Parameters<Parameters<Hono['get']>[1]>[0],
-  next: () => Promise<void>,
-) => Promise<Response | void>
+type Guard = (c: Context, next: () => Promise<void>) => Promise<Response | void>
 
 /** Create a minimal Hono app that injects a user then runs the guard. */
 function makeApp(guard: Guard, user: User | null) {
@@ -51,7 +48,7 @@ describe('requireAuthApi', () => {
   it('returns 401 when unauthenticated', async () => {
     const res = await makeApp(requireAuthApi, null).request('/test')
     expect(res.status).toBe(401)
-    expect((await res.json<{ error: string }>()).error).toBe('Unauthorized')
+    expect(((await res.json()) as { error: string }).error).toBe('Unauthorized')
   })
 })
 
@@ -76,21 +73,21 @@ describe('requireAuthorApi', () => {
   it('returns 403 for reader role', async () => {
     const res = await makeApp(requireAuthorApi, makeUser('reader')).request('/test')
     expect(res.status).toBe(403)
-    const body = await res.json<{ error: string }>()
+    const body = (await res.json()) as { error: string }
     expect(body.error).toContain('author role required')
   })
 
   it('returns 403 for pending role', async () => {
     const res = await makeApp(requireAuthorApi, makeUser('pending')).request('/test')
     expect(res.status).toBe(403)
-    const body = await res.json<{ error: string }>()
+    const body = (await res.json()) as { error: string }
     expect(body.error).toContain('pending approval')
   })
 
   it('returns 403 for rejected role', async () => {
     const res = await makeApp(requireAuthorApi, makeUser('rejected')).request('/test')
     expect(res.status).toBe(403)
-    const body = await res.json<{ error: string }>()
+    const body = (await res.json()) as { error: string }
     expect(body.error).toContain('rejected')
   })
 })
@@ -111,7 +108,7 @@ describe('requireAdminApi', () => {
   it('returns 403 for reader role', async () => {
     const res = await makeApp(requireAdminApi, makeUser('reader')).request('/test')
     expect(res.status).toBe(403)
-    const body = await res.json<{ error: string }>()
+    const body = (await res.json()) as { error: string }
     expect(body.error).toContain('admin role required')
   })
 
