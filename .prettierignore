@@ -3,3 +3,4 @@ node_modules/
 bun.lock
 *.db
 drizzle/
+src/client/routeTree.gen.ts
