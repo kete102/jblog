@@ -18,6 +18,10 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),
+      // daisyui's package.json has "browser": "./daisyui.css", which causes
+      // @tailwindcss/vite to try loading a .css file as an ESM module (fails).
+      // Point the alias directly at the JS entrypoint to bypass browser-field resolution.
+      daisyui: resolve(__dirname, 'node_modules/daisyui/index.js'),
     },
   },
 
