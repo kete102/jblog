@@ -27,7 +27,7 @@ function ChangelogPage() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-zinc-400 text-sm">Cargando changelog…</p>
+        <p className="text-base-content/50 text-sm">Cargando changelog…</p>
       </div>
     )
   }
@@ -35,15 +35,15 @@ function ChangelogPage() {
   if (isError || !data) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-red-500 text-sm">No se pudo cargar el changelog.</p>
+        <p className="text-error text-sm">No se pudo cargar el changelog.</p>
       </div>
     )
   }
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold text-zinc-900 mb-8">Changelog</h1>
-      <div className="prose prose-zinc max-w-none" dangerouslySetInnerHTML={{ __html: html }} />
+      <h1 className="text-3xl font-bold text-base-content mb-8">Changelog</h1>
+      <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: html }} />
     </div>
   )
 }

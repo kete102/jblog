@@ -39,3 +39,8 @@
 - [ ] **Account-based likes** — replace IP-based likes with user-session likes so the same reader can like from any device. Requires schema change.
 - [ ] **Image upload** — File storage (e.g. Tigris on Fly.io) for author-uploaded images: inline editor images, post cover image, and profile avatar. Currently all three accept only a URL string.
 - [ ] **Author management in admin** — list of all authors, ability to revoke or demote.
+
+## Fix
+
+- [ ] User's can't reply to their own comments
+- [ ] If a post it's liked by the user, the postcard should reflect this with the heart icon being red. Maybe this needs user liked posts fetch or something like that to check if it's liked already.

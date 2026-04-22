@@ -1,23 +1,12 @@
 // ─── CommentSection — threaded comments + submission form ────────────────────
 import React, { useState } from 'react'
-import { Reply, Pencil, Trash2, Send, X } from 'lucide-react'
+import { Reply, Pencil, Trash2, Send } from 'lucide-react'
+import { AnimatePresence, motion } from 'framer-motion'
 import { formatDate } from '../lib/format'
+import { cn } from '../lib/cn'
 import type { CommentThread, CommentWithUser, Me } from '../types'
 
 // ─── API helpers ──────────────────────────────────────────────────────────────
-
-async function apiPost(path: string, body: unknown): Promise<void> {
-  const res = await fetch(path, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-    body: JSON.stringify(body),
-  })
-  if (!res.ok) {
-    const json = await res.json().catch(() => ({}))
-    throw new Error((json as { error?: string }).error ?? 'Error')
-  }
-}
 
 async function apiPut(path: string, body: unknown): Promise<void> {
   const res = await fetch(path, {
@@ -40,18 +29,37 @@ async function apiDelete(path: string): Promise<void> {
   }
 }
 
+// ─── Shared class fragments ───────────────────────────────────────────────────
+
+const actionBtnClass = cn(
+  'inline-flex items-center gap-1 px-2 py-1 rounded text-xs',
+  'text-base-content/50 hover:text-base-content/80 hover:bg-base-200 transition-colors',
+)
+
+const cancelBtnClass = cn(
+  'px-3 py-1.5 rounded-lg text-sm',
+  'text-base-content/60 hover:text-base-content/80 hover:bg-base-200 transition-colors',
+)
+
+const submitBtnClass = cn(
+  'inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-medium',
+  'bg-primary text-primary-content hover:bg-primary/90 transition-colors disabled:opacity-50',
+)
+
+const textareaClass = cn(
+  'w-full px-3 py-2 rounded-lg border border-base-300 bg-base-100',
+  'text-sm text-base-content placeholder-base-content/40',
+  'focus:outline-none focus:ring-2 focus:ring-primary resize-none',
+)
+
 // ─── Avatar helper ────────────────────────────────────────────────────────────
 
 function Avatar({ user }: { user: CommentWithUser['user'] }) {
   return user.avatarUrl ? (
-    <img
-      src={user.avatarUrl}
-      alt={user.name}
-      className="w-8 h-8 rounded-full object-cover shrink-0"
-    />
+    <img src={user.avatarUrl} alt={user.name} className="w-8 h-8 rounded-full object-cover shrink-0" />
   ) : (
-    <div className="w-8 h-8 rounded-full bg-zinc-200 flex items-center justify-center shrink-0">
-      <span className="text-sm font-medium text-zinc-500">{user.name[0]?.toUpperCase()}</span>
+    <div className="w-8 h-8 rounded-full bg-base-300 flex items-center justify-center shrink-0">
+      <span className="text-sm font-medium text-base-content/60">{user.name[0]?.toUpperCase()}</span>
     </div>
   )
 }
@@ -97,9 +105,7 @@ function CommentForm({
         const json = await res.json().catch(() => ({}))
         throw new Error((json as { error?: string }).error ?? 'Error al enviar')
       }
-      // We don't get the comment back from the API; we'll refetch or just
-      // show a success state. For now, create a minimal local object.
-      const placeholder: CommentWithUser = {
+      const optimistic: CommentWithUser = {
         id: crypto.randomUUID(),
         postId: '',
         userId: '',
@@ -110,7 +116,7 @@ function CommentForm({
         user: { name: 'Tú', avatarUrl: null },
       }
       setContent('')
-      onSuccess(placeholder)
+      onSuccess(optimistic)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error al enviar')
     } finally {
@@ -125,16 +131,12 @@ function CommentForm({
         onChange={(e) => setContent(e.target.value)}
         placeholder={placeholder}
         rows={3}
-        className="w-full px-3 py-2 rounded-lg border border-zinc-200 bg-white text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+        className={textareaClass}
       />
-      {error && <p className="text-xs text-red-500">{error}</p>}
+      {error && <p className="text-xs text-error">{error}</p>}
       <div className="flex items-center gap-2 justify-end">
         {onCancel && (
-          <button
-            type="button"
-            onClick={onCancel}
-            className="px-3 py-1.5 rounded-lg text-sm text-zinc-500 hover:text-zinc-700 hover:bg-zinc-100 transition-colors"
-          >
+          <button type="button" onClick={onCancel} className={cancelBtnClass}>
             Cancelar
           </button>
         )}
@@ -142,7 +144,7 @@ function CommentForm({
           type="button"
           onClick={submit}
           disabled={sending || !content.trim()}
-          className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors disabled:opacity-50"
+          className={submitBtnClass}
         >
           <Send className="w-3.5 h-3.5" />
           {sending ? 'Enviando…' : submitLabel}
@@ -187,22 +189,18 @@ function EditCommentForm({ comment, onSave, onCancel }: EditCommentFormProps) {
         onChange={(e) => setContent(e.target.value)}
         rows={3}
         autoFocus
-        className="w-full px-3 py-2 rounded-lg border border-zinc-200 bg-white text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+        className={textareaClass}
       />
-      {error && <p className="text-xs text-red-500">{error}</p>}
+      {error && <p className="text-xs text-error">{error}</p>}
       <div className="flex items-center gap-2 justify-end">
-        <button
-          type="button"
-          onClick={onCancel}
-          className="px-3 py-1.5 rounded-lg text-sm text-zinc-500 hover:text-zinc-700 hover:bg-zinc-100 transition-colors"
-        >
+        <button type="button" onClick={onCancel} className={cancelBtnClass}>
           Cancelar
         </button>
         <button
           type="button"
           onClick={save}
           disabled={saving || !content.trim()}
-          className="px-4 py-1.5 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors disabled:opacity-50"
+          className={cn(submitBtnClass, 'gap-0')}
         >
           {saving ? 'Guardando…' : 'Guardar'}
         </button>
@@ -251,28 +249,25 @@ function SingleComment({
   }
 
   return (
-    <div className={`flex gap-3 ${isReply ? 'pl-10' : ''}`}>
+    <div className={cn('flex gap-3', isReply && 'pl-10')}>
       <Avatar user={comment.user} />
       <div className="flex-1 min-w-0">
         <div className="flex items-baseline gap-2 flex-wrap">
-          <span className="text-sm font-semibold text-zinc-900">{comment.user.name}</span>
-          <span className="text-xs text-zinc-400">{formatDate(comment.createdAt, 'short')}</span>
+          <span className="text-sm font-semibold text-base-content">{comment.user.name}</span>
+          <span className="text-xs text-base-content/50">{formatDate(comment.createdAt, 'short')}</span>
           {comment.updatedAt !== comment.createdAt && (
-            <span className="text-xs text-zinc-400">(editado)</span>
+            <span className="text-xs text-base-content/50">(editado)</span>
           )}
         </div>
 
         {editing ? (
           <EditCommentForm
             comment={comment}
-            onSave={(updated) => {
-              onEdit(updated)
-              setEditing(false)
-            }}
+            onSave={(updated) => { onEdit(updated); setEditing(false) }}
             onCancel={() => setEditing(false)}
           />
         ) : (
-          <p className="text-sm text-zinc-700 mt-0.5 whitespace-pre-wrap break-words">
+          <p className="text-sm text-base-content/80 mt-0.5 whitespace-pre-wrap break-words">
             {comment.content}
           </p>
         )}
@@ -284,18 +279,14 @@ function SingleComment({
               <button
                 type="button"
                 onClick={() => setReplyOpen((o) => !o)}
-                className="inline-flex items-center gap-1 px-2 py-1 rounded text-xs text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 transition-colors"
+                className={actionBtnClass}
               >
                 <Reply className="w-3.5 h-3.5" />
                 Responder
               </button>
             )}
             {canEdit && (
-              <button
-                type="button"
-                onClick={() => setEditing(true)}
-                className="inline-flex items-center gap-1 px-2 py-1 rounded text-xs text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 transition-colors"
-              >
+              <button type="button" onClick={() => setEditing(true)} className={actionBtnClass}>
                 <Pencil className="w-3.5 h-3.5" />
                 Editar
               </button>
@@ -305,7 +296,10 @@ function SingleComment({
                 type="button"
                 onClick={handleDelete}
                 disabled={deleting}
-                className="inline-flex items-center gap-1 px-2 py-1 rounded text-xs text-zinc-400 hover:text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50"
+                className={cn(
+                  'inline-flex items-center gap-1 px-2 py-1 rounded text-xs transition-colors',
+                  'text-base-content/50 hover:text-red-600 hover:bg-red-50 disabled:opacity-50',
+                )}
               >
                 <Trash2 className="w-3.5 h-3.5" />
                 Eliminar
@@ -315,21 +309,27 @@ function SingleComment({
         )}
 
         {/* Inline reply form */}
-        {replyOpen && (
-          <div className="mt-3">
-            <CommentForm
-              postSlug={postSlug}
-              parentId={comment.id}
-              placeholder="Escribe una respuesta…"
-              submitLabel="Responder"
-              onSuccess={(reply) => {
-                onReply?.(reply)
-                setReplyOpen(false)
-              }}
-              onCancel={() => setReplyOpen(false)}
-            />
-          </div>
-        )}
+        <AnimatePresence>
+          {replyOpen && (
+            <motion.div
+              key="reply-form"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.18, ease: 'easeOut' }}
+              className="overflow-hidden mt-3"
+            >
+              <CommentForm
+                postSlug={postSlug}
+                parentId={comment.id}
+                placeholder="Escribe una respuesta…"
+                submitLabel="Responder"
+                onSuccess={(reply) => { onReply?.(reply); setReplyOpen(false) }}
+                onCancel={() => setReplyOpen(false)}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   )
@@ -346,43 +346,36 @@ interface CommentSectionProps {
 export function CommentSection({ postSlug, initialThreads, me }: CommentSectionProps) {
   const [threads, setThreads] = useState<CommentThread[]>(initialThreads)
 
-  const addTopLevel = (comment: CommentWithUser) => {
+  const addTopLevel = (comment: CommentWithUser) =>
     setThreads((prev) => [{ comment, replies: [] }, ...prev])
-  }
 
-  const addReply = (reply: CommentWithUser) => {
+  const addReply = (reply: CommentWithUser) =>
     setThreads((prev) =>
       prev.map((t) =>
         t.comment.id === reply.parentId ? { ...t, replies: [...t.replies, reply] } : t,
       ),
     )
-  }
 
-  const editComment = (updated: CommentWithUser) => {
+  const editComment = (updated: CommentWithUser) =>
     setThreads((prev) =>
       prev.map((t) => {
         if (t.comment.id === updated.id) return { ...t, comment: updated }
-        return {
-          ...t,
-          replies: t.replies.map((r) => (r.id === updated.id ? updated : r)),
-        }
+        return { ...t, replies: t.replies.map((r) => (r.id === updated.id ? updated : r)) }
       }),
     )
-  }
 
-  const deleteComment = (id: string) => {
+  const deleteComment = (id: string) =>
     setThreads((prev) =>
       prev
         .filter((t) => t.comment.id !== id)
         .map((t) => ({ ...t, replies: t.replies.filter((r) => r.id !== id) })),
     )
-  }
 
   const total = threads.reduce((n, t) => n + 1 + t.replies.length, 0)
 
   return (
     <section className="mt-12">
-      <h2 className="text-lg font-semibold text-zinc-900 mb-6">
+      <h2 className="text-lg font-semibold text-base-content mb-6">
         {total > 0 ? `${total} comentario${total === 1 ? '' : 's'}` : 'Comentarios'}
       </h2>
 
@@ -395,8 +388,8 @@ export function CommentSection({ postSlug, initialThreads, me }: CommentSectionP
           </div>
         </div>
       ) : (
-        <div className="mb-8 p-4 rounded-xl border border-zinc-200 bg-zinc-50 text-sm text-zinc-600">
-          <a href="/auth/google" className="text-indigo-600 font-medium hover:underline">
+        <div className="mb-8 p-4 rounded-xl border border-base-300 bg-base-100 text-sm text-base-content/70">
+          <a href="/auth/google" className="text-primary font-medium hover:underline">
             Inicia sesión
           </a>{' '}
           para dejar un comentario.
@@ -405,7 +398,7 @@ export function CommentSection({ postSlug, initialThreads, me }: CommentSectionP
 
       {/* Thread list */}
       {threads.length === 0 ? (
-        <p className="text-sm text-zinc-400">Sé el primero en comentar.</p>
+        <p className="text-sm text-base-content/50">Sé el primero en comentar.</p>
       ) : (
         <div className="flex flex-col gap-6">
           {threads.map((thread) => (

@@ -19,7 +19,7 @@ export const Route = createFileRoute('/author/$authorId')({
   },
   component: AuthorPage,
   notFoundComponent: () => (
-    <div className="min-h-screen flex items-center justify-center text-zinc-500">
+    <div className="min-h-screen flex items-center justify-center text-base-content/60">
       Autor no encontrado.
     </div>
   ),
@@ -33,7 +33,7 @@ function AuthorPage() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-zinc-400 text-sm">Cargando perfil…</p>
+        <p className="text-base-content/50 text-sm">Cargando perfil…</p>
       </div>
     )
   }
@@ -41,7 +41,7 @@ function AuthorPage() {
   if (isError || !data) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-red-500 text-sm">No se pudo cargar el perfil.</p>
+        <p className="text-error text-sm">No se pudo cargar el perfil.</p>
       </div>
     )
   }
@@ -66,10 +66,10 @@ function AuthorPage() {
         <AuthorCard author={data.author} linkToProfile={false} />
       </div>
 
-      <h2 className="text-xl font-semibold text-zinc-800 mb-6">Publicaciones ({posts.length})</h2>
+      <h2 className="text-xl font-semibold text-base-content mb-6">Publicaciones ({posts.length})</h2>
 
       {posts.length === 0 ? (
-        <p className="text-zinc-400 text-sm">Este autor todavía no ha publicado nada.</p>
+        <p className="text-base-content/50 text-sm">Este autor todavía no ha publicado nada.</p>
       ) : (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {posts.map((post) => (

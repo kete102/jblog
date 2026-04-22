@@ -15,11 +15,11 @@ function NewPostPage() {
   const { data: allTags, isLoading, isError } = useQuery(dashboardTagsOptions)
 
   if (isLoading) {
-    return <p className="text-zinc-400 text-sm">Cargando editor…</p>
+    return <p className="text-base-content/50 text-sm">Cargando editor…</p>
   }
 
   if (isError || !allTags) {
-    return <p className="text-red-500 text-sm">No se pudo cargar el editor.</p>
+    return <p className="text-error text-sm">No se pudo cargar el editor.</p>
   }
 
   return <PostEditor allTags={allTags} />

@@ -80,8 +80,8 @@ export function BecomeAuthorForm({ initialData }: BecomeAuthorFormProps) {
       <form onSubmit={(e) => void submit(e)} className="flex flex-col gap-5">
         {/* Bio */}
         <div>
-          <label className="block text-xs font-medium text-zinc-500 uppercase tracking-wide mb-1.5">
-            Biografía <span className="text-red-500">*</span>
+          <label className="block text-xs font-medium text-base-content/60 uppercase tracking-wide mb-1.5">
+            Biografía <span className="text-error">*</span>
           </label>
           <textarea
             value={bio}
@@ -89,14 +89,14 @@ export function BecomeAuthorForm({ initialData }: BecomeAuthorFormProps) {
             required
             placeholder="Cuéntanos quién eres y por qué quieres ser autor…"
             rows={4}
-            className="w-full px-3 py-2 rounded-lg border border-zinc-200 text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+            className="w-full px-3 py-2 rounded-lg border border-base-300 text-sm text-base-content placeholder-base-content/40 focus:outline-none focus:ring-2 focus:ring-primary resize-none"
           />
         </div>
 
         {/* Topics */}
         <div>
-          <label className="block text-xs font-medium text-zinc-500 uppercase tracking-wide mb-1.5">
-            Temáticas que abordarías <span className="text-red-500">*</span>
+          <label className="block text-xs font-medium text-base-content/60 uppercase tracking-wide mb-1.5">
+            Temáticas que abordarías <span className="text-error">*</span>
           </label>
           <textarea
             value={topics}
@@ -104,13 +104,13 @@ export function BecomeAuthorForm({ initialData }: BecomeAuthorFormProps) {
             required
             placeholder="p.ej. programación, diseño, productividad…"
             rows={2}
-            className="w-full px-3 py-2 rounded-lg border border-zinc-200 text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+            className="w-full px-3 py-2 rounded-lg border border-base-300 text-sm text-base-content placeholder-base-content/40 focus:outline-none focus:ring-2 focus:ring-primary resize-none"
           />
         </div>
 
         {/* Sample URL */}
         <div>
-          <label className="block text-xs font-medium text-zinc-500 uppercase tracking-wide mb-1.5">
+          <label className="block text-xs font-medium text-base-content/60 uppercase tracking-wide mb-1.5">
             URL de muestra (opcional)
           </label>
           <input
@@ -118,13 +118,13 @@ export function BecomeAuthorForm({ initialData }: BecomeAuthorFormProps) {
             value={sampleUrl}
             onChange={(e) => setSampleUrl(e.target.value)}
             placeholder="https://… artículo o portfolio"
-            className="w-full px-3 py-2 rounded-lg border border-zinc-200 text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full px-3 py-2 rounded-lg border border-base-300 text-sm text-base-content placeholder-base-content/40 focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
 
         {/* Sample text */}
         <div>
-          <label className="block text-xs font-medium text-zinc-500 uppercase tracking-wide mb-1.5">
+          <label className="block text-xs font-medium text-base-content/60 uppercase tracking-wide mb-1.5">
             Texto de muestra (opcional)
           </label>
           <textarea
@@ -132,16 +132,16 @@ export function BecomeAuthorForm({ initialData }: BecomeAuthorFormProps) {
             onChange={(e) => setSampleText(e.target.value)}
             placeholder="Pega aquí un extracto de algún artículo que hayas escrito…"
             rows={5}
-            className="w-full px-3 py-2 rounded-lg border border-zinc-200 text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+            className="w-full px-3 py-2 rounded-lg border border-base-300 text-sm text-base-content placeholder-base-content/40 focus:outline-none focus:ring-2 focus:ring-primary resize-none"
           />
         </div>
 
-        {error && <p className="text-sm text-red-500">{error}</p>}
+        {error && <p className="text-sm text-error">{error}</p>}
 
         <button
           type="submit"
           disabled={sending}
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors disabled:opacity-50 self-start"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-primary-content text-sm font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 self-start"
         >
           <Send className="w-4 h-4" />
           {sending ? 'Enviando…' : existing ? 'Actualizar solicitud' : 'Enviar solicitud'}

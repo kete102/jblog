@@ -21,7 +21,7 @@ function HomePage() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-zinc-400 text-sm">Cargando publicaciones…</p>
+        <p className="text-base-content/50 text-sm">Cargando publicaciones…</p>
       </div>
     )
   }
@@ -29,17 +29,17 @@ function HomePage() {
   if (isError || !data) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-red-500 text-sm">No se pudieron cargar las publicaciones.</p>
+        <p className="text-error text-sm">No se pudieron cargar las publicaciones.</p>
       </div>
     )
   }
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold text-zinc-900 mb-8">Publicaciones</h1>
+      <h1 className="text-3xl font-bold text-base-content mb-8">Publicaciones</h1>
 
       {data.posts.length === 0 ? (
-        <p className="text-zinc-400 text-sm">Todavía no hay publicaciones.</p>
+        <p className="text-base-content/50 text-sm">Todavía no hay publicaciones.</p>
       ) : (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {data.posts.map((post) => (

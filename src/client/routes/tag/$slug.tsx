@@ -18,7 +18,7 @@ export const Route = createFileRoute('/tag/$slug')({
   },
   component: TagPage,
   notFoundComponent: () => (
-    <div className="min-h-screen flex items-center justify-center text-zinc-500">
+    <div className="min-h-screen flex items-center justify-center text-base-content/60">
       Etiqueta no encontrada.
     </div>
   ),
@@ -32,7 +32,7 @@ function TagPage() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-zinc-400 text-sm">Cargando etiqueta…</p>
+        <p className="text-base-content/50 text-sm">Cargando etiqueta…</p>
       </div>
     )
   }
@@ -40,7 +40,7 @@ function TagPage() {
   if (isError || !data) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-red-500 text-sm">No se pudo cargar la etiqueta.</p>
+        <p className="text-error text-sm">No se pudo cargar la etiqueta.</p>
       </div>
     )
   }
@@ -49,13 +49,13 @@ function TagPage() {
     <div className="max-w-5xl mx-auto px-4 py-10">
       <div className="flex items-center gap-3 mb-8">
         <TagBadge tag={data.tag} />
-        <span className="text-zinc-400 text-sm">
+        <span className="text-base-content/50 text-sm">
           {data.total} {data.total === 1 ? 'publicación' : 'publicaciones'}
         </span>
       </div>
 
       {data.posts.length === 0 ? (
-        <p className="text-zinc-400 text-sm">No hay publicaciones con esta etiqueta todavía.</p>
+        <p className="text-base-content/50 text-sm">No hay publicaciones con esta etiqueta todavía.</p>
       ) : (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {data.posts.map((post) => (

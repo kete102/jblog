@@ -21,7 +21,7 @@ export const Route = createFileRoute('/post/$slug')({
   },
   component: PostPage,
   notFoundComponent: () => (
-    <div className="min-h-screen flex items-center justify-center text-zinc-500">
+    <div className="min-h-screen flex items-center justify-center text-base-content/60">
       Publicación no encontrada.
     </div>
   ),
@@ -36,7 +36,7 @@ function PostPage() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-zinc-400 text-sm">Cargando publicación…</p>
+        <p className="text-base-content/50 text-sm">Cargando publicación…</p>
       </div>
     )
   }
@@ -44,7 +44,7 @@ function PostPage() {
   if (isError || !data) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-red-500 text-sm">No se pudo cargar la publicación.</p>
+        <p className="text-error text-sm">No se pudo cargar la publicación.</p>
       </div>
     )
   }
@@ -61,7 +61,7 @@ function PostPage() {
       )}
 
       {/* Title */}
-      <h1 className="text-4xl font-bold text-zinc-900 leading-tight mb-4">{post.title}</h1>
+      <h1 className="text-4xl font-bold text-base-content leading-tight mb-4">{post.title}</h1>
 
       {/* Actions row */}
       <div className="flex items-center gap-3 mb-8">

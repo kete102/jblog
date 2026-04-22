@@ -15,7 +15,7 @@ export const Route = createFileRoute('/dashboard/post/$id/edit')({
     }
   },
   component: EditPostPage,
-  notFoundComponent: () => <div className="text-zinc-500 text-sm">Publicación no encontrada.</div>,
+  notFoundComponent: () => <div className="text-base-content/60 text-sm">Publicación no encontrada.</div>,
 })
 
 function EditPostPage() {
@@ -23,11 +23,11 @@ function EditPostPage() {
   const { data, isLoading, isError } = useQuery(dashboardPostEditOptions(id))
 
   if (isLoading) {
-    return <p className="text-zinc-400 text-sm">Cargando editor…</p>
+    return <p className="text-base-content/50 text-sm">Cargando editor…</p>
   }
 
   if (isError || !data) {
-    return <p className="text-red-500 text-sm">No se pudo cargar la publicación.</p>
+    return <p className="text-error text-sm">No se pudo cargar la publicación.</p>
   }
 
   const { post, allTags } = data

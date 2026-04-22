@@ -3,7 +3,6 @@ import { createFileRoute, Outlet, redirect, Link } from '@tanstack/react-router'
 import { LayoutDashboard, FileText, User, Shield, PenSquare } from 'lucide-react'
 import { meOptions } from '../lib/api'
 import { usePageTitle } from '../lib/usePageTitle'
-import type { Me } from '../types'
 
 // ─── Dashboard parent route + auth guard ─────────────────────────────────────
 // This file lives alongside the dashboard/ directory. TanStack Router
@@ -34,8 +33,8 @@ function DashboardLayout() {
   return (
     <div className="flex min-h-[calc(100vh-3.5rem)]">
       {/* Sidebar */}
-      <aside className="w-56 shrink-0 border-r border-zinc-200 bg-zinc-50 flex flex-col gap-1 p-4">
-        <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2 px-2">
+      <aside className="w-56 shrink-0 border-r border-base-300 bg-base-100 flex flex-col gap-1 p-4">
+        <p className="text-xs font-semibold text-base-content/50 uppercase tracking-wider mb-2 px-2">
           Dashboard
         </p>
 
@@ -81,7 +80,7 @@ function SideLink({ to, icon, label }: { to: string; icon: React.ReactNode; labe
     <Link
       to={to}
       activeOptions={{ exact: to === '/dashboard/' }}
-      className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 transition-colors [&.active]:bg-indigo-50 [&.active]:text-indigo-700 [&.active]:font-medium"
+      className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-base-content/70 hover:bg-base-200 hover:text-base-content transition-colors [&.active]:bg-primary/10 [&.active]:text-primary [&.active]:font-medium"
     >
       {icon}
       {label}

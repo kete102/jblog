@@ -50,10 +50,10 @@ function RootLayout() {
 
 function NotFound() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center gap-4 text-zinc-600">
-      <p className="text-4xl font-bold text-zinc-900">404</p>
+    <div className="min-h-screen flex flex-col items-center justify-center gap-4 text-base-content/70">
+      <p className="text-4xl font-bold text-base-content">404</p>
       <p>Página no encontrada</p>
-      <Link to="/" className="text-sm underline underline-offset-2 hover:text-zinc-900">
+      <Link to="/" className="text-sm underline underline-offset-2 hover:text-base-content">
         Volver al inicio
       </Link>
     </div>

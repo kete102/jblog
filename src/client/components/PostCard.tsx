@@ -2,8 +2,10 @@
 import React from 'react'
 import { Link } from '@tanstack/react-router'
 import { Eye, Heart, Clock } from 'lucide-react'
+import { motion } from 'framer-motion'
 import { TagBadge } from './TagBadge'
 import { formatDate, formatNumber } from '../lib/format'
+import { cn } from '../lib/cn'
 import type { PostSummary } from '../types'
 
 interface PostCardProps {
@@ -12,14 +14,20 @@ interface PostCardProps {
 
 export function PostCard({ post }: PostCardProps) {
   return (
-    <article className="relative group flex flex-col rounded-2xl border border-zinc-200 bg-white overflow-hidden hover:shadow-md transition-shadow">
+    <motion.article
+      whileHover={{ y: -2, boxShadow: '0 8px 24px 0 oklch(0% 0 0 / 0.10)' }}
+      transition={{ duration: 0.18, ease: 'easeOut' }}
+      className="relative flex flex-col rounded-2xl border border-base-300 bg-base-100 overflow-hidden"
+    >
       {/* Cover image */}
       {post.coverImageUrl && (
         <div className="aspect-video overflow-hidden shrink-0">
-          <img
+          <motion.img
             src={post.coverImageUrl}
             alt={post.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full object-cover"
             loading="lazy"
           />
         </div>
@@ -36,11 +44,14 @@ export function PostCard({ post }: PostCardProps) {
         )}
 
         {/* Title — stretched link covers the whole card */}
-        <h2 className="text-lg font-semibold text-zinc-900 leading-snug group-hover:text-indigo-700 transition-colors">
+        <h2 className="text-lg font-semibold text-base-content leading-snug group-hover:text-primary transition-colors">
           <Link
             to="/post/$slug"
             params={{ slug: post.slug }}
-            className="stretched-link focus:outline-none"
+            className={cn(
+              'stretched-link focus:outline-none',
+              'hover:text-primary transition-colors',
+            )}
           >
             {post.title}
           </Link>
@@ -48,16 +59,16 @@ export function PostCard({ post }: PostCardProps) {
 
         {/* Excerpt */}
         {post.excerpt && (
-          <p className="text-sm text-zinc-500 line-clamp-3 leading-relaxed">{post.excerpt}</p>
+          <p className="text-sm text-base-content/60 line-clamp-3 leading-relaxed">{post.excerpt}</p>
         )}
 
         {/* Footer: author + meta */}
-        <div className="flex items-center justify-between mt-auto pt-3 border-t border-zinc-100">
+        <div className="flex items-center justify-between mt-auto pt-3 border-t border-base-200">
           {/* Author */}
           <Link
             to="/author/$authorId"
             params={{ authorId: post.author.id }}
-            className="relative z-10 flex items-center gap-2 text-sm text-zinc-600 hover:text-zinc-900 transition-colors"
+            className="relative z-10 flex items-center gap-2 text-sm text-base-content/70 hover:text-base-content transition-colors"
           >
             {post.author.avatarUrl ? (
               <img
@@ -66,8 +77,8 @@ export function PostCard({ post }: PostCardProps) {
                 className="w-6 h-6 rounded-full object-cover"
               />
             ) : (
-              <div className="w-6 h-6 rounded-full bg-zinc-200 flex items-center justify-center">
-                <span className="text-xs font-medium text-zinc-500">
+              <div className="w-6 h-6 rounded-full bg-base-300 flex items-center justify-center">
+                <span className="text-xs font-medium text-base-content/60">
                   {post.author.name[0]?.toUpperCase()}
                 </span>
               </div>
@@ -76,7 +87,7 @@ export function PostCard({ post }: PostCardProps) {
           </Link>
 
           {/* Stats */}
-          <div className="flex items-center gap-3 text-xs text-zinc-400">
+          <div className="flex items-center gap-3 text-xs text-base-content/50">
             {post.readingTimeMinutes != null && (
               <span className="flex items-center gap-1">
                 <Clock className="w-3.5 h-3.5" />
@@ -96,9 +107,9 @@ export function PostCard({ post }: PostCardProps) {
 
         {/* Date */}
         {post.publishedAt && (
-          <p className="text-xs text-zinc-400">{formatDate(post.publishedAt, 'short')}</p>
+          <p className="text-xs text-base-content/50">{formatDate(post.publishedAt, 'short')}</p>
         )}
       </div>
-    </article>
+    </motion.article>
   )
 }

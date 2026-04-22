@@ -32,6 +32,7 @@ import {
   ArrowLeft,
 } from 'lucide-react'
 import { lowlight } from '../../lib/lowlight'
+import { cn } from '../../lib/cn'
 import type { Tag } from '../../types'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -54,6 +55,16 @@ function makeSlug(text: string): string {
   return slugify(text, { lower: true, strict: true, trim: true })
 }
 
+// ─── Shared field classes ─────────────────────────────────────────────────────
+
+const fieldClass = cn(
+  'w-full px-3 py-2 rounded-lg border border-base-300 bg-base-100',
+  'text-sm text-base-content placeholder-base-content/40',
+  'focus:outline-none focus:ring-2 focus:ring-primary',
+)
+
+const labelClass = 'block text-xs font-medium text-base-content/60 uppercase tracking-wide'
+
 // ─── Toolbar ──────────────────────────────────────────────────────────────────
 
 function ToolbarBtn({
@@ -70,12 +81,9 @@ function ToolbarBtn({
   return (
     <button
       type="button"
-      onMouseDown={(e) => {
-        e.preventDefault()
-        onClick()
-      }}
+      onMouseDown={(e) => { e.preventDefault(); onClick() }}
       title={title}
-      className={`toolbar-btn${active ? ' is-active' : ''}`}
+      className={cn('toolbar-btn', active && 'is-active')}
     >
       {children}
     </button>
@@ -83,7 +91,7 @@ function ToolbarBtn({
 }
 
 function ToolbarDivider() {
-  return <div className="w-px h-5 bg-zinc-200 mx-0.5" />
+  return <div className="w-px h-5 bg-base-300 mx-0.5" />
 }
 
 function Toolbar({ editor }: { editor: ReturnType<typeof useEditor> }) {
@@ -107,115 +115,58 @@ function Toolbar({ editor }: { editor: ReturnType<typeof useEditor> }) {
   }
 
   return (
-    <div className="flex items-center gap-0.5 flex-wrap px-3 py-2 border-b border-zinc-200 bg-white sticky top-0 z-10">
-      {/* Text marks */}
-      <ToolbarBtn
-        onClick={() => editor.chain().focus().toggleBold().run()}
-        active={editor.isActive('bold')}
-        title="Negrita"
-      >
+    <div className="flex items-center gap-0.5 flex-wrap px-3 py-2 border-b border-base-300 bg-base-100 sticky top-0 z-10">
+      <ToolbarBtn onClick={() => editor.chain().focus().toggleBold().run()} active={editor.isActive('bold')} title="Negrita">
         <Bold className="w-3.5 h-3.5" />
       </ToolbarBtn>
-      <ToolbarBtn
-        onClick={() => editor.chain().focus().toggleItalic().run()}
-        active={editor.isActive('italic')}
-        title="Cursiva"
-      >
+      <ToolbarBtn onClick={() => editor.chain().focus().toggleItalic().run()} active={editor.isActive('italic')} title="Cursiva">
         <Italic className="w-3.5 h-3.5" />
       </ToolbarBtn>
-      <ToolbarBtn
-        onClick={() => editor.chain().focus().toggleUnderline().run()}
-        active={editor.isActive('underline')}
-        title="Subrayado"
-      >
+      <ToolbarBtn onClick={() => editor.chain().focus().toggleUnderline().run()} active={editor.isActive('underline')} title="Subrayado">
         <UnderlineIcon className="w-3.5 h-3.5" />
       </ToolbarBtn>
-      <ToolbarBtn
-        onClick={() => editor.chain().focus().toggleStrike().run()}
-        active={editor.isActive('strike')}
-        title="Tachado"
-      >
+      <ToolbarBtn onClick={() => editor.chain().focus().toggleStrike().run()} active={editor.isActive('strike')} title="Tachado">
         <Strikethrough className="w-3.5 h-3.5" />
       </ToolbarBtn>
-      <ToolbarBtn
-        onClick={() => editor.chain().focus().toggleCode().run()}
-        active={editor.isActive('code')}
-        title="Código en línea"
-      >
+      <ToolbarBtn onClick={() => editor.chain().focus().toggleCode().run()} active={editor.isActive('code')} title="Código en línea">
         <Code className="w-3.5 h-3.5" />
       </ToolbarBtn>
-      <ToolbarBtn
-        onClick={() => editor.chain().focus().toggleHighlight().run()}
-        active={editor.isActive('highlight')}
-        title="Resaltado"
-      >
+      <ToolbarBtn onClick={() => editor.chain().focus().toggleHighlight().run()} active={editor.isActive('highlight')} title="Resaltado">
         <Highlighter className="w-3.5 h-3.5" />
       </ToolbarBtn>
 
       <ToolbarDivider />
 
-      {/* Headings */}
-      <ToolbarBtn
-        onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-        active={editor.isActive('heading', { level: 2 })}
-        title="Encabezado 2"
-      >
+      <ToolbarBtn onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} active={editor.isActive('heading', { level: 2 })} title="Encabezado 2">
         <Heading2 className="w-4 h-4" />
       </ToolbarBtn>
-      <ToolbarBtn
-        onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-        active={editor.isActive('heading', { level: 3 })}
-        title="Encabezado 3"
-      >
+      <ToolbarBtn onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} active={editor.isActive('heading', { level: 3 })} title="Encabezado 3">
         <Heading3 className="w-4 h-4" />
       </ToolbarBtn>
 
       <ToolbarDivider />
 
-      {/* Lists */}
-      <ToolbarBtn
-        onClick={() => editor.chain().focus().toggleBulletList().run()}
-        active={editor.isActive('bulletList')}
-        title="Lista con viñetas"
-      >
+      <ToolbarBtn onClick={() => editor.chain().focus().toggleBulletList().run()} active={editor.isActive('bulletList')} title="Lista con viñetas">
         <List className="w-3.5 h-3.5" />
       </ToolbarBtn>
-      <ToolbarBtn
-        onClick={() => editor.chain().focus().toggleOrderedList().run()}
-        active={editor.isActive('orderedList')}
-        title="Lista numerada"
-      >
+      <ToolbarBtn onClick={() => editor.chain().focus().toggleOrderedList().run()} active={editor.isActive('orderedList')} title="Lista numerada">
         <ListOrdered className="w-3.5 h-3.5" />
       </ToolbarBtn>
 
       <ToolbarDivider />
 
-      {/* Block nodes */}
-      <ToolbarBtn
-        onClick={() => editor.chain().focus().toggleBlockquote().run()}
-        active={editor.isActive('blockquote')}
-        title="Cita"
-      >
+      <ToolbarBtn onClick={() => editor.chain().focus().toggleBlockquote().run()} active={editor.isActive('blockquote')} title="Cita">
         <Quote className="w-3.5 h-3.5" />
       </ToolbarBtn>
-      <ToolbarBtn
-        onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-        active={editor.isActive('codeBlock')}
-        title="Bloque de código"
-      >
+      <ToolbarBtn onClick={() => editor.chain().focus().toggleCodeBlock().run()} active={editor.isActive('codeBlock')} title="Bloque de código">
         <Terminal className="w-3.5 h-3.5" />
       </ToolbarBtn>
-      <ToolbarBtn
-        onClick={() => editor.chain().focus().setHorizontalRule().run()}
-        active={false}
-        title="Línea horizontal"
-      >
+      <ToolbarBtn onClick={() => editor.chain().focus().setHorizontalRule().run()} active={false} title="Línea horizontal">
         <Minus className="w-3.5 h-3.5" />
       </ToolbarBtn>
 
       <ToolbarDivider />
 
-      {/* Link + Image */}
       <ToolbarBtn onClick={handleLink} active={editor.isActive('link')} title="Enlace">
         <Link2 className="w-3.5 h-3.5" />
       </ToolbarBtn>
@@ -223,8 +174,7 @@ function Toolbar({ editor }: { editor: ReturnType<typeof useEditor> }) {
         <ImageIcon className="w-3.5 h-3.5" />
       </ToolbarBtn>
 
-      {/* Word count */}
-      <div className="ml-auto text-xs text-zinc-400 pr-1 whitespace-nowrap">
+      <div className="ml-auto text-xs text-base-content/50 pr-1 whitespace-nowrap">
         {editor.storage.characterCount?.words?.() ?? 0} palabras
       </div>
     </div>
@@ -277,16 +227,12 @@ export function PostEditor({
     },
   })
 
-  // Auto-derive slug from title for new posts
   useEffect(() => {
     if (!slugTouched) setSlug(makeSlug(title))
   }, [title, slugTouched])
 
-  const toggleTag = (tagId: string) => {
-    setTagIds((prev) =>
-      prev.includes(tagId) ? prev.filter((id) => id !== tagId) : [...prev, tagId],
-    )
-  }
+  const toggleTag = (tagId: string) =>
+    setTagIds((prev) => prev.includes(tagId) ? prev.filter((id) => id !== tagId) : [...prev, tagId])
 
   const save = useCallback(async () => {
     if (!editor || saving) return
@@ -299,7 +245,6 @@ export function PostEditor({
 
     try {
       if (id) {
-        // Update existing post
         const res = await fetch(`/api/dashboard/posts/${id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
@@ -311,7 +256,6 @@ export function PostEditor({
           throw new Error((json as { error?: string }).error ?? 'Error al guardar')
         }
       } else {
-        // Create new post
         const res = await fetch('/api/dashboard/posts', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -324,12 +268,7 @@ export function PostEditor({
         }
         const json = (await res.json()) as { id: string }
         postIdRef.current = json.id
-        // Redirect to edit page without full reload
-        void navigate({
-          to: '/dashboard/post/$id/edit',
-          params: { id: json.id },
-          replace: true,
-        })
+        void navigate({ to: '/dashboard/post/$id/edit', params: { id: json.id }, replace: true })
       }
 
       setSaveState('saved')
@@ -342,7 +281,6 @@ export function PostEditor({
     }
   }, [editor, saving, title, slug, excerpt, coverImageUrl, status, tagIds, navigate])
 
-  // Keyboard shortcut: Cmd/Ctrl+S
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 's') {
@@ -355,12 +293,12 @@ export function PostEditor({
   }, [save])
 
   return (
-    <div className="h-[calc(100vh-3.5rem)] flex flex-col bg-white">
+    <div className="h-[calc(100vh-3.5rem)] flex flex-col bg-base-100">
       {/* Top bar */}
-      <header className="h-14 flex items-center justify-between px-6 border-b border-zinc-200 shrink-0">
+      <header className="h-14 flex items-center justify-between px-6 border-b border-base-300 shrink-0">
         <Link
           to="/dashboard"
-          className="flex items-center gap-1.5 text-sm text-zinc-500 hover:text-zinc-900 transition-colors"
+          className="flex items-center gap-1.5 text-sm text-base-content/60 hover:text-base-content transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Panel
@@ -369,36 +307,15 @@ export function PostEditor({
         <div className="flex items-center gap-3">
           <AnimatePresence mode="wait">
             {saving ? (
-              <motion.span
-                key="saving"
-                initial={{ opacity: 0, y: -5 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 5 }}
-                transition={{ duration: 0.15 }}
-                className="text-xs text-zinc-400"
-              >
+              <motion.span key="saving" initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 5 }} transition={{ duration: 0.15 }} className="text-xs text-base-content/50">
                 Guardando…
               </motion.span>
             ) : saveState === 'saved' ? (
-              <motion.span
-                key="saved"
-                initial={{ opacity: 0, y: -5 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 5 }}
-                transition={{ duration: 0.15 }}
-                className="text-xs text-green-600 font-medium"
-              >
+              <motion.span key="saved" initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 5 }} transition={{ duration: 0.15 }} className="text-xs text-success font-medium">
                 Guardado
               </motion.span>
             ) : saveState === 'error' && errorMsg ? (
-              <motion.span
-                key="error"
-                initial={{ opacity: 0, y: -5 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 5 }}
-                transition={{ duration: 0.15 }}
-                className="text-xs text-red-500"
-              >
+              <motion.span key="error" initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 5 }} transition={{ duration: 0.15 }} className="text-xs text-error">
                 {errorMsg}
               </motion.span>
             ) : null}
@@ -407,24 +324,24 @@ export function PostEditor({
             type="button"
             onClick={() => void save()}
             disabled={saving}
-            className="px-4 py-1.5 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors disabled:opacity-50"
+            className="px-4 py-1.5 rounded-lg bg-primary text-primary-content text-sm font-medium hover:bg-primary/90 transition-colors disabled:opacity-50"
           >
             Guardar
           </button>
         </div>
       </header>
 
-      {/* Two-column on md+, stacked on mobile */}
+      {/* Two-column layout */}
       <div className="flex-1 flex flex-col md:flex-row overflow-y-auto md:overflow-hidden min-h-0">
         {/* Left: title + editor */}
-        <div className="flex-1 flex flex-col md:overflow-hidden border-b border-zinc-200 md:border-b-0 md:border-r min-h-[60vh] md:min-h-0">
+        <div className="flex-1 flex flex-col md:overflow-hidden border-b border-base-300 md:border-b-0 md:border-r min-h-[60vh] md:min-h-0">
           <div className="px-8 pt-8 pb-4 shrink-0">
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Título de la publicación…"
-              className="w-full text-3xl font-bold text-zinc-900 placeholder-zinc-300 bg-transparent border-none outline-none resize-none"
+              className="w-full text-3xl font-bold text-base-content placeholder-base-content/30 bg-transparent border-none outline-none resize-none"
             />
           </div>
           <Toolbar editor={editor} />
@@ -434,17 +351,15 @@ export function PostEditor({
         </div>
 
         {/* Right: metadata panel */}
-        <div className="w-full md:w-72 md:shrink-0 md:overflow-y-auto bg-zinc-50">
+        <div className="w-full md:w-72 md:shrink-0 md:overflow-y-auto bg-base-200">
           <div className="p-5 space-y-5">
             {/* Status */}
             <div>
-              <label className="block text-xs font-medium text-zinc-500 uppercase tracking-wide mb-2">
-                Estado
-              </label>
+              <label className={cn(labelClass, 'mb-2')}>Estado</label>
               <select
                 value={status}
                 onChange={(e) => setStatus(e.target.value as 'draft' | 'published')}
-                className="w-full px-3 py-2 rounded-lg border border-zinc-200 bg-white text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className={fieldClass}
               >
                 <option value="draft">Borrador</option>
                 <option value="published">Publicado</option>
@@ -454,61 +369,49 @@ export function PostEditor({
             {/* Slug */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="text-xs font-medium text-zinc-500 uppercase tracking-wide">
-                  Slug
-                </label>
+                <label className={labelClass}>Slug</label>
                 {slugTouched ? (
                   <button
                     type="button"
-                    onClick={() => {
-                      setSlug(makeSlug(title))
-                      setSlugTouched(false)
-                    }}
-                    className="text-xs text-indigo-500 hover:text-indigo-700 transition-colors"
+                    onClick={() => { setSlug(makeSlug(title)); setSlugTouched(false) }}
+                    className="text-xs text-primary hover:text-primary/80 transition-colors"
                   >
                     Restablecer automático
                   </button>
                 ) : (
-                  <span className="text-xs text-zinc-400">Automático</span>
+                  <span className="text-xs text-base-content/50">Automático</span>
                 )}
               </div>
               <input
                 type="text"
                 value={slug}
-                onChange={(e) => {
-                  setSlug(e.target.value)
-                  setSlugTouched(true)
-                }}
+                onChange={(e) => { setSlug(e.target.value); setSlugTouched(true) }}
                 placeholder="post-slug"
-                className="w-full px-3 py-2 rounded-lg border border-zinc-200 bg-white text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className={fieldClass}
               />
             </div>
 
             {/* Excerpt */}
             <div>
-              <label className="block text-xs font-medium text-zinc-500 uppercase tracking-wide mb-2">
-                Extracto
-              </label>
+              <label className={cn(labelClass, 'mb-2')}>Extracto</label>
               <textarea
                 value={excerpt}
                 onChange={(e) => setExcerpt(e.target.value)}
                 placeholder="Un breve resumen…"
                 rows={3}
-                className="w-full px-3 py-2 rounded-lg border border-zinc-200 bg-white text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+                className={cn(fieldClass, 'resize-none')}
               />
             </div>
 
             {/* Cover image */}
             <div>
-              <label className="block text-xs font-medium text-zinc-500 uppercase tracking-wide mb-2">
-                URL de la imagen de portada
-              </label>
+              <label className={cn(labelClass, 'mb-2')}>URL de la imagen de portada</label>
               <input
                 type="url"
                 value={coverImageUrl}
                 onChange={(e) => setCoverImageUrl(e.target.value)}
                 placeholder="https://…"
-                className="w-full px-3 py-2 rounded-lg border border-zinc-200 bg-white text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className={fieldClass}
               />
               {coverImageUrl && (
                 <img
@@ -523,9 +426,7 @@ export function PostEditor({
             {/* Tags */}
             {allTags.length > 0 && (
               <div>
-                <label className="block text-xs font-medium text-zinc-500 uppercase tracking-wide mb-2">
-                  Etiquetas
-                </label>
+                <label className={cn(labelClass, 'mb-2')}>Etiquetas</label>
                 <div className="flex flex-wrap gap-1.5">
                   {allTags.map((tag) => {
                     const active = tagIds.includes(tag.id)
@@ -534,11 +435,12 @@ export function PostEditor({
                         key={tag.id}
                         type="button"
                         onClick={() => toggleTag(tag.id)}
-                        className={`px-2.5 py-1 rounded-full text-xs font-medium transition-colors ${
+                        className={cn(
+                          'px-2.5 py-1 rounded-full text-xs font-medium transition-colors',
                           active
-                            ? 'bg-indigo-600 text-white'
-                            : 'bg-white border border-zinc-200 text-zinc-600 hover:border-indigo-300'
-                        }`}
+                            ? 'bg-primary text-primary-content'
+                            : 'bg-base-100 border border-base-300 text-base-content/70 hover:border-primary/40',
+                        )}
                       >
                         {tag.name}
                       </button>
@@ -548,17 +450,17 @@ export function PostEditor({
               </div>
             )}
 
-            {/* Save button (also in header) */}
+            {/* Save button */}
             <div className="pt-2">
               <button
                 type="button"
                 onClick={() => void save()}
                 disabled={saving}
-                className="w-full px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors disabled:opacity-50"
+                className="w-full px-4 py-2 rounded-lg bg-primary text-primary-content text-sm font-medium hover:bg-primary/90 transition-colors disabled:opacity-50"
               >
                 {saving ? 'Guardando…' : 'Guardar'}
               </button>
-              <p className="text-xs text-zinc-400 mt-2 text-center">o presiona ⌘S / Ctrl+S</p>
+              <p className="text-xs text-base-content/50 mt-2 text-center">o presiona ⌘S / Ctrl+S</p>
             </div>
           </div>
         </div>

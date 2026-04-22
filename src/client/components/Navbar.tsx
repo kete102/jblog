@@ -1,11 +1,12 @@
 // ─── Navbar — state-driven top navigation bar ─────────────────────────────────
-// Reads the current user from the ['me'] query (seeded by the dashboard auth
-// guard) — no separate fetch needed on public pages, just a cache read.
 import React, { useState } from 'react'
 import { Link } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
 import { LayoutDashboard, LogIn, Menu, X, PenSquare } from 'lucide-react'
+import { AnimatePresence, motion } from 'framer-motion'
 import type { Me } from '../types'
+import ThemeController from './ThemeController'
+import { cn } from '../lib/cn'
 
 const SITE_NAME = 'jblog'
 
@@ -18,6 +19,16 @@ async function fetchMe(): Promise<Me | null> {
   }
 }
 
+const navLinkClass = cn(
+  'px-3 py-1.5 rounded-lg text-sm text-base-content/70',
+  'hover:text-base-content hover:bg-base-200 transition-colors',
+)
+
+const mobileLinkClass = cn(
+  'px-3 py-2 rounded-lg text-sm text-base-content/80',
+  'hover:bg-base-200 transition-colors',
+)
+
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const { data: me } = useQuery<Me | null>({
@@ -29,41 +40,29 @@ export function Navbar() {
   const isAuthor = me?.role === 'author' || me?.role === 'admin'
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-zinc-200 bg-white/90 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 w-full border-b border-base-300 bg-base-100/90 backdrop-blur-sm">
       <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
         {/* Logo */}
         <Link
           to="/"
-          className="text-lg font-bold text-zinc-900 hover:text-indigo-700 transition-colors tracking-tight"
+          className="text-lg font-bold text-base-content hover:text-primary transition-colors tracking-tight"
         >
           {SITE_NAME}
         </Link>
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-1">
-          <Link
-            to="/"
-            className="px-3 py-1.5 rounded-lg text-sm text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 transition-colors"
-          >
-            Inicio
-          </Link>
-          <Link
-            to="/changelog"
-            className="px-3 py-1.5 rounded-lg text-sm text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 transition-colors"
-          >
-            Changelog
-          </Link>
+          <Link to="/" className={navLinkClass}>Inicio</Link>
+          <Link to="/changelog" className={navLinkClass}>Changelog</Link>
         </nav>
 
         {/* Desktop right side */}
         <div className="hidden md:flex items-center gap-2">
+          <ThemeController />
           {me ? (
             <>
               {isAuthor && (
-                <Link
-                  to="/dashboard"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 transition-colors"
-                >
+                <Link to="/dashboard" className={cn(navLinkClass, 'inline-flex items-center gap-1.5')}>
                   <LayoutDashboard className="w-4 h-4" />
                   Panel
                 </Link>
@@ -71,7 +70,7 @@ export function Navbar() {
               {isAuthor && (
                 <Link
                   to="/dashboard/post/new"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary text-primary-content text-sm font-medium hover:bg-primary/90 transition-colors"
                 >
                   <PenSquare className="w-4 h-4" />
                   Escribir
@@ -83,11 +82,11 @@ export function Navbar() {
                   <img
                     src={me.avatarUrl}
                     alt={me.name}
-                    className="w-8 h-8 rounded-full object-cover border-2 border-zinc-200 hover:border-indigo-400 transition-colors"
+                    className="w-8 h-8 rounded-full object-cover border-2 border-base-300 hover:border-primary/40 transition-colors"
                   />
                 ) : (
-                  <div className="w-8 h-8 rounded-full bg-zinc-200 flex items-center justify-center border-2 border-zinc-200 hover:border-indigo-400 transition-colors">
-                    <span className="text-sm font-medium text-zinc-600">
+                  <div className="w-8 h-8 rounded-full bg-base-300 flex items-center justify-center border-2 border-base-300 hover:border-primary/40 transition-colors">
+                    <span className="text-sm font-medium text-base-content/70">
                       {me.name[0]?.toUpperCase()}
                     </span>
                   </div>
@@ -95,10 +94,7 @@ export function Navbar() {
               </Link>
             </>
           ) : (
-            <a
-              href="/auth/google"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 transition-colors"
-            >
+            <a href="/auth/google" className={cn(navLinkClass, 'inline-flex items-center gap-1.5')}>
               <LogIn className="w-4 h-4" />
               Entrar
             </a>
@@ -110,48 +106,42 @@ export function Navbar() {
           type="button"
           onClick={() => setMobileOpen((o) => !o)}
           aria-label="Menú"
-          className="md:hidden p-2 rounded-lg text-zinc-600 hover:bg-zinc-100 transition-colors"
+          className="md:hidden p-2 rounded-lg text-base-content/70 hover:bg-base-200 transition-colors"
         >
           {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
       </div>
 
-      {/* Mobile menu */}
-      {mobileOpen && (
-        <div className="md:hidden border-t border-zinc-100 bg-white px-4 pb-4 pt-2 flex flex-col gap-1">
-          <Link
-            to="/"
-            onClick={() => setMobileOpen(false)}
-            className="px-3 py-2 rounded-lg text-sm text-zinc-700 hover:bg-zinc-100 transition-colors"
+      {/* Mobile menu — animated with Framer Motion */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            key="mobile-menu"
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.15, ease: 'easeOut' }}
+            className="md:hidden border-t border-base-200 bg-base-100 px-4 pb-4 pt-2 flex flex-col gap-1"
           >
-            Inicio
-          </Link>
-          <Link
-            to="/changelog"
-            onClick={() => setMobileOpen(false)}
-            className="px-3 py-2 rounded-lg text-sm text-zinc-700 hover:bg-zinc-100 transition-colors"
-          >
-            Changelog
-          </Link>
-          {me && isAuthor && (
-            <Link
-              to="/dashboard"
-              onClick={() => setMobileOpen(false)}
-              className="px-3 py-2 rounded-lg text-sm text-zinc-700 hover:bg-zinc-100 transition-colors"
-            >
-              Panel
+            <Link to="/" onClick={() => setMobileOpen(false)} className={mobileLinkClass}>
+              Inicio
             </Link>
-          )}
-          {!me && (
-            <a
-              href="/auth/google"
-              className="px-3 py-2 rounded-lg text-sm text-zinc-700 hover:bg-zinc-100 transition-colors"
-            >
-              Entrar con Google
-            </a>
-          )}
-        </div>
-      )}
+            <Link to="/changelog" onClick={() => setMobileOpen(false)} className={mobileLinkClass}>
+              Changelog
+            </Link>
+            {me && isAuthor && (
+              <Link to="/dashboard" onClick={() => setMobileOpen(false)} className={mobileLinkClass}>
+                Panel
+              </Link>
+            )}
+            {!me && (
+              <a href="/auth/google" className={mobileLinkClass}>
+                Entrar con Google
+              </a>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   )
 }

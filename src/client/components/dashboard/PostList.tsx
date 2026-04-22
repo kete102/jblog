@@ -51,11 +51,11 @@ export function PostList({ initialPosts }: PostListProps) {
 
   if (posts.length === 0) {
     return (
-      <div className="text-center py-16 text-zinc-500">
+      <div className="text-center py-16 text-base-content/60">
         <p className="mb-4">Todavía no has publicado ningún artículo.</p>
         <Link
           to="/dashboard/post/new"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-content text-sm font-medium hover:bg-primary/90 transition-colors"
         >
           <Plus className="w-4 h-4" />
           Nuevo artículo
@@ -73,7 +73,7 @@ export function PostList({ initialPosts }: PostListProps) {
         return (
           <div
             key={post.id}
-            className="flex flex-col sm:flex-row sm:items-center gap-3 p-4 rounded-xl border border-zinc-200 bg-white hover:shadow-sm transition-shadow"
+            className="flex flex-col sm:flex-row sm:items-center gap-3 p-4 rounded-xl border border-base-300 bg-base-100 hover:shadow-sm transition-shadow"
           >
             {/* Cover thumbnail */}
             {post.coverImageUrl && (
@@ -89,7 +89,7 @@ export function PostList({ initialPosts }: PostListProps) {
               <div className="flex items-center gap-2 flex-wrap">
                 <span
                   className={`px-2 py-0.5 rounded-full text-xs font-medium ${
-                    isPublished ? 'bg-green-100 text-green-700' : 'bg-zinc-100 text-zinc-600'
+                    isPublished ? 'bg-green-100 text-green-700' : 'bg-base-200 text-base-content/70'
                   }`}
                 >
                   {isPublished ? 'Publicado' : 'Borrador'}
@@ -97,14 +97,14 @@ export function PostList({ initialPosts }: PostListProps) {
                 {post.tags.map((tag) => (
                   <span
                     key={tag.id}
-                    className="px-2 py-0.5 rounded-full text-xs bg-zinc-100 text-zinc-600"
+                    className="px-2 py-0.5 rounded-full text-xs bg-base-200 text-base-content/70"
                   >
                     {tag.name}
                   </span>
                 ))}
               </div>
-              <p className="mt-1 text-sm font-semibold text-zinc-900 truncate">{post.title}</p>
-              <div className="flex items-center gap-3 mt-1 text-xs text-zinc-400">
+              <p className="mt-1 text-sm font-semibold text-base-content truncate">{post.title}</p>
+              <div className="flex items-center gap-3 mt-1 text-xs text-base-content/50">
                 <span>{formatDate(post.updatedAt, 'short')}</span>
                 <span>{formatNumber(post.views)} vistas</span>
                 <span>{formatNumber(post.likes)} likes</span>
@@ -118,14 +118,14 @@ export function PostList({ initialPosts }: PostListProps) {
                 onClick={() => void togglePublish(post)}
                 disabled={isBusy}
                 title={isPublished ? 'Volver a borrador' : 'Publicar'}
-                className="p-2 rounded-lg text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 transition-colors disabled:opacity-50"
+                className="p-2 rounded-lg text-base-content/50 hover:text-base-content/80 hover:bg-base-200 transition-colors disabled:opacity-50"
               >
                 {isPublished ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
               <Link
                 to="/dashboard/post/$id/edit"
                 params={{ id: post.id }}
-                className="p-2 rounded-lg text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 transition-colors"
+                className="p-2 rounded-lg text-base-content/50 hover:text-base-content/80 hover:bg-base-200 transition-colors"
                 title="Editar"
               >
                 <Pencil className="w-4 h-4" />
@@ -135,7 +135,7 @@ export function PostList({ initialPosts }: PostListProps) {
                 onClick={() => void deletePost(post)}
                 disabled={isBusy}
                 title="Eliminar"
-                className="p-2 rounded-lg text-zinc-400 hover:text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50"
+                className="p-2 rounded-lg text-base-content/50 hover:text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50"
               >
                 <Trash2 className="w-4 h-4" />
               </button>

@@ -1,11 +1,18 @@
 // ─── CopyLinkButton — copy current URL to clipboard ──────────────────────────
 import React, { useState } from 'react'
 import { Copy, Check } from 'lucide-react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { cn } from '../lib/cn'
 
 interface CopyLinkButtonProps {
   url?: string
   className?: string
 }
+
+const defaultClass = cn(
+  'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm',
+  'text-base-content/70 hover:bg-base-200 transition-colors',
+)
 
 export function CopyLinkButton({ url, className }: CopyLinkButtonProps) {
   const [copied, setCopied] = useState(false)
@@ -27,12 +34,33 @@ export function CopyLinkButton({ url, className }: CopyLinkButtonProps) {
       onClick={handleCopy}
       aria-label="Copiar enlace"
       title={copied ? '¡Copiado!' : 'Copiar enlace'}
-      className={
-        className ??
-        'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-zinc-600 hover:bg-zinc-100 transition-colors'
-      }
+      className={cn(defaultClass, className)}
     >
-      {copied ? <Check className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
+      <AnimatePresence mode="wait" initial={false}>
+        {copied ? (
+          <motion.span
+            key="check"
+            initial={{ scale: 0.6, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.6, opacity: 0 }}
+            transition={{ duration: 0.15 }}
+            className="inline-flex"
+          >
+            <Check className="w-4 h-4 text-success" />
+          </motion.span>
+        ) : (
+          <motion.span
+            key="copy"
+            initial={{ scale: 0.6, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.6, opacity: 0 }}
+            transition={{ duration: 0.15 }}
+            className="inline-flex"
+          >
+            <Copy className="w-4 h-4" />
+          </motion.span>
+        )}
+      </AnimatePresence>
       {copied ? 'Copiado' : 'Copiar enlace'}
     </button>
   )

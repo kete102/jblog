@@ -51,7 +51,7 @@ export function AdminRequestList({ initialRequests }: AdminRequestListProps) {
   }
 
   if (requests.length === 0) {
-    return <p className="text-sm text-zinc-500 py-8 text-center">No hay solicitudes pendientes.</p>
+    return <p className="text-sm text-base-content/60 py-8 text-center">No hay solicitudes pendientes.</p>
   }
 
   return (
@@ -62,7 +62,7 @@ export function AdminRequestList({ initialRequests }: AdminRequestListProps) {
         return (
           <div
             key={req.id}
-            className="flex flex-col gap-4 p-5 rounded-xl border border-zinc-200 bg-white"
+            className="flex flex-col gap-4 p-5 rounded-xl border border-base-300 bg-base-100"
           >
             {/* User info */}
             <div className="flex items-center gap-3">
@@ -73,14 +73,14 @@ export function AdminRequestList({ initialRequests }: AdminRequestListProps) {
                   className="w-10 h-10 rounded-full object-cover"
                 />
               ) : (
-                <div className="w-10 h-10 rounded-full bg-zinc-200 flex items-center justify-center">
-                  <span className="font-semibold text-zinc-500">{req.name[0]?.toUpperCase()}</span>
+                <div className="w-10 h-10 rounded-full bg-base-300 flex items-center justify-center">
+                  <span className="font-semibold text-base-content/60">{req.name[0]?.toUpperCase()}</span>
                 </div>
               )}
               <div>
-                <p className="text-sm font-semibold text-zinc-900">{req.name}</p>
-                <p className="text-xs text-zinc-500">{req.email}</p>
-                <p className="text-xs text-zinc-400">
+                <p className="text-sm font-semibold text-base-content">{req.name}</p>
+                <p className="text-xs text-base-content/60">{req.email}</p>
+                <p className="text-xs text-base-content/50">
                   Solicitado el {formatDate(req.createdAt, 'short')}
                 </p>
               </div>
@@ -90,27 +90,27 @@ export function AdminRequestList({ initialRequests }: AdminRequestListProps) {
             {req.authorRequest && (
               <div className="flex flex-col gap-2 text-sm">
                 <div>
-                  <span className="text-xs font-medium text-zinc-400 uppercase tracking-wide">
+                  <span className="text-xs font-medium text-base-content/50 uppercase tracking-wide">
                     Biografía
                   </span>
-                  <p className="text-zinc-700 mt-0.5">{req.authorRequest.bio}</p>
+                  <p className="text-base-content/80 mt-0.5">{req.authorRequest.bio}</p>
                 </div>
                 <div>
-                  <span className="text-xs font-medium text-zinc-400 uppercase tracking-wide">
+                  <span className="text-xs font-medium text-base-content/50 uppercase tracking-wide">
                     Temáticas
                   </span>
-                  <p className="text-zinc-700 mt-0.5">{req.authorRequest.topics}</p>
+                  <p className="text-base-content/80 mt-0.5">{req.authorRequest.topics}</p>
                 </div>
                 {req.authorRequest.sampleUrl && (
                   <div>
-                    <span className="text-xs font-medium text-zinc-400 uppercase tracking-wide">
+                    <span className="text-xs font-medium text-base-content/50 uppercase tracking-wide">
                       Muestra (URL)
                     </span>
                     <a
                       href={req.authorRequest.sampleUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block text-indigo-600 hover:underline mt-0.5 truncate"
+                      className="block text-primary hover:underline mt-0.5 truncate"
                     >
                       {req.authorRequest.sampleUrl}
                     </a>
@@ -118,10 +118,10 @@ export function AdminRequestList({ initialRequests }: AdminRequestListProps) {
                 )}
                 {req.authorRequest.sampleText && (
                   <div>
-                    <span className="text-xs font-medium text-zinc-400 uppercase tracking-wide">
+                    <span className="text-xs font-medium text-base-content/50 uppercase tracking-wide">
                       Muestra (texto)
                     </span>
-                    <p className="text-zinc-700 mt-0.5 whitespace-pre-wrap">
+                    <p className="text-base-content/80 mt-0.5 whitespace-pre-wrap">
                       {req.authorRequest.sampleText}
                     </p>
                   </div>

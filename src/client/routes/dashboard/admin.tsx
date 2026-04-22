@@ -22,16 +22,16 @@ function AdminPage() {
   const { data, isLoading, isError } = useQuery(adminRequestsOptions)
 
   if (isLoading) {
-    return <p className="text-zinc-400 text-sm">Cargando solicitudes…</p>
+    return <p className="text-base-content/50 text-sm">Cargando solicitudes…</p>
   }
 
   if (isError || !data) {
-    return <p className="text-red-500 text-sm">No se pudieron cargar las solicitudes.</p>
+    return <p className="text-error text-sm">No se pudieron cargar las solicitudes.</p>
   }
 
   return (
     <div className="max-w-3xl">
-      <h1 className="text-2xl font-bold text-zinc-900 mb-6">Solicitudes de autor</h1>
+      <h1 className="text-2xl font-bold text-base-content mb-6">Solicitudes de autor</h1>
       <AdminRequestList initialRequests={data} />
     </div>
   )

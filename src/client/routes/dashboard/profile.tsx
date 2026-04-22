@@ -15,16 +15,16 @@ function ProfilePage() {
   const { data, isLoading, isError } = useQuery(dashboardProfileOptions)
 
   if (isLoading) {
-    return <p className="text-zinc-400 text-sm">Cargando perfil…</p>
+    return <p className="text-base-content/50 text-sm">Cargando perfil…</p>
   }
 
   if (isError || !data) {
-    return <p className="text-red-500 text-sm">No se pudo cargar el perfil.</p>
+    return <p className="text-error text-sm">No se pudo cargar el perfil.</p>
   }
 
   return (
     <div className="max-w-xl">
-      <h1 className="text-2xl font-bold text-zinc-900 mb-6">Mi perfil</h1>
+      <h1 className="text-2xl font-bold text-base-content mb-6">Mi perfil</h1>
       <ProfileForm initialData={data} />
     </div>
   )
