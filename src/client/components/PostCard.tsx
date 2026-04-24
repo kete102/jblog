@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { Eye, Heart, Clock, Image } from 'lucide-react'
+import { Eye, Heart } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { TagBadge } from './TagBadge'
 import { formatDate, formatNumber } from '../lib/format'
@@ -108,12 +108,6 @@ export function PostCard({ post }: PostCardProps) {
         <div className="flex items-center justify-between w-full gap-3 text-xs text-base-content/50">
           {post.publishedAt && (
             <p className="text-xs text-base-content/50">{formatDate(post.publishedAt, 'short')}</p>
-          )}
-          {post.readingTimeMinutes != null && (
-            <span className="flex items-center gap-1">
-              <Clock className="w-3.5 h-3.5" />
-              {post.readingTimeMinutes} min
-            </span>
           )}
         </div>
       </div>
