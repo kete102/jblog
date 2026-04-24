@@ -16,7 +16,6 @@
 - [ ] **Account-based likes** — Replace IP-based likes with user-session likes so the same reader can like from any device. Requires schema change.
 - [ ] **Image upload** — File storage (e.g. Tigris on Fly.io) for author-uploaded images: inline editor images, post cover image, and profile avatar. Currently all three accept only a URL string.
 - [ ] **Author management in admin** — List of all authors, ability to revoke or demote.
-- [ ] **Author stats**. Most viewed post, total view, total likes, etc.
 
 ## Refactor
 
@@ -28,9 +27,19 @@
 
 - [ ] Users can't reply to their own comments.
 - [ ] If a post is liked by the user, the postcard should reflect this with the heart icon being red. Needs a user-liked-posts fetch to check if already liked.
+- [ ] **Author/category page reload bug** — Navigating directly to `/author/:id` or `/tag/:slug` via the Hono port (3000) in dev fails. The dev-mode catch-all redirect and the loader 404 guard have been attempted but the issue persists; root cause still unresolved.
 
 ## Completed
 
+- [x] **Contributors page** — `/contributors` lists all authors in an animated card grid. Backed by `GET /api/authors` and `getAllAuthors()` service.
+- [x] **Categories page** — `/categories` lists all tags with their published post count in a staggered animated grid. Backed by `GET /api/tags` and `getTagsWithPostCount()` service.
+- [x] **Author profile page** — `/author/:id` shows a full public profile: bio card, stats row (posts / total views / total likes) with CountUp animation, and a sortable post grid (by date, likes, or views).
+- [x] **Category detail page** — `/tag/:slug` upgraded to match author profile quality: stats row with CountUp, sortable post grid, `#`-prefixed title styled to match the category cards.
+- [x] **View transitions for titles** — Author name morphs between `/contributors` → `/author/:id`. Tag name morphs between `/categories` → `/tag/:slug`. Both use `viewTransitionName` on the matching elements.
+- [x] **Staggered entrance animations** — Home post grid, `/contributors` author grid, and `/categories` tag grid all animate in with a staggered fade+slide using framer-motion. Home grid replays the animation on page change.
+- [x] **Footer** — Site footer with name, tagline, nav links, Instagram icon, and dynamic copyright year. Always rendered below the fold via `min-h-screen` on `<main>`.
+- [x] **Animated copy-link button** — Full idle/copied/error state machine with icon swap and framer-motion transitions.
+- [x] **Animated comment submit button** — Spinner swap on send, hover/tap scale, outer `motion.span` wrapper to propagate hover variants through `AnimatePresence`.
 - [x] **Tag pages** — `/tag/:slug` filtered post list. Tags are now clickable on cards and post pages.
 - [x] **RSS feed** — `/feed.xml` with autodiscovery `<link>` in `<head>`. Last 20 published posts.
 - [x] **Pagination** — Home page uses `?page=N` with prev/next navigation. PAGE_SIZE = 6. Hero and featured post shown on page 1 only.

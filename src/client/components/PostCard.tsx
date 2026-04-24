@@ -15,7 +15,7 @@ export function PostCard({ post }: PostCardProps) {
     <motion.article
       whileHover={{ y: -1.5, boxShadow: '0 8px 24px 0 oklch(0% 0 0 / 0.10)' }}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
-      className="relative flex flex-col rounded-2xl border border-base-300 bg-base-100 overflow-hidden"
+      className="relative flex flex-col h-full rounded-2xl border border-base-300 bg-base-100 overflow-hidden"
     >
       {/* Cover image */}
       <div className="aspect-video overflow-hidden shrink-0">

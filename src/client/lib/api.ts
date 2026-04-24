@@ -6,8 +6,10 @@ import type {
   Me,
   PostsPage,
   TagPage,
+  TagWithCount,
   PostPage,
   AuthorPage,
+  AuthorsList,
   DashboardPost,
   DashboardPostEditData,
   AuthorRequestDetails,
@@ -67,6 +69,19 @@ export function authorOptions(authorId: string) {
     staleTime: 60_000,
   })
 }
+
+export const allAuthorsOptions = queryOptions({
+  queryKey: ['authors'],
+  queryFn: () => apiFetch<AuthorsList>('/api/authors').then((d) => d.authors),
+  staleTime: 5 * 60_000,
+})
+
+export const allTagsOptions = queryOptions({
+  queryKey: ['tags'],
+  queryFn: () =>
+    apiFetch<{ tags: TagWithCount[] }>('/api/tags').then((d) => d.tags),
+  staleTime: 5 * 60_000,
+})
 
 export const changelogOptions = queryOptions({
   queryKey: ['changelog'],

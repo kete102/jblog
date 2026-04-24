@@ -9,6 +9,8 @@ interface AuthorCardProps {
   author: Author
   /** Show a link to the author's public page */
   linkToProfile?: boolean
+  /** viewTransitionName applied to the author name element */
+  nameViewTransition?: string
 }
 
 const socialLinkClass = cn(
@@ -16,21 +18,24 @@ const socialLinkClass = cn(
   'flex items-center gap-1',
 )
 
-export function AuthorCard({ author, linkToProfile = true }: AuthorCardProps) {
+export function AuthorCard({ author, linkToProfile = true, nameViewTransition }: AuthorCardProps) {
+  const nameStyle = nameViewTransition ? { viewTransitionName: nameViewTransition } : undefined
   const nameEl = linkToProfile ? (
     <Link
       to="/author/$authorId"
       params={{ authorId: author.id }}
+      viewTransition
+      style={nameStyle}
       className="text-lg font-semibold text-base-content hover:text-primary transition-colors"
     >
       {author.name}
     </Link>
   ) : (
-    <span className="text-lg font-semibold text-base-content">{author.name}</span>
+    <span style={nameStyle} className="text-lg font-semibold text-base-content">{author.name}</span>
   )
 
   return (
-    <div className="flex gap-4 p-5 rounded-2xl border border-base-300 bg-base-100">
+    <div className="flex gap-4 p-5 h-full rounded-2xl border border-base-300 bg-base-100">
       {/* Avatar */}
       {author.avatarUrl ? (
         <img

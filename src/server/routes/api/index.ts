@@ -2,6 +2,7 @@ import { Hono } from 'hono'
 import meRouter from './me'
 import postsRouter from './posts'
 import authorsRouter from './authors'
+import tagsRouter from './tags'
 import changelogRouter from './changelog'
 import commentsRouter from './comments'
 import dashboardRouter from './dashboard'
@@ -15,6 +16,7 @@ const router = new Hono()
 router.route('/me', meRouter)
 router.route('/posts', postsRouter)
 router.route('/authors', authorsRouter)
+router.route('/tags', tagsRouter)
 router.route('/changelog', changelogRouter)
 router.route('/comments', commentsRouter)
 router.route('/dashboard', dashboardRouter)

@@ -1,11 +1,28 @@
 import { Hono } from 'hono'
 import { getAuthorById, getPostsByAuthor } from '@/services/posts'
+import { getAllAuthors } from '@/services/users'
 
-// ─── GET /api/authors/:id ─────────────────────────────────────────────────────
-// Returns a public author profile along with all their published posts.
+// ─── /api/authors ─────────────────────────────────────────────────────────────
 
 const router = new Hono()
 
+// GET /api/authors — list all public authors
+router.get('/', async (c) => {
+  const authors = await getAllAuthors()
+  return c.json({
+    authors: authors.map((a) => ({
+      id: a.id,
+      name: a.name,
+      avatarUrl: a.avatarUrl,
+      bio: a.bio,
+      socialLinks: a.socialLinks,
+      publishedPostCount: a.publishedPostCount,
+      role: a.role,
+    })),
+  })
+})
+
+// GET /api/authors/:id — single author profile + their published posts
 router.get('/:id', async (c) => {
   const { id } = c.req.param()
 

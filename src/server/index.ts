@@ -63,6 +63,13 @@ if (config.server.isProduction) {
   app.use('*', seoMiddleware)
   app.use('*', serveStatic({ root: './dist' }))
   app.get('*', serveStatic({ path: './dist/index.html' }))
+} else {
+  // In dev, Vite owns the SPA at port 5173. Redirect any unmatched path so
+  // that reloading a client-side route on port 3000 works as expected.
+  app.get('*', (c) => {
+    const { pathname, search } = new URL(c.req.url)
+    return c.redirect(`http://localhost:5173${pathname}${search}`, 302)
+  })
 }
 
 // ─── Type export for Hono RPC ─────────────────────────────────────────────────

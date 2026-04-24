@@ -1,7 +1,16 @@
 import { db } from '@/db'
 import { users, authorRequests } from '@/db/schema'
-import { eq } from 'drizzle-orm'
+import { eq, asc, sql } from 'drizzle-orm'
 import type { User, AuthorRequest } from '@/db/schema'
+
+/** Get all public authors (role = author or admin), ordered by name */
+export async function getAllAuthors(): Promise<User[]> {
+  return db
+    .select()
+    .from(users)
+    .where(sql`${users.role} IN ('author', 'admin')`)
+    .orderBy(asc(users.name))
+}
 
 /** Get a single user by id */
 export async function getUserById(id: string): Promise<User | null> {
