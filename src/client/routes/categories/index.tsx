@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
-import { motion } from 'framer-motion'
+import { motion, type Variants } from 'framer-motion'
 import { Hash } from 'lucide-react'
 import { allTagsOptions } from '../../lib/api'
 
@@ -10,12 +10,12 @@ export const Route = createFileRoute('/categories/')({
   component: CategoriesPage,
 })
 
-const container = {
+const container: Variants = {
   hidden: {},
   show: { transition: { staggerChildren: 0.05 } },
 }
 
-const item = {
+const item: Variants = {
   hidden: { opacity: 0, y: 8 },
   show: { opacity: 1, y: 0, transition: { duration: 0.25, ease: 'easeOut' } },
 }
