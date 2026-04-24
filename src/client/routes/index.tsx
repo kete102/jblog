@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
-import { motion } from 'framer-motion'
+import { motion, type Variants } from 'framer-motion'
 import { PostCard } from '../components/PostCard'
 import { Pagination } from '../components/Pagination'
 import { postsOptions } from '../lib/api'
@@ -14,12 +14,12 @@ export const Route = createFileRoute('/')({
   component: HomePage,
 })
 
-const container = {
+const container: Variants = {
   hidden: {},
   show: { transition: { staggerChildren: 0.06 } },
 }
 
-const item = {
+const item: Variants = {
   hidden: { opacity: 0, y: 8 },
   show: { opacity: 1, y: 0, transition: { duration: 0.25, ease: 'easeOut' } },
 }

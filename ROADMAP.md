@@ -16,6 +16,8 @@
 - [ ] **Account-based likes** — Replace IP-based likes with user-session likes so the same reader can like from any device. Requires schema change.
 - [ ] **Image upload** — File storage (e.g. Tigris on Fly.io) for author-uploaded images: inline editor images, post cover image, and profile avatar. Currently all three accept only a URL string.
 - [ ] **Author management in admin** — List of all authors, ability to revoke or demote.
+- [ ] **Daily resume of uploaded posts**. Everyday at 9PM.
+- [ ] **Suggestions page** where users can raise new topics.
 
 ## Refactor
 
