@@ -56,10 +56,16 @@ const textareaClass = cn(
 
 function Avatar({ user }: { user: CommentWithUser['user'] }) {
   return user.avatarUrl ? (
-    <img src={user.avatarUrl} alt={user.name} className="w-8 h-8 rounded-full object-cover shrink-0" />
+    <img
+      src={user.avatarUrl}
+      alt={user.name}
+      className="w-8 h-8 rounded-full object-cover shrink-0"
+    />
   ) : (
     <div className="w-8 h-8 rounded-full bg-base-300 flex items-center justify-center shrink-0">
-      <span className="text-sm font-medium text-base-content/60">{user.name[0]?.toUpperCase()}</span>
+      <span className="text-sm font-medium text-base-content/60">
+        {user.name[0]?.toUpperCase()}
+      </span>
     </div>
   )
 }
@@ -311,7 +317,9 @@ function SingleComment({
       <div className="flex-1 min-w-0">
         <div className="flex items-baseline gap-2 flex-wrap">
           <span className="text-sm font-semibold text-base-content">{comment.user.name}</span>
-          <span className="text-xs text-base-content/50">{formatDate(comment.createdAt, 'short')}</span>
+          <span className="text-xs text-base-content/50">
+            {formatDate(comment.createdAt, 'short')}
+          </span>
           {comment.updatedAt !== comment.createdAt && (
             <span className="text-xs text-base-content/50">(editado)</span>
           )}
@@ -320,7 +328,10 @@ function SingleComment({
         {editing ? (
           <EditCommentForm
             comment={comment}
-            onSave={(updated) => { onEdit(updated); setEditing(false) }}
+            onSave={(updated) => {
+              onEdit(updated)
+              setEditing(false)
+            }}
             onCancel={() => setEditing(false)}
           />
         ) : (
@@ -381,7 +392,10 @@ function SingleComment({
                 parentId={comment.id}
                 placeholder="Escribe una respuesta…"
                 submitLabel="Responder"
-                onSuccess={(reply) => { onReply?.(reply); setReplyOpen(false) }}
+                onSuccess={(reply) => {
+                  onReply?.(reply)
+                  setReplyOpen(false)
+                }}
                 onCancel={() => setReplyOpen(false)}
               />
             </motion.div>

@@ -27,9 +27,7 @@ function CategoriesPage() {
     <div className="max-w-5xl mx-auto px-4 py-10">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-base-content">Categorías</h1>
-        <p className="text-base-content/50 mt-1 text-sm">
-          Explora los temas que cubrimos.
-        </p>
+        <p className="text-base-content/50 mt-1 text-sm">Explora los temas que cubrimos.</p>
       </div>
 
       {isLoading && (
@@ -40,9 +38,7 @@ function CategoriesPage() {
         </div>
       )}
 
-      {isError && (
-        <p className="text-sm text-error">No se pudieron cargar las categorías.</p>
-      )}
+      {isError && <p className="text-sm text-error">No se pudieron cargar las categorías.</p>}
 
       {tags && tags.length === 0 && (
         <p className="text-sm text-base-content/50">Todavía no hay categorías.</p>

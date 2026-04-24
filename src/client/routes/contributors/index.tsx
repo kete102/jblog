@@ -38,9 +38,7 @@ function ContributorsPage() {
         </div>
       )}
 
-      {isError && (
-        <p className="text-sm text-error">No se pudieron cargar los autores.</p>
-      )}
+      {isError && <p className="text-sm text-error">No se pudieron cargar los autores.</p>}
 
       {authors && authors.length === 0 && (
         <p className="text-sm text-base-content/50">Todavía no hay autores.</p>

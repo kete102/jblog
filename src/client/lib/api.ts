@@ -78,8 +78,7 @@ export const allAuthorsOptions = queryOptions({
 
 export const allTagsOptions = queryOptions({
   queryKey: ['tags'],
-  queryFn: () =>
-    apiFetch<{ tags: TagWithCount[] }>('/api/tags').then((d) => d.tags),
+  queryFn: () => apiFetch<{ tags: TagWithCount[] }>('/api/tags').then((d) => d.tags),
   staleTime: 5 * 60_000,
 })
 

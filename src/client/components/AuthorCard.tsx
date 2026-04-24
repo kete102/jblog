@@ -31,7 +31,9 @@ export function AuthorCard({ author, linkToProfile = true, nameViewTransition }:
       {author.name}
     </Link>
   ) : (
-    <span style={nameStyle} className="text-lg font-semibold text-base-content">{author.name}</span>
+    <span style={nameStyle} className="text-lg font-semibold text-base-content">
+      {author.name}
+    </span>
   )
 
   return (

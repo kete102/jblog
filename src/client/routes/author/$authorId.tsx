@@ -94,7 +94,11 @@ function AuthorPage() {
     <div className="max-w-5xl mx-auto px-4 py-10">
       {/* Author bio card */}
       <div className="mb-6">
-        <AuthorCard author={data.author} linkToProfile={false} nameViewTransition={`author-name-${data.author.id}`} />
+        <AuthorCard
+          author={data.author}
+          linkToProfile={false}
+          nameViewTransition={`author-name-${data.author.id}`}
+        />
       </div>
 
       {/* Stats */}

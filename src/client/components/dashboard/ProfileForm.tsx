@@ -84,7 +84,9 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
           />
         ) : (
           <div className="w-16 h-16 rounded-full bg-base-300 flex items-center justify-center">
-            <span className="text-2xl font-semibold text-base-content/60">{name[0]?.toUpperCase()}</span>
+            <span className="text-2xl font-semibold text-base-content/60">
+              {name[0]?.toUpperCase()}
+            </span>
           </div>
         )}
         <div className="flex-1">
