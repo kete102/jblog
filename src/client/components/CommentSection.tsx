@@ -1,6 +1,6 @@
 // ─── CommentSection — threaded comments + submission form ────────────────────
-import React, { useState } from 'react'
-import { Reply, Pencil, Trash2, Send } from 'lucide-react'
+import { useState } from 'react'
+import { Reply, Pencil, Trash2, Send, Loader2 } from 'lucide-react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { formatDate } from '../lib/format'
 import { cn } from '../lib/cn'
@@ -42,7 +42,7 @@ const cancelBtnClass = cn(
 )
 
 const submitBtnClass = cn(
-  'inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-medium',
+  'inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-medium cursor-pointer',
   'bg-primary text-primary-content hover:bg-primary/90 transition-colors disabled:opacity-50',
 )
 
@@ -140,15 +140,72 @@ function CommentForm({
             Cancelar
           </button>
         )}
-        <button
+        <motion.button
           type="button"
           onClick={submit}
           disabled={sending || !content.trim()}
           className={submitBtnClass}
+          whileHover="hover"
+          whileTap={{ scale: 0.94 }}
+          transition={{ duration: 0.15 }}
         >
-          <Send className="w-3.5 h-3.5" />
-          {sending ? 'Enviando…' : submitLabel}
-        </button>
+          {/* Outer span handles hover movement, inner AnimatePresence handles icon swap */}
+          <motion.span
+            className="inline-flex"
+            variants={{ idle: { x: 0, y: 0 }, hover: { x: 3, y: -3 } }}
+            initial="idle"
+            transition={{ duration: 0.2 }}
+          >
+            <AnimatePresence mode="wait" initial={false}>
+              {sending ? (
+                <motion.span
+                  key="spinner"
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.5 }}
+                  transition={{ duration: 0.15 }}
+                  className="inline-flex"
+                >
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                </motion.span>
+              ) : (
+                <motion.span
+                  key="send"
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.5 }}
+                  transition={{ duration: 0.15 }}
+                  className="inline-flex"
+                >
+                  <Send className="w-3.5 h-3.5" />
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </motion.span>
+          <AnimatePresence mode="wait" initial={false}>
+            {sending ? (
+              <motion.span
+                key="label-sending"
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.15 }}
+              >
+                Enviando…
+              </motion.span>
+            ) : (
+              <motion.span
+                key="label-idle"
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.15 }}
+              >
+                {submitLabel}
+              </motion.span>
+            )}
+          </AnimatePresence>
+        </motion.button>
       </div>
     </div>
   )

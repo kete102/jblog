@@ -2,9 +2,9 @@ import { Link } from '@tanstack/react-router'
 import { AnimatePresence, motion } from 'framer-motion'
 import { LayoutDashboard, LogIn, Menu, PenSquare, X } from 'lucide-react'
 import { useState } from 'react'
+import { useUser } from '../hooks/useUser'
 import { cn } from '../lib/cn'
 import ThemeController from './ThemeController'
-import { useUser } from '../hooks/useUser'
 
 const navLinkClass = cn(
   'px-3 py-1.5 rounded-lg text-sm text-base-content/70',
@@ -21,7 +21,7 @@ export function Navbar() {
   const { me, isAuthor, isAdmin } = useUser()
 
   return (
-    <header className="sticky top-0 z-50 w-full p-4 rounded-lg bg-base-100/90 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 w-full p-4 rounded-lg bg-base-100/70 backdrop-blur-3xl">
       <div className="max-w-5xl mx-auto px-4 h-14 bg-base-300/60 rounded-xl p-4 flex items-center justify-between gap-4">
         {/* Logo */}
         <Link

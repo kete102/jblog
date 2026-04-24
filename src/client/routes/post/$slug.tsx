@@ -1,4 +1,3 @@
-import React from 'react'
 import { createFileRoute, notFound } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
 import { PostContent } from '../../components/PostContent'
