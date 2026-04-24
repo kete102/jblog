@@ -1,6 +1,6 @@
 import { db } from '@/db'
 import { posts, users, tags, postTags } from '@/db/schema'
-import { eq, desc, and, ne, sql } from 'drizzle-orm'
+import { eq, desc, and, ne, sql, asc } from 'drizzle-orm'
 import type { Post, User, Tag } from '@/db/schema'
 import { estimateReadingTime } from '@/lib/tiptap'
 
@@ -127,6 +127,23 @@ export async function getPostById(id: string): Promise<PostWithMeta | null> {
 /** Fetch all tags ordered by name */
 export async function getAllTags(): Promise<Tag[]> {
   return db.select().from(tags).orderBy(tags.name)
+}
+
+/** Fetch all tags with their published post count, ordered by name */
+export async function getTagsWithPostCount(): Promise<Array<Tag & { postCount: number }>> {
+  const rows = await db
+    .select({
+      id: tags.id,
+      name: tags.name,
+      slug: tags.slug,
+      postCount: sql<number>`count(${posts.id})`.as('post_count'),
+    })
+    .from(tags)
+    .leftJoin(postTags, eq(tags.id, postTags.tagId))
+    .leftJoin(posts, and(eq(postTags.postId, posts.id), eq(posts.status, 'published')))
+    .groupBy(tags.id, tags.name, tags.slug)
+    .orderBy(asc(tags.name))
+  return rows
 }
 
 /** Fetch a single tag by its slug */

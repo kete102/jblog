@@ -1,27 +1,14 @@
-// ─── Navbar — state-driven top navigation bar ─────────────────────────────────
-import React, { useState } from 'react'
 import { Link } from '@tanstack/react-router'
-import { useQuery } from '@tanstack/react-query'
-import { LayoutDashboard, LogIn, Menu, X, PenSquare } from 'lucide-react'
 import { AnimatePresence, motion } from 'framer-motion'
-import type { Me } from '../types'
-import ThemeController from './ThemeController'
+import { LayoutDashboard, LogIn, Menu, PenSquare, X } from 'lucide-react'
+import { useState } from 'react'
+import { useUser } from '../hooks/useUser'
 import { cn } from '../lib/cn'
-
-const SITE_NAME = 'jblog'
-
-async function fetchMe(): Promise<Me | null> {
-  try {
-    const res = await fetch('/api/me', { credentials: 'include' })
-    return res.ok ? (res.json() as Promise<Me>) : null
-  } catch {
-    return null
-  }
-}
+import ThemeController from './ThemeController'
 
 const navLinkClass = cn(
   'px-3 py-1.5 rounded-lg text-sm text-base-content/70',
-  'hover:text-base-content hover:bg-base-200 transition-colors',
+  'hover:text-base-content hover:bg-base-300 transition-colors',
 )
 
 const mobileLinkClass = cn(
@@ -31,29 +18,31 @@ const mobileLinkClass = cn(
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
-  const { data: me } = useQuery<Me | null>({
-    queryKey: ['me'],
-    queryFn: fetchMe,
-    staleTime: 60_000,
-  })
-
-  const isAuthor = me?.role === 'author' || me?.role === 'admin'
+  const { me, isAuthor, isAdmin } = useUser()
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-base-300 bg-base-100/90 backdrop-blur-sm">
-      <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
+    <header className="sticky top-0 z-50 w-full p-4 rounded-lg bg-base-100/70 backdrop-blur-3xl">
+      <div className="max-w-5xl mx-auto px-4 h-14 bg-base-300/60 rounded-xl p-4 flex items-center justify-between gap-4">
         {/* Logo */}
         <Link
           to="/"
+          viewTransition
           className="text-lg font-bold text-base-content hover:text-primary transition-colors tracking-tight"
         >
-          {SITE_NAME}
+          Destellos de Luz
         </Link>
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-1">
-          <Link to="/" className={navLinkClass}>Inicio</Link>
-          <Link to="/changelog" className={navLinkClass}>Changelog</Link>
+          <Link to="/" viewTransition className={navLinkClass}>
+            Inicio
+          </Link>
+          <Link to="/categories" viewTransition className={navLinkClass}>
+            Categorías
+          </Link>
+          <Link to="/contributors" viewTransition className={navLinkClass}>
+            Autores
+          </Link>
         </nav>
 
         {/* Desktop right side */}
@@ -62,7 +51,11 @@ export function Navbar() {
           {me ? (
             <>
               {isAuthor && (
-                <Link to="/dashboard" className={cn(navLinkClass, 'inline-flex items-center gap-1.5')}>
+                <Link
+                  viewTransition
+                  to="/dashboard"
+                  className={cn(navLinkClass, 'inline-flex items-center gap-1.5')}
+                >
                   <LayoutDashboard className="w-4 h-4" />
                   Panel
                 </Link>
@@ -70,6 +63,7 @@ export function Navbar() {
               {isAuthor && (
                 <Link
                   to="/dashboard/post/new"
+                  viewTransition
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary text-primary-content text-sm font-medium hover:bg-primary/90 transition-colors"
                 >
                   <PenSquare className="w-4 h-4" />
@@ -77,15 +71,15 @@ export function Navbar() {
                 </Link>
               )}
               {/* Avatar */}
-              <Link to="/dashboard" className="ml-1" aria-label="Mi perfil">
+              <Link to="/dashboard" viewTransition className="ml-1" aria-label="Mi perfil">
                 {me.avatarUrl ? (
                   <img
                     src={me.avatarUrl}
                     alt={me.name}
-                    className="w-8 h-8 rounded-full object-cover border-2 border-base-300 hover:border-primary/40 transition-colors"
+                    className="size-10 rounded-full object-cover border-2 border-base-300 hover:border-primary/40 transition-colors"
                   />
                 ) : (
-                  <div className="w-8 h-8 rounded-full bg-base-300 flex items-center justify-center border-2 border-base-300 hover:border-primary/40 transition-colors">
+                  <div className="size-10 rounded-full bg-base-300 flex items-center justify-center border-2 border-base-300 hover:border-primary/40 transition-colors">
                     <span className="text-sm font-medium text-base-content/70">
                       {me.name[0]?.toUpperCase()}
                     </span>
@@ -123,14 +117,29 @@ export function Navbar() {
             transition={{ duration: 0.15, ease: 'easeOut' }}
             className="md:hidden border-t border-base-200 bg-base-100 px-4 pb-4 pt-2 flex flex-col gap-1"
           >
-            <Link to="/" onClick={() => setMobileOpen(false)} className={mobileLinkClass}>
+            <Link
+              to="/"
+              viewTransition
+              onClick={() => setMobileOpen(false)}
+              className={mobileLinkClass}
+            >
               Inicio
             </Link>
-            <Link to="/changelog" onClick={() => setMobileOpen(false)} className={mobileLinkClass}>
+            <Link
+              to="/changelog"
+              viewTransition
+              onClick={() => setMobileOpen(false)}
+              className={mobileLinkClass}
+            >
               Changelog
             </Link>
             {me && isAuthor && (
-              <Link to="/dashboard" onClick={() => setMobileOpen(false)} className={mobileLinkClass}>
+              <Link
+                to="/dashboard"
+                viewTransition
+                onClick={() => setMobileOpen(false)}
+                className={mobileLinkClass}
+              >
                 Panel
               </Link>
             )}

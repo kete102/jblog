@@ -18,7 +18,7 @@ const ThemeController = () => {
   }
 
   return (
-    <label className="swap swap-rotate">
+    <label className="swap swap-rotate p-2 hover:bg-base-300 rounded-lg transition-colors">
       {/* checked → applies data-theme="dark" via daisyui's theme-controller CSS */}
       <input
         type="checkbox"
@@ -29,10 +29,10 @@ const ThemeController = () => {
       />
 
       {/* sun = light mode */}
-      <SunIcon className="swap-off size-6 fill-current" />
+      <SunIcon className="swap-off size-5 fill-current" />
 
       {/* moon = dark mode */}
-      <MoonIcon className="swap-on size-6 fill-current" />
+      <MoonIcon className="swap-on size-5 fill-current" />
     </label>
   )
 }

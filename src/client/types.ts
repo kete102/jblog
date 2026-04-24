@@ -16,6 +16,10 @@ export interface Tag {
   slug: string
 }
 
+export interface TagWithCount extends Tag {
+  postCount: number
+}
+
 /** Author as returned in public-facing endpoints (/api/authors/:id) */
 export interface Author {
   id: string
@@ -112,6 +116,10 @@ export interface TagPage {
 export interface AuthorPage {
   author: Author
   posts: PostSummary[]
+}
+
+export interface AuthorsList {
+  authors: Author[]
 }
 
 export interface PostPage {

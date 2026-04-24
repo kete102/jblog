@@ -10,7 +10,8 @@ interface TagBadgeProps {
   static?: boolean
 }
 
-const pillBase = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-base-200 text-base-content/80'
+const pillBase =
+  'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-base-200 text-base-content/80'
 
 export function TagBadge({ tag, static: isStatic }: TagBadgeProps) {
   if (isStatic) {

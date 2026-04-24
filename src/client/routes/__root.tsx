@@ -2,6 +2,7 @@ import React from 'react'
 import { createRootRouteWithContext, Link, Outlet } from '@tanstack/react-router'
 import type { QueryClient } from '@tanstack/react-query'
 import { Navbar } from '../components/Navbar'
+import { Footer } from '../components/Footer'
 
 // ─── Router context ───────────────────────────────────────────────────────────
 
@@ -35,16 +36,17 @@ const QueryDevtools = import.meta.env.PROD
 
 function RootLayout() {
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <Navbar />
-      <main>
+      <main className="flex-1 min-h-screen">
         <Outlet />
       </main>
+      <Footer />
       <React.Suspense>
         <RouterDevtools position="bottom-right" />
         <QueryDevtools buttonPosition="bottom-left" />
       </React.Suspense>
-    </>
+    </div>
   )
 }
 

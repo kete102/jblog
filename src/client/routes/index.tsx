@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
+import { motion } from 'framer-motion'
 import { PostCard } from '../components/PostCard'
 import { Pagination } from '../components/Pagination'
 import { postsOptions } from '../lib/api'
@@ -12,6 +13,16 @@ export const Route = createFileRoute('/')({
   loader: ({ context }) => context.queryClient.ensureQueryData(postsOptions(1)),
   component: HomePage,
 })
+
+const container = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.06 } },
+}
+
+const item = {
+  hidden: { opacity: 0, y: 8 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.25, ease: 'easeOut' } },
+}
 
 function HomePage() {
   const [page, setPage] = useState(1)
@@ -41,11 +52,19 @@ function HomePage() {
       {data.posts.length === 0 ? (
         <p className="text-base-content/50 text-sm">Todavía no hay publicaciones.</p>
       ) : (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <motion.div
+          key={page}
+          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          variants={container}
+          initial="hidden"
+          animate="show"
+        >
           {data.posts.map((post) => (
-            <PostCard key={post.id} post={post} />
+            <motion.div key={post.id} variants={item} className="h-full">
+              <PostCard post={post} />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       )}
 
       <Pagination

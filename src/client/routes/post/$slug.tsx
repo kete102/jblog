@@ -1,4 +1,3 @@
-import React from 'react'
 import { createFileRoute, notFound } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
 import { PostContent } from '../../components/PostContent'
@@ -54,14 +53,22 @@ function PostPage() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-10">
       {/* Cover image */}
-      {post.coverImageUrl && (
-        <div className="rounded-2xl overflow-hidden mb-8 aspect-video">
-          <img src={post.coverImageUrl} alt={post.title} className="w-full h-full object-cover" />
-        </div>
-      )}
+      <div className="rounded-2xl overflow-hidden mb-8 aspect-video">
+        <img
+          src={post.coverImageUrl ?? '/placeholder.png'}
+          alt={post.title}
+          style={{ viewTransitionName: `post-cover-${post.slug}` }}
+          className="w-full h-full object-cover"
+        />
+      </div>
 
       {/* Title */}
-      <h1 className="text-4xl font-bold text-base-content leading-tight mb-4">{post.title}</h1>
+      <h1
+        style={{ viewTransitionName: `post-title-${post.slug}` }}
+        className="text-4xl font-bold text-base-content leading-tight mb-4"
+      >
+        {post.title}
+      </h1>
 
       {/* Actions row */}
       <div className="flex items-center gap-3 mb-8">

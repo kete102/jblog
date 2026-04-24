@@ -23,24 +23,24 @@
 :root,
 :root:has(input.theme-controller[value='light']:checked),
 [data-theme='light'] {
-  --color-base-100: oklch(0.985 0.006 80);    /* warm cream        */
-  --color-base-200: oklch(0.952 0.014 55);    /* warm taupe-100    */
-  --color-base-300: oklch(0.914 0.022 55);    /* warm taupe-200    */
+  --color-base-100: oklch(0.985 0.006 80); /* warm cream        */
+  --color-base-200: oklch(0.952 0.014 55); /* warm taupe-100    */
+  --color-base-300: oklch(0.914 0.022 55); /* warm taupe-200    */
   --color-base-content: oklch(0.21 0.022 55); /* warm taupe-900    */
 
-  --color-primary: oklch(0.542 0.198 32);           /* terracotta        */
-  --color-primary-content: oklch(0.985 0.006 80);   /* warm cream on CTA */
+  --color-primary: oklch(0.542 0.198 32); /* terracotta        */
+  --color-primary-content: oklch(0.985 0.006 80); /* warm cream on CTA */
 }
 
 :root:has(input.theme-controller[value='dark']:checked),
 [data-theme='dark'] {
-  --color-base-100: oklch(0.21 0.022 55);     /* warm dark-900     */
-  --color-base-200: oklch(0.31 0.034 55);     /* warm dark-800     */
-  --color-base-300: oklch(0.426 0.048 55);    /* warm dark-700     */
+  --color-base-100: oklch(0.21 0.022 55); /* warm dark-900     */
+  --color-base-200: oklch(0.31 0.034 55); /* warm dark-800     */
+  --color-base-300: oklch(0.426 0.048 55); /* warm dark-700     */
   --color-base-content: oklch(0.952 0.014 55); /* warm taupe-100   */
 
-  --color-primary: oklch(0.74 0.154 32);            /* lighter terracotta */
-  --color-primary-content: oklch(0.21 0.022 55);    /* dark text on CTA   */
+  --color-primary: oklch(0.74 0.154 32); /* lighter terracotta */
+  --color-primary-content: oklch(0.21 0.022 55); /* dark text on CTA   */
 }
 
 /* ── Prose dark mode ───────────────────────────────────────────────────────────
