@@ -13,6 +13,8 @@ import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ChangelogRouteImport } from './routes/changelog'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
+import { Route as ContributorsIndexRouteImport } from './routes/contributors/index'
+import { Route as CategoriesIndexRouteImport } from './routes/categories/index'
 import { Route as TagSlugRouteImport } from './routes/tag/$slug'
 import { Route as PostSlugRouteImport } from './routes/post/$slug'
 import { Route as DashboardProfileRouteImport } from './routes/dashboard/profile'
@@ -40,6 +42,16 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => DashboardRoute,
+} as any)
+const ContributorsIndexRoute = ContributorsIndexRouteImport.update({
+  id: '/contributors/',
+  path: '/contributors/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CategoriesIndexRoute = CategoriesIndexRouteImport.update({
+  id: '/categories/',
+  path: '/categories/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const TagSlugRoute = TagSlugRouteImport.update({
   id: '/tag/$slug',
@@ -86,6 +98,8 @@ export interface FileRoutesByFullPath {
   '/dashboard/profile': typeof DashboardProfileRoute
   '/post/$slug': typeof PostSlugRoute
   '/tag/$slug': typeof TagSlugRoute
+  '/categories/': typeof CategoriesIndexRoute
+  '/contributors/': typeof ContributorsIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/post/new': typeof DashboardPostNewRoute
   '/dashboard/post/$id/edit': typeof DashboardPostIdEditRoute
@@ -98,6 +112,8 @@ export interface FileRoutesByTo {
   '/dashboard/profile': typeof DashboardProfileRoute
   '/post/$slug': typeof PostSlugRoute
   '/tag/$slug': typeof TagSlugRoute
+  '/categories': typeof CategoriesIndexRoute
+  '/contributors': typeof ContributorsIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/dashboard/post/new': typeof DashboardPostNewRoute
   '/dashboard/post/$id/edit': typeof DashboardPostIdEditRoute
@@ -112,6 +128,8 @@ export interface FileRoutesById {
   '/dashboard/profile': typeof DashboardProfileRoute
   '/post/$slug': typeof PostSlugRoute
   '/tag/$slug': typeof TagSlugRoute
+  '/categories/': typeof CategoriesIndexRoute
+  '/contributors/': typeof ContributorsIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/post/new': typeof DashboardPostNewRoute
   '/dashboard/post/$id/edit': typeof DashboardPostIdEditRoute
@@ -127,6 +145,8 @@ export interface FileRouteTypes {
     | '/dashboard/profile'
     | '/post/$slug'
     | '/tag/$slug'
+    | '/categories/'
+    | '/contributors/'
     | '/dashboard/'
     | '/dashboard/post/new'
     | '/dashboard/post/$id/edit'
@@ -139,6 +159,8 @@ export interface FileRouteTypes {
     | '/dashboard/profile'
     | '/post/$slug'
     | '/tag/$slug'
+    | '/categories'
+    | '/contributors'
     | '/dashboard'
     | '/dashboard/post/new'
     | '/dashboard/post/$id/edit'
@@ -152,6 +174,8 @@ export interface FileRouteTypes {
     | '/dashboard/profile'
     | '/post/$slug'
     | '/tag/$slug'
+    | '/categories/'
+    | '/contributors/'
     | '/dashboard/'
     | '/dashboard/post/new'
     | '/dashboard/post/$id/edit'
@@ -164,6 +188,8 @@ export interface RootRouteChildren {
   AuthorAuthorIdRoute: typeof AuthorAuthorIdRoute
   PostSlugRoute: typeof PostSlugRoute
   TagSlugRoute: typeof TagSlugRoute
+  CategoriesIndexRoute: typeof CategoriesIndexRoute
+  ContributorsIndexRoute: typeof ContributorsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -195,6 +221,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/'
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof DashboardRoute
+    }
+    '/contributors/': {
+      id: '/contributors/'
+      path: '/contributors'
+      fullPath: '/contributors/'
+      preLoaderRoute: typeof ContributorsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/categories/': {
+      id: '/categories/'
+      path: '/categories'
+      fullPath: '/categories/'
+      preLoaderRoute: typeof CategoriesIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/tag/$slug': {
       id: '/tag/$slug'
@@ -275,6 +315,8 @@ const rootRouteChildren: RootRouteChildren = {
   AuthorAuthorIdRoute: AuthorAuthorIdRoute,
   PostSlugRoute: PostSlugRoute,
   TagSlugRoute: TagSlugRoute,
+  CategoriesIndexRoute: CategoriesIndexRoute,
+  ContributorsIndexRoute: ContributorsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
