@@ -29,7 +29,7 @@ export function Navbar() {
           viewTransition
           className="text-lg font-bold text-base-content hover:text-primary transition-colors tracking-tight"
         >
-          Desteollos de Luz
+          Destellos de Luz
         </Link>
 
         {/* Desktop nav */}

@@ -18,37 +18,29 @@ export function PostCard({ post }: PostCardProps) {
       className="relative flex flex-col rounded-2xl border border-base-300 bg-base-100 overflow-hidden"
     >
       {/* Cover image */}
-      {post.coverImageUrl ? (
-        <div className="aspect-video overflow-hidden shrink-0">
-          <motion.img
-            src={post.coverImageUrl}
-            alt={post.title}
-            whileHover={{ scale: 1.5 }}
-            transition={{ duration: 0.3 }}
-            className="w-full h-full object-cover"
-            loading="lazy"
-          />
-        </div>
-      ) : (
-        <div className="aspect-video  overflow-hidden shrink-0">
-          <motion.img
-            src="/placeholder.png"
-            alt="Placeholder"
-            whileHover={{ scale: 1.5 }}
-            transition={{ duration: 0.3 }}
-            className="w-full h-full object-cover"
-            loading="lazy"
-          />
-        </div>
-      )}
+      <div className="aspect-video overflow-hidden shrink-0">
+        <motion.img
+          src={post.coverImageUrl ?? '/placeholder.png'}
+          alt={post.title}
+          style={{ viewTransitionName: `post-cover-${post.slug}` }}
+          whileHover={{ scale: 1.5 }}
+          transition={{ duration: 0.3 }}
+          className="w-full h-full object-cover"
+          loading="lazy"
+        />
+      </div>
 
       <div className="flex flex-col flex-1 p-5 gap-3">
         {/* Title — stretched link covers the whole card */}
         <section className="flex flex-col flex-1">
-          <h2 className="text-lg font-semibold text-base-content leading-snug group-hover:text-primary transition-colors">
+          <h2
+            style={{ viewTransitionName: `post-title-${post.slug}` }}
+            className="text-lg font-semibold text-base-content leading-snug group-hover:text-primary transition-colors"
+          >
             <Link
               to="/post/$slug"
               params={{ slug: post.slug }}
+              viewTransition
               className={cn(
                 'stretched-link focus:outline-none',
                 'hover:text-primary transition-colors',
