@@ -38,7 +38,7 @@ export function Navbar() {
             Inicio
           </Link>
           <Link to="/categories" viewTransition className={navLinkClass}>
-            Categorias
+            Categorías
           </Link>
           <Link to="/contributors" viewTransition className={navLinkClass}>
             Autores
